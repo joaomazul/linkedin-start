@@ -101,17 +101,41 @@ export function FeedContainer() {
     }, [posts, searchQuery])
 
     const handleRefresh = async () => {
-        const syncPromise = async () => {
+        const toastId = toast.loading('Sincronizando feed...')
+
+        try {
             const res = await fetch('/api/linkedin/feed?sync=true')
             if (!res.ok) throw new Error('Falha ao sincronizar')
-            await refetch()
-        }
 
-        toast.promise(syncPromise(), {
-            loading: 'Sincronizando feed da Unipile...',
-            success: 'Feed 100% Sincronizado',
-            error: 'Erro na conexão'
-        })
+            const json = await res.json()
+            await refetch()
+
+            // Update feed store timestamp
+            useFeedStore.setState({ lastRefreshedAt: new Date().toISOString() })
+
+            const { syncedCount = 0, failedCount = 0, failedProfiles = [] } = json.data || {}
+
+            if (failedCount > 0 && syncedCount > 0) {
+                toast.warning(`Sincronizado parcialmente: ${syncedCount} ok, ${failedCount} falharam`, {
+                    id: toastId,
+                    description: `Falharam: ${failedProfiles.slice(0, 3).join(', ')}${failedProfiles.length > 3 ? '...' : ''}`,
+                    duration: 6000,
+                })
+            } else if (failedCount > 0 && syncedCount === 0) {
+                toast.error('Falha na sincronização de todos os perfis', {
+                    id: toastId,
+                    description: 'Verifique a conexão com o LinkedIn em Configurações',
+                    duration: 6000,
+                })
+            } else {
+                toast.success(`Feed sincronizado (${syncedCount} perfis)`, { id: toastId })
+            }
+        } catch (err) {
+            toast.error('Erro na conexão com o servidor', {
+                id: toastId,
+                description: (err as Error).message,
+            })
+        }
     }
 
     if (!linkedinAccountId) {

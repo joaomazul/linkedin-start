@@ -6,7 +6,6 @@ import { monitoredProfiles } from '@/db/schema/profiles'
 import { eq, and, desc, asc } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
 import { logger } from '@/lib/logger'
-import { env } from '@/env'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -37,25 +36,19 @@ export async function GET(req: Request) {
             })
         }
 
+        let syncedCount = 0
+        let failedCount = 0
+        const failedProfiles: string[] = []
+
         if (isManualSync) {
-            logger.info({ userId, profiles: activeProfiles.length }, 'Sincronização manual solicitada. Buscando posts na Unipile.')
+            logger.info({ userId, profiles: activeProfiles.length }, 'Sincronização manual solicitada')
 
-            // 2. Filtra perfis que já foram buscados recentemente (últimos 30 min)
-            const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000)
-            const profilesToSync = activeProfiles.filter(p =>
-                !p.lastFetchedAt || new Date(p.lastFetchedAt) < thirtyMinAgo
-            )
-            const skippedCount = activeProfiles.length - profilesToSync.length
+            // Manual sync: sincroniza TODOS os perfis ativos (sem cooldown de 30min)
+            const profilesToSync = activeProfiles
 
-            if (skippedCount > 0) {
-                logger.info({ skippedCount }, 'Perfis já sincronizados recentemente — pulando')
-            }
-
-            // 3. Processa em lotes de 5 para respeitar rate limits da Unipile
-            const BATCH_SIZE = 5
-            const INTER_BATCH_DELAY_MS = 1500
-            let syncedCount = 0
-            let failedCount = 0
+            // Lotes de 3 (menor = menos chance de rate limit)
+            const BATCH_SIZE = 3
+            const INTER_BATCH_DELAY_MS = 2000
 
             for (let i = 0; i < profilesToSync.length; i += BATCH_SIZE) {
                 const batch = profilesToSync.slice(i, i + BATCH_SIZE)
@@ -69,6 +62,7 @@ export async function GET(req: Request) {
                         syncedCount++
                     } else {
                         failedCount++
+                        failedProfiles.push(batch[idx].name || batch[idx].id)
                         logger.error({
                             profileId: batch[idx].id,
                             profileName: batch[idx].name,
@@ -83,7 +77,7 @@ export async function GET(req: Request) {
                 }
             }
 
-            logger.info({ syncedCount, failedCount, skippedCount }, 'Sincronização manual concluída')
+            logger.info({ syncedCount, failedCount }, 'Sincronização manual concluída')
         } else {
             logger.info({ userId }, 'Buscando posts cacheados do banco.')
         }
@@ -106,11 +100,16 @@ export async function GET(req: Request) {
 
         const items = allPosts.map(row => ({
             ...row.post,
-            _profile: row.profile // Para facilitar debug se necessário
+            _profile: row.profile
         }))
 
         logger.info({ userId, count: items.length }, 'Feed filtrado retornado')
-        return success({ items })
+        return success({
+            items,
+            syncedCount,
+            failedCount,
+            failedProfiles,
+        })
 
     } catch (err) {
         logger.error({ err: (err as Error).message }, 'Erro crítico no feed')
@@ -123,7 +122,6 @@ export async function GET(req: Request) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Busca posts de um perfil e faz upsert no banco
-// Estratégia: usa provider_id salvo → sem necessidade de resolver novamente
 // ─────────────────────────────────────────────────────────────────────────────
 
 export async function fetchAndCacheProfilePosts(
@@ -133,11 +131,10 @@ export async function fetchAndCacheProfilePosts(
 
     let providerId = profile.linkedinProfileId
 
-    // Se ainda não temos o provider_id: resolve agora e salva para próximas vezes
+    // Se ainda não temos o provider_id: resolve agora e salva
     if (!providerId) {
         if (!profile.publicIdentifier && !profile.linkedinUrl) {
-            logger.warn({ profileId: profile.id }, 'Perfil sem identifier — impossível buscar posts')
-            return
+            throw new Error(`Perfil "${profile.name}" sem URL ou identifier configurado`)
         }
 
         logger.info({ profileId: profile.id }, 'provider_id não encontrado — resolvendo...')
@@ -145,60 +142,45 @@ export async function fetchAndCacheProfilePosts(
         let identifier = profile.publicIdentifier
 
         if (!identifier) {
-            // Se o user já foi testado e o publicIdentifier estava nulo, podemos extrair:
             const match = profile.linkedinUrl.match(/linkedin\.com\/in\/([^/?#\s/]+)/)
             if (match) identifier = match[1]
         }
 
         if (!identifier) {
-            logger.warn({ profileId: profile.id, url: profile.linkedinUrl }, 'Não foi possível extrair identifier da URL')
-            return
+            throw new Error(`Não foi possível extrair identifier de "${profile.linkedinUrl}"`)
         }
 
-        try {
-            const resolved = await resolveProfileByIdentifier(identifier)
-            providerId = resolved.providerId
+        const resolved = await resolveProfileByIdentifier(identifier)
+        providerId = resolved.providerId
 
-            // Salva o provider_id no banco (evita resolver novamente)
-            await db
-                .update(monitoredProfiles)
-                .set({
-                    linkedinProfileId: resolved.providerId,
-                    publicIdentifier: resolved.publicIdentifier,
-                    // Atualiza também os dados do perfil se estiverem vazios
-                    name: profile.name || resolved.name,
-                    role: profile.role || resolved.headline || undefined,
-                    avatarUrl: profile.avatarUrl || resolved.avatarUrl || undefined,
-                    followerCount: resolved.followerCount,
-                    updatedAt: new Date(),
-                })
-                .where(eq(monitoredProfiles.id, profile.id))
+        // Salva o provider_id no banco (evita resolver novamente)
+        await db
+            .update(monitoredProfiles)
+            .set({
+                linkedinProfileId: resolved.providerId,
+                publicIdentifier: resolved.publicIdentifier,
+                name: profile.name || resolved.name,
+                role: profile.role || resolved.headline || undefined,
+                avatarUrl: profile.avatarUrl || resolved.avatarUrl || undefined,
+                followerCount: resolved.followerCount,
+                updatedAt: new Date(),
+            })
+            .where(eq(monitoredProfiles.id, profile.id))
 
-            logger.info({ profileId: profile.id, providerId }, 'provider_id resolvido e salvo no banco')
-        } catch (e: any) {
-            logger.warn({ profileId: profile.id, error: e.message }, 'Falha ao resolver provider_id')
-            return;
-        }
+        logger.info({ profileId: profile.id, providerId }, 'provider_id resolvido e salvo no banco')
     }
 
     // Busca posts usando o provider_id
     const maxPosts = 20
-    let unipilePosts: UnipilePost[] = []
 
-    try {
-        const result = await fetchUserPosts(providerId, { limit: maxPosts })
-        const tenDaysAgo = new Date()
-        tenDaysAgo.setDate(tenDaysAgo.getDate() - 10)
+    const result = await fetchUserPosts(providerId, { limit: maxPosts })
+    const tenDaysAgo = new Date()
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10)
 
-        // Exige posts dos últimos 10 dias OU 15 dias para ter alguma margem.
-        unipilePosts = result.posts.filter((p) => {
-            if (!p.publishedAt) return false // Se a Unipile não sabe a data, ignoramos para não sujar o feed
-            return new Date(p.publishedAt) >= tenDaysAgo
-        })
-    } catch (e: any) {
-        logger.warn({ profileId: profile.id, providerId, error: e.message }, 'Falha ao buscar posts do perfil na Unipile')
-        return;
-    }
+    const unipilePosts = result.posts.filter((p) => {
+        if (!p.publishedAt) return false
+        return new Date(p.publishedAt) >= tenDaysAgo
+    })
 
     if (unipilePosts.length === 0) {
         logger.info({ profileId: profile.id, providerId }, 'Nenhum post retornado pelo Unipile')
@@ -210,7 +192,6 @@ export async function fetchAndCacheProfilePosts(
     }
 
     // Upsert dos posts no banco
-    // onConflictDoNothing evita duplicatas (posts.linkedin_post_id é UNIQUE)
     await db
         .insert(posts)
         .values(
@@ -231,7 +212,7 @@ export async function fetchAndCacheProfilePosts(
                 repostsCount: post.repostsCount,
                 postedAt: post.publishedAt
                     ? new Date(post.publishedAt)
-                    : new Date(0), // Fallback para 1970 para os posts entrarem sempre no fundo e não dominarem o topo, mas idéalmente filtramos.
+                    : new Date(0),
                 isHidden: false,
             }))
         )

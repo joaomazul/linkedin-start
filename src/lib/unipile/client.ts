@@ -95,8 +95,17 @@ export async function unipileFetch<T = unknown>(
         clearTimeout(timeoutId)
 
         if ((err as Error).name === 'AbortError') {
-            log.error({ url, timeoutMs: env.UNIPILE_REQUEST_TIMEOUT_MS }, 'Unipile timeout')
-            throw new Error(`Timeout ao conectar com LinkedIn (${env.UNIPILE_REQUEST_TIMEOUT_MS}ms)`)
+            log.warn({ url, timeoutMs: env.UNIPILE_REQUEST_TIMEOUT_MS, attempt }, 'Unipile timeout')
+
+            // Retry on timeout (up to max attempts)
+            if (attempt <= env.UNIPILE_RETRY_ATTEMPTS) {
+                const delay = env.UNIPILE_RETRY_DELAY_MS * Math.pow(2, attempt - 1)
+                log.info({ delay, nextAttempt: attempt + 1 }, 'Retrying after timeout')
+                await sleep(delay)
+                return unipileFetch<T>(path, options, attempt + 1)
+            }
+
+            throw new Error(`Timeout ao conectar com LinkedIn após ${attempt} tentativas (${env.UNIPILE_REQUEST_TIMEOUT_MS}ms)`)
         }
 
         // Re-lança erros específicos sem modificar
