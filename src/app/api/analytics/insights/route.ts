@@ -6,6 +6,7 @@ import { engagementInsights } from '@/db/schema'
 import { and, eq, desc } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET(request: Request) {
     try {

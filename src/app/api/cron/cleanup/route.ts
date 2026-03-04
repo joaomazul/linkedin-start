@@ -7,6 +7,7 @@ import { logger } from '@/lib/logger'
 import { env } from '@/env'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET(req: Request) {
     if (req.headers.get('Authorization') !== `Bearer ${env.CRON_SECRET}`) {

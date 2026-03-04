@@ -4,6 +4,7 @@ import type { UnipileWebhookPayload } from '@/types/unipile.types'
 import { success, apiError } from '@/lib/utils/api-response'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
     // TODO Fase 4: validar assinatura do webhook (header X-Unipile-Signature)

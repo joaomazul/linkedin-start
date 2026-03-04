@@ -8,6 +8,7 @@ import { createApiResponse } from '@/lib/api-response'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET(req: NextRequest) {
     try {

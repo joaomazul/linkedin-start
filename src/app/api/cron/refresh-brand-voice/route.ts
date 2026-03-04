@@ -3,6 +3,7 @@ import { success, apiError } from '@/lib/utils/api-response'
 import { env } from '@/env'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET(req: Request) {
     try {

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const schema = z.object({
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.string().min(1),
     CLERK_SECRET_KEY: z.string().min(1),
     UNIPILE_API_KEY: z.string().min(1),
     UNIPILE_DSN: z.string().min(1),
@@ -17,29 +17,29 @@ const schema = z.object({
     LINKEDIN_MIN_COMMENT_DELAY_SECONDS: z.coerce.number().default(30),
     RATE_LIMIT_AI_REQUESTS_PER_MINUTE: z.coerce.number().default(20),
     RATE_LIMIT_WINDOW_MS: z.coerce.number().default(60000),
-    CRON_SECRET: z.string().min(1),
+    CRON_SECRET: z.string().default('not-set'),
     TZ: z.string().default('America/Sao_Paulo'),
-    NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+    NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
 })
+
+const isBuildPhase =
+    process.env.NEXT_PHASE === 'phase-production-build' ||
+    process.env.NETLIFY === 'true' && process.env.CONTEXT === undefined
 
 const parsed = schema.safeParse(process.env)
 
-if (!parsed.success) {
-    const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
+if (!parsed.success && !isBuildPhase) {
     const issues = parsed.error.issues.map(i => `  ${i.path}: ${i.message}`)
+    throw new Error('❌ Variáveis de ambiente inválidas:\n' + issues.join('\n'))
+}
 
-    if (isBuildPhase) {
-        // During static generation, some env vars may be placeholders — warn but don't crash
-        console.warn('⚠️ [env] Variáveis de ambiente com problemas no build:\n' + issues.join('\n'))
-    } else {
-        throw new Error('❌ Variáveis de ambiente inválidas:\n' + issues.join('\n'))
-    }
+if (!parsed.success && isBuildPhase) {
+    const issues = parsed.error.issues.map(i => `  ${i.path}: ${i.message}`)
+    console.warn('⚠️ [env] Variáveis de ambiente com problemas no build:\n' + issues.join('\n'))
 }
 
 export const env = (
     parsed.success
         ? parsed.data
-        : process.env.NEXT_PHASE === 'phase-production-build'
-            ? ({} as z.infer<typeof schema>)
-            : schema.parse(process.env)
+        : ({} as z.infer<typeof schema>)
 ) as z.infer<typeof schema>

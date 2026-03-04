@@ -4,6 +4,7 @@ import { getAuthenticatedUserId } from '@/lib/auth/user'
 import { success, apiError } from '@/lib/utils/api-response'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET(req: Request) {
     try {

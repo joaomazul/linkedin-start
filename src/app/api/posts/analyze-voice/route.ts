@@ -7,6 +7,7 @@ import { analyzeBrandVoice } from '@/lib/posts/analyze-brand-voice'
 import { checkRateLimit } from '@/lib/rate-limiter'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
     try {

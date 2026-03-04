@@ -6,6 +6,7 @@ import { success, apiError } from '@/lib/utils/api-response'
 import { scheduleLeadsActions } from '@/lib/campaigns/schedule-actions'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(
     req: Request,

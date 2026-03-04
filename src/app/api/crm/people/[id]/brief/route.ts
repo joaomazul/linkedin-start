@@ -7,6 +7,7 @@ import { createApiResponse } from '@/lib/api-response'
 import { openrouterChat, OPENROUTER_MODEL } from '@/lib/openrouter/client'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(
     req: NextRequest,

@@ -7,6 +7,7 @@ import { logger } from '@/lib/logger'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 const UpdateSchema = z.object({
     active: z.boolean().optional(),

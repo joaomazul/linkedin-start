@@ -8,6 +8,7 @@ import { createLogger } from '@/lib/logger'
 import { env } from '@/env'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 const log = createLogger('cron/sync-feed')
 

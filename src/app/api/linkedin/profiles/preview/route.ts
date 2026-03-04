@@ -5,6 +5,7 @@ import { success, apiError } from '@/lib/utils/api-response'
 import { createLogger } from '@/lib/logger'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/profiles/preview')
 
 export async function GET(req: Request) {

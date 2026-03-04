@@ -5,13 +5,11 @@
 [build.environment]
   NODE_VERSION = "20"
   NEXT_USE_NETLIFY_EDGE = "false"
+  NPM_FLAGS = "--include=dev"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Redirects removidos pois o plugin do Next.js cuida disso automaticamente
-
-
 # Observação: Netlify não suporta o campo "crons" do vercel.json.
-# As rotas /api/cron/* devem ser chamadas por um disparador externo 
+# As rotas /api/cron/* devem ser chamadas por um disparador externo
 # ou convertidas em Netlify Scheduled Functions.

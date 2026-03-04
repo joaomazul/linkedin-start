@@ -9,6 +9,7 @@ import { env } from '@/env'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/posts/comment')
 
 const Schema = z.object({

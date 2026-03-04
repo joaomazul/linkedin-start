@@ -11,6 +11,7 @@ import { checkRateLimit } from '@/lib/rate-limiter'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 const GenerateSchema = z.object({
     templateId: z.string().uuid(),

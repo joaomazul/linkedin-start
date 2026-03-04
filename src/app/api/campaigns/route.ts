@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { resolvePostFromUrl } from '@/lib/campaigns/resolve-post'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/campaigns')
 
 const createSchema = z.object({

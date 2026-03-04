@@ -9,6 +9,7 @@ import { createLogger } from '@/lib/logger'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/profiles')
 
 // ── GET /api/linkedin/profiles ────────────────────────────────────────────────

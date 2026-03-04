@@ -9,6 +9,7 @@ import { executeLinkedInAction } from '@/lib/campaigns/execute-action'
 import { appSettings } from '@/db/schema'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(
     req: NextRequest,

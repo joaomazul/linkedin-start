@@ -6,6 +6,7 @@ import { campaigns as campaignsTable } from '@/db/schema'
 import { and, eq, desc, gte, lte, sql } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET(request: Request) {
     try {

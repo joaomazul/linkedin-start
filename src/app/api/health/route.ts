@@ -3,6 +3,7 @@ import { sql } from 'drizzle-orm'
 import { env } from '@/env'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function GET() {
     const start = Date.now()

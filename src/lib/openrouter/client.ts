@@ -23,7 +23,7 @@ export async function openrouterChat(
             headers: {
                 'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
                 'Content-Type': 'application/json',
-                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+                'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || process.env.URL || 'https://linkedflow.app',
                 'X-Title': process.env.NEXT_PUBLIC_APP_NAME || 'LinkedFlow',
             },
             body: JSON.stringify(payload),

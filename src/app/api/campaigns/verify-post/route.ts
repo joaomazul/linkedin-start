@@ -7,6 +7,7 @@ import { createLogger } from '@/lib/logger'
 import { resolvePostFromUrl } from '@/lib/campaigns/resolve-post'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/campaigns/verify-post')
 
 export async function POST(req: Request) {

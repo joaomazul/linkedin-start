@@ -9,6 +9,7 @@ import { z } from 'zod'
 import { eq, and } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/profiles/batch')
 
 const BatchSchema = z.object({

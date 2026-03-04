@@ -8,6 +8,7 @@ import { createLogger } from '@/lib/logger'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 const log = createLogger('api/ai/generate-comment')
 
 const Schema = z.object({

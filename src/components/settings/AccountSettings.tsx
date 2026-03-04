@@ -42,7 +42,8 @@ export function AccountSettings() {
         }
     })
 
-    const webhookUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/linkedin/webhooks`
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_APP_URL || '')
+    const webhookUrl = `${baseUrl}/api/linkedin/webhooks`
 
     const handleCopyWebhook = () => {
         navigator.clipboard.writeText(webhookUrl)
