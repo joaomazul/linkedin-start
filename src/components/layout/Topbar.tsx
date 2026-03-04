@@ -1,6 +1,5 @@
 import React from 'react'
-import { useAutoRefresh } from '@/hooks/useAutoRefresh'
-import { RefreshCw, Menu } from 'lucide-react'
+import { RefreshCw, Menu, Zap } from 'lucide-react'
 
 interface TopbarProps {
     title: string
@@ -9,41 +8,47 @@ interface TopbarProps {
     onMenuClick?: () => void
 }
 
-export function Topbar({ title, badge, children, onMenuClick }: TopbarProps) {
-    const { isEnabled, formattedTime } = useAutoRefresh()
-
+export function Topbar({ title, children, onMenuClick }: TopbarProps) {
     return (
-        <header className="h-[60px] bg-lf-s1 border-b border-lf-border flex items-center px-4 md:px-6 gap-4 shrink-0 sticky top-0 z-50">
+        <header className="h-[var(--topbar-height)] bg-white border-b border-edge flex items-center px-4 md:px-5 gap-3 shrink-0 grow-0 sticky top-0 z-50 shadow-xs">
+            {/* Mobile menu */}
             <button
                 onClick={onMenuClick}
-                className="lg:hidden p-2 text-lf-text3 hover:text-lf-text hover:bg-lf-s2 rounded-lg transition-colors"
+                className="lg:hidden p-2 text-ink-3 hover:text-ink hover:bg-page rounded-[10px] transition-colors"
             >
-                <Menu size={20} />
+                <Menu size={18} />
             </button>
 
-            <div className="flex items-center">
-                <h1 className="lf-title lf-text text-lg md:text-xl truncate max-w-[120px] md:max-w-none">
-                    {title}
-                </h1>
-                {badge && (
-                    <span className="ml-2 lf-caption text-lf-accent bg-lf-accent/5 border border-lf-accent/10 px-2 py-0.5 rounded-r-sm hidden sm:inline-block">
-                        {badge}
-                    </span>
-                )}
+            {/* Logo zone — aligned with sidebar (72px) */}
+            <div className="hidden lg:flex w-[40px] shrink-0 items-center justify-center">
+                <div className="h-8 w-8 rounded-[10px] bg-ink flex items-center justify-center">
+                    <span className="text-lime text-[10px] font-bold tracking-tight">LF</span>
+                </div>
             </div>
 
-            <div className="flex-1 flex justify-center">
+            {/* Page title */}
+            <h1 className="text-[15px] font-bold text-ink">
+                {title}
+            </h1>
+
+            {/* Center slot */}
+            <div className="flex-1 flex justify-center items-center px-4">
                 {children}
             </div>
 
+            {/* Right actions */}
             <div className="ml-auto flex items-center gap-3">
-                {isEnabled && (
-                    <span className="lf-caption text-lf-text4 font-mono hidden md:inline-block">
-                        ↻ {formattedTime}
+                {/* Credit pill */}
+                <div className="hidden sm:flex items-center gap-1.5 bg-page rounded-full px-3 py-1.5">
+                    <Zap size={12} className="text-ink" />
+                    <span className="text-xs font-semibold text-ink-4">
+                        <span className="text-ink">∞</span> créditos
                     </span>
-                )}
-                <button className="p-2 rounded-r-sm text-lf-text4 hover:text-lf-text hover:bg-lf-s3 transition-all">
-                    <RefreshCw size={14} className="hover:rotate-180 transition-transform duration-500" />
+                </div>
+
+                {/* Refresh button */}
+                <button className="h-8 w-8 rounded-[10px] bg-page text-ink-3 flex items-center justify-center hover:bg-ink hover:text-white transition-all duration-[var(--t-base)] group">
+                    <RefreshCw size={14} className="group-hover:rotate-180 transition-transform duration-500" />
                 </button>
             </div>
         </header>

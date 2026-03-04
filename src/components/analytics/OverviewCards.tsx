@@ -1,44 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { ArrowUpIcon, ArrowDownIcon, FileTextIcon, UsersIcon, BarChart3Icon, TargetIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
-
-interface MetricCardProps {
-    title: string
-    value: string | number
-    trend?: number
-    icon: React.ReactNode
-    isLoading?: boolean
-}
-
-function MetricCard({ title, value, trend, icon, isLoading }: MetricCardProps) {
-    if (isLoading) return <Skeleton className="h-32 w-full" />
-
-    const isPositive = trend && trend > 0
-    const isNegative = trend && trend < 0
-
-    return (
-        <Card className="hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-                <div className="text-primary">{icon}</div>
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">{value}</div>
-                {trend !== undefined && (
-                    <p className={cn(
-                        "text-xs mt-1 flex items-center gap-1",
-                        isPositive ? "text-green-500" : isNegative ? "text-red-500" : "text-muted-foreground"
-                    )}>
-                        {isPositive ? <ArrowUpIcon className="w-3 h-3" /> : isNegative ? <ArrowDownIcon className="w-3 h-3" /> : null}
-                        <span>{Math.abs(trend)}%</span>
-                        <span className="text-muted-foreground">vs período anterior</span>
-                    </p>
-                )}
-            </CardContent>
-        </Card>
-    )
-}
+import { MetricCard } from '@/components/ui/metric-card'
+import { TargetIcon, BarChart2, Users } from 'lucide-react'
 
 interface OverviewCardsProps {
     data?: {
@@ -57,31 +18,35 @@ interface OverviewCardsProps {
 
 export function OverviewCards({ data, isLoading }: OverviewCardsProps) {
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
             <MetricCard
-                title="Score da IA vs Real"
+                variant="default"
+                label="Score da IA vs Real"
                 value={data?.scoreAccuracy !== null && data?.scoreAccuracy !== undefined ? `${data.scoreAccuracy}%` : 'N/A'}
-                icon={<TargetIcon className="w-4 h-4" />}
+                icon={<TargetIcon size={16} />}
                 isLoading={isLoading}
             />
             <MetricCard
-                title="Leads Capturados"
+                variant="dark"
+                label="Leads Capturados"
                 value={data?.leadsCaptured ?? 0}
-                trend={data?.trend.leads}
-                icon={<TargetIcon className="w-4 h-4" />}
+                trend={data?.trend.leads !== undefined ? { value: data.trend.leads, direction: data.trend.leads > 0 ? 'up' : data.trend.leads < 0 ? 'down' : 'neutral' } : undefined}
+                icon={<TargetIcon size={16} />}
                 isLoading={isLoading}
             />
             <MetricCard
-                title="Engajamento Total"
+                variant="lime"
+                label="Engajamento Total"
                 value={(data?.totalLikes ?? 0) + (data?.totalComments ?? 0)}
-                trend={data?.trend.engagement}
-                icon={<BarChart3Icon className="w-4 h-4" />}
+                trend={data?.trend.engagement !== undefined ? { value: data.trend.engagement, direction: data.trend.engagement > 0 ? 'up' : data.trend.engagement < 0 ? 'down' : 'neutral' } : undefined}
+                icon={<BarChart2 size={16} />}
                 isLoading={isLoading}
             />
             <MetricCard
-                title="Taxa de Conversão"
+                variant="default"
+                label="Taxa de Conversão"
                 value={`${Math.round(data?.conversionRate ?? 0)}%`}
-                icon={<UsersIcon className="w-4 h-4" />}
+                icon={<Users size={16} />}
                 isLoading={isLoading}
             />
         </div>

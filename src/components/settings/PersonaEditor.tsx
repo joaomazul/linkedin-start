@@ -69,17 +69,17 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
     }
 
     return (
-        <div className="max-w-7xl mx-auto w-full px-6 py-12">
+        <div className="max-w-7xl mx-auto w-full px-6 py-8">
             <div className="flex flex-col lg:flex-row gap-12">
 
                 {/* COLUNA ESQUERDA: FORMULÁRIO */}
                 <div className="flex-1 space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
                     {!onboarding && (
-                        <div className="space-y-2">
-                            <h2 className="lf-title lf-text text-3xl">
+                        <div>
+                            <h2 className="text-[28px] font-black tracking-[-1px] text-ink">
                                 Identidade IA
                             </h2>
-                            <p className="lf-body text-lf-text3 max-w-lg">
+                            <p className="text-[13px] font-medium text-ink-4 mt-[5px] max-w-lg">
                                 Refine sua persona para que a IA escreva exatamente como você pensaria.
                             </p>
                         </div>
@@ -89,30 +89,30 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                         <FormSection title="Identidade" icon={<User size={16} />}>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1">Nome</Label>
+                                    <Label className="lf-label text-ink-4 ml-1">Nome</Label>
                                     <Input
                                         value={persona.name}
                                         onChange={e => handleUpdate('name', e.target.value)}
                                         placeholder="Seu nome"
-                                        className="bg-lf-s2 border-lf-border rounded-lg h-11 lf-body-sm"
+                                        className="bg-page border-edge rounded-lg h-11 lf-body-sm"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1">Cargo</Label>
+                                    <Label className="lf-label text-ink-4 ml-1">Cargo</Label>
                                     <Input
                                         value={persona.role}
                                         onChange={e => handleUpdate('role', e.target.value)}
                                         placeholder="Ex: Head of Growth"
-                                        className="bg-lf-s2 border-lf-border rounded-lg h-11 lf-body-sm"
+                                        className="bg-page border-edge rounded-lg h-11 lf-body-sm"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1">Empresa</Label>
+                                    <Label className="lf-label text-ink-4 ml-1">Empresa</Label>
                                     <Input
                                         value={persona.company}
                                         onChange={e => handleUpdate('company', e.target.value)}
                                         placeholder="Nome da empresa"
-                                        className="bg-lf-s2 border-lf-border rounded-lg h-11 lf-body-sm"
+                                        className="bg-page border-edge rounded-lg h-11 lf-body-sm"
                                     />
                                 </div>
                             </div>
@@ -121,21 +121,21 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                         <FormSection title="Contexto Profissional" icon={<Briefcase size={16} />}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1">Nicho / Área de Atuação</Label>
+                                    <Label className="lf-label text-ink-4 ml-1">Nicho / Área de Atuação</Label>
                                     <Input
                                         value={persona.niche}
                                         onChange={e => handleUpdate('niche', e.target.value)}
                                         placeholder="ex: SaaS B2B, Finanças"
-                                        className="bg-lf-s2 border-lf-border rounded-lg h-11 lf-body-sm"
+                                        className="bg-page border-edge rounded-lg h-11 lf-body-sm"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1">Tom de Voz</Label>
+                                    <Label className="lf-label text-ink-4 ml-1">Tom de Voz</Label>
                                     <Input
                                         value={persona.tone}
                                         onChange={e => handleUpdate('tone', e.target.value)}
                                         placeholder="ex: Analítico, Próximo, Criativo"
-                                        className="bg-lf-s2 border-lf-border rounded-lg h-11 lf-body-sm"
+                                        className="bg-page border-edge rounded-lg h-11 lf-body-sm"
                                     />
                                 </div>
                             </div>
@@ -144,16 +144,16 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                         <FormSection title="Estratégia e Regras" icon={<Target size={16} />}>
                             <div className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1">Principais Objetivos</Label>
+                                    <Label className="lf-label text-ink-4 ml-1">Principais Objetivos</Label>
                                     <Textarea
                                         value={persona.goals}
                                         onChange={e => handleUpdate('goals', e.target.value)}
                                         placeholder="O que você deseja alcançar com seus comentários?"
-                                        className="bg-lf-s2 border-lf-border rounded-lg min-h-[100px] resize-none lf-body-sm p-4 custom-scrollbar"
+                                        className="bg-page border-edge rounded-lg min-h-[100px] resize-none lf-body-sm p-4 custom-scrollbar"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label className="lf-label text-lf-text4 ml-1 flex items-center gap-1.5">
+                                    <Label className="lf-label text-ink-4 ml-1 flex items-center gap-1.5">
                                         <ShieldAlert size={12} className="text-red-400" />
                                         Restrições (O que evitar)
                                     </Label>
@@ -161,7 +161,7 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                                         value={persona.avoid}
                                         onChange={e => handleUpdate('avoid', e.target.value)}
                                         placeholder="Ex: Clichês, excesso de emojis, tom agressivo..."
-                                        className="bg-lf-s2 border-lf-border rounded-lg min-h-[80px] resize-none lf-body-sm p-4 custom-scrollbar"
+                                        className="bg-page border-edge rounded-lg min-h-[80px] resize-none lf-body-sm p-4 custom-scrollbar"
                                     />
                                 </div>
                             </div>
@@ -173,23 +173,25 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                                     value={persona.customPrompt}
                                     onChange={e => handleUpdate('customPrompt', e.target.value)}
                                     placeholder="Regras específicas de escrita, referências ou bordões..."
-                                    className="bg-lf-s2 border-lf-border rounded-lg min-h-[140px] resize-none lf-body-sm p-4 custom-scrollbar"
+                                    className="bg-page border-edge rounded-lg min-h-[140px] resize-none lf-body-sm p-4 custom-scrollbar"
                                 />
-                                <div className="flex items-center gap-2 p-3 rounded-md bg-lf-accent/5 border border-lf-accent/10">
-                                    <Info size={14} className="text-lf-accent shrink-0" />
-                                    <p className="lf-caption text-lf-text4">
+                                <div className="flex items-center gap-2 p-3 rounded-md bg-brand/5 border border-brand/10">
+                                    <Info size={14} className="text-brand shrink-0" />
+                                    <p className="lf-caption text-ink-4">
                                         Ex: &quot;Cite minha experiência com startups de IA&quot; ou &quot;Use analogias náuticas&quot;.
                                     </p>
                                 </div>
                             </div>
                         </FormSection>
 
-                        <div className="pt-6">
+                        <div className="pt-8">
                             <Button
-                                className="bg-lf-accent hover:bg-lf-accent2 text-white lf-subtitle font-bold h-12 px-10 rounded-lg shadow-lf-accent border-none"
+                                variant="accent"
+                                size="lg"
+                                className="font-bold min-w-[240px]"
                                 onClick={() => toast.success('Perfil salvo localmente!')}
                             >
-                                <CheckCircle2 size={18} className="mr-2" />
+                                <CheckCircle2 size={20} className="mr-2" />
                                 Atualizar Perfil IA
                             </Button>
                         </div>
@@ -201,43 +203,43 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                     <div className={cn("sticky space-y-6 animate-in fade-in duration-500 delay-200", !onboarding && "top-24")}>
 
                         {/* Box do Prompt */}
-                        <div className="rounded-lg border border-lf-border bg-lf-s1 p-6 relative overflow-hidden">
+                        <div className="rounded-2xl border border-edge bg-white p-8 relative overflow-hidden shadow-md">
                             <div className="flex items-center justify-between mb-6">
-                                <div className="flex items-center gap-2">
-                                    <div className="h-6 w-1 rounded-full bg-lf-accent" />
-                                    <h3 className="lf-subtitle lf-text">Prompt Gerado</h3>
+                                <div className="flex items-center gap-3">
+                                    <div className="h-6 w-1 rounded-full bg-primary" />
+                                    <h3 className="lf-title text-ink">Prompt Gerado</h3>
                                 </div>
-                                <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-lf-green/10 border border-lf-green/20">
-                                    <div className="h-1.5 w-1.5 rounded-full bg-lf-green animate-pulse" />
-                                    <span className="lf-label text-lf-green font-bold uppercase tracking-wider">Live</span>
+                                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-lime/20 border border-lime/30">
+                                    <div className="h-1.5 w-1.5 rounded-full bg-ink animate-pulse" />
+                                    <span className="lf-label text-ink font-bold uppercase tracking-wider">Live</span>
                                 </div>
                             </div>
 
-                            <div className="bg-lf-bg rounded-lg border border-lf-accent/20 p-5 font-mono text-[11px] leading-relaxed text-lf-accent/80 min-h-[240px] max-h-[460px] overflow-y-auto custom-scrollbar shadow-inner select-all">
-                                {fullPrompt || <span className="text-lf-text4 opacity-50 italic">Construindo sua identidade técnica...</span>}
+                            <div className="bg-page rounded-xl border border-primary/10 p-6 font-mono text-[11px] leading-relaxed text-primary/80 min-h-[240px] max-h-[460px] overflow-y-auto custom-scrollbar shadow-inner select-all">
+                                {fullPrompt || <span className="text-ink-4 opacity-50 italic">Construindo sua identidade técnica...</span>}
                             </div>
 
                             <div className="mt-8 space-y-4">
-                                <div className="flex items-center justify-between lf-label font-bold text-lf-text4 uppercase tracking-wider">
+                                <div className="flex items-center justify-between lf-label font-bold text-ink-4 uppercase tracking-wider">
                                     <span>Nível de Detalhe</span>
-                                    <span className="text-lf-text2">{filledCount}/8 campos</span>
+                                    <span className="text-ink-2 font-bold">{filledCount}/8 campos</span>
                                 </div>
-                                <div className="h-1.5 w-full bg-lf-s3 rounded-full overflow-hidden">
+                                <div className="h-2 w-full bg-hover rounded-full overflow-hidden">
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${completeness}%` }}
-                                        className="h-full bg-lf-accent shadow-lf-accent"
+                                        className="h-full bg-primary shadow-lg shadow-primary/20"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Teste de Geração */}
-                        <div className="rounded-lg border border-lf-border bg-lf-s1 p-6">
-                            <h4 className="lf-subtitle lf-text mb-4">Teste de Geração</h4>
-                            <div className="bg-lf-s2 p-4 rounded-lg border border-lf-border mb-5">
-                                <p className="lf-label text-lf-text3 uppercase font-bold mb-1.5">{EXAMPLE_POST.author}</p>
-                                <p className="lf-body-sm text-lf-text2 leading-relaxed italic">
+                        <div className="rounded-2xl border border-edge bg-white p-8 shadow-md">
+                            <h4 className="lf-title text-ink mb-6">Teste de Geração</h4>
+                            <div className="bg-page p-5 rounded-xl border border-edge mb-6">
+                                <p className="lf-label text-ink-4 uppercase font-bold mb-2">{EXAMPLE_POST.author}</p>
+                                <p className="lf-body-sm text-ink-2 leading-relaxed italic">
                                     &quot;{EXAMPLE_POST.text}&quot;
                                 </p>
                             </div>
@@ -246,20 +248,20 @@ export function PersonaEditor({ onboarding = false }: PersonaEditorProps) {
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.98 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    className="mb-5 p-5 rounded-lg bg-lf-accent/5 border border-lf-accent/20 border-dashed"
+                                    className="mb-6 p-5 rounded-xl bg-primary/5 border border-primary/20 border-dashed"
                                 >
-                                    <p className="lf-label font-bold text-lf-accent uppercase mb-2">Comentário Simulador:</p>
-                                    <p className="lf-body-sm text-lf-text whitespace-pre-wrap leading-relaxed">
+                                    <p className="lf-label font-bold text-primary uppercase mb-2">Comentário Simulador:</p>
+                                    <p className="lf-body-sm text-ink whitespace-pre-wrap leading-relaxed">
                                         {previewComment}
                                     </p>
                                 </motion.div>
                             )}
 
                             <Button
-                                variant="ghost"
+                                variant="outline"
                                 onClick={handlePreviewComment}
                                 disabled={isPreviewing || filledCount < 3}
-                                className="w-full h-11 border border-lf-border hover:bg-lf-accent/5 hover:border-lf-accent/40 hover:text-lf-accent rounded-lg lf-body-sm transition-all"
+                                className="w-full text-ink-3 hover:text-primary transition-all rounded-xl"
                             >
                                 {isPreviewing ? <Loader2 size={16} className="animate-spin mr-2" /> : <Sparkles size={16} className="mr-2" />}
                                 {filledCount < 3 ? 'Preencha mais campos' : 'Gerar Preview (1 cr.)'}
@@ -281,16 +283,16 @@ function FormSection({ title, icon, badge, children }: {
     children: React.ReactNode
 }) {
     return (
-        <section className="bg-lf-s1 border border-lf-border rounded-lg p-6 md:p-8">
-            <div className="flex items-center justify-between mb-8">
+        <section className="bg-white border border-edge rounded-[var(--r-xl)] p-[22px_24px] shadow-sm">
+            <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-r-sm bg-lf-accent/15 flex items-center justify-center text-lf-accent">
+                    <div className="h-[30px] w-[30px] rounded-[var(--r-sm)] bg-brand/10 flex items-center justify-center text-brand">
                         {icon}
                     </div>
-                    <h3 className="lf-subtitle lf-text">{title}</h3>
+                    <h3 className="text-[14px] font-bold text-ink">{title}</h3>
                 </div>
                 {badge && (
-                    <span className="bg-lf-accent/10 text-lf-accent lf-label font-bold px-2 py-0.5 rounded-md uppercase tracking-wider border border-lf-accent/20">
+                    <span className="bg-brand/10 text-brand lf-label font-bold px-2 py-0.5 rounded-md uppercase tracking-wider border border-brand/20">
                         {badge}
                     </span>
                 )}

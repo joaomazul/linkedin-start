@@ -8,7 +8,6 @@ import { PostCard } from '@/components/feed/PostCard'
 import { PostCardSkeleton } from '@/components/feed/PostCardSkeleton'
 import { EmptyFeedState, ErrorState } from '@/components/feed/EmptyFeedState'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { RefreshCcw, Search, X } from 'lucide-react'
 import { toast } from 'sonner'
 import { LinkedInPost } from '@/types/linkedin.types'
@@ -146,31 +145,31 @@ export function FeedContainer() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto w-full px-6 py-12">
+        <div className="w-full">
             {/* Header do Feed */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
-                <div className="space-y-1.5">
-                    <h2 className="lf-title lf-text text-4xl">
+            <div className="flex flex-col md:flex-row md:items-start justify-between mb-7 gap-4">
+                <div>
+                    <h2 className="text-[28px] font-black tracking-[-1px] text-ink">
                         Feed Tático
                     </h2>
-                    <p className="lf-body text-lf-text3">
+                    <p className="text-[13px] font-medium text-ink-4 mt-[5px]">
                         Monitoramento em real-time das conexões selecionadas.
                     </p>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <div className="relative group">
-                        <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-lf-text4 group-focus-within:text-lf-accent transition-colors" />
-                        <Input
+                <div className="flex items-center gap-3 shrink-0">
+                    <div className="flex items-center gap-2 bg-white border-[1.5px] border-edge rounded-full px-4 py-[9px] min-w-[200px] md:w-[260px] transition-colors hover:border-ink focus-within:border-brand">
+                        <Search size={14} className="text-ink-4 shrink-0" strokeWidth={2} />
+                        <input
                             value={searchQuery}
                             onChange={e => setSearchQuery(e.target.value)}
                             placeholder="Filtrar feed..."
-                            className="pl-10 h-10 w-full md:w-[240px] bg-lf-s1 border-lf-border rounded-lg lf-body-sm focus:border-lf-accent/50 outline-none"
+                            className="text-[13px] font-medium text-ink border-none bg-transparent flex-1 outline-none placeholder:text-ink-4"
                         />
                         {searchQuery && (
                             <button
                                 onClick={() => setSearchQuery('')}
-                                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-lf-text4 hover:text-lf-text transition-colors"
+                                className="text-ink-4 hover:text-ink transition-colors"
                             >
                                 <X size={14} />
                             </button>
@@ -182,7 +181,7 @@ export function FeedContainer() {
                         size="icon"
                         onClick={handleRefresh}
                         disabled={isFetching}
-                        className="text-lf-text4 hover:text-lf-accent hover:bg-lf-accent/10 h-10 w-10 rounded-r-sm border border-lf-border bg-lf-s1 transition-all"
+                        className="h-9 w-9 rounded-[10px]"
                     >
                         <RefreshCcw className={cn("h-4 w-4", isFetching && "animate-spin")} />
                     </Button>

@@ -53,11 +53,11 @@ export default function OnboardingPage() {
     }
 
     return (
-        <div className="min-h-screen bg-lf-bg flex flex-col items-center justify-center p-8 relative overflow-hidden">
+        <div className="min-h-screen bg-page flex flex-col items-center justify-center p-8 relative overflow-hidden">
 
             {/* Background Glows */}
-            <div className="absolute top-0 left-0 w-[50%] h-[50%] bg-lf-accent/5 blur-[160px] rounded-full -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-[40%] h-[40%] bg-lf-accent/5 blur-[140px] rounded-full translate-x-1/2 translate-y-1/2" />
+            <div className="absolute top-0 left-0 w-[50%] h-[50%] bg-brand/5 blur-[160px] rounded-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-[40%] h-[40%] bg-brand/5 blur-[140px] rounded-full translate-x-1/2 translate-y-1/2" />
 
             {/* Progress Bar */}
             <div className="max-w-md w-full mb-16 flex items-center gap-2.5 px-12 relative z-10">
@@ -65,7 +65,7 @@ export default function OnboardingPage() {
                     <div key={i} className="flex-1">
                         <div className={cn(
                             "h-1 rounded-full transition-all duration-700 ease-out",
-                            step >= i ? "bg-lf-accent shadow-lf-accent" : "bg-lf-s3"
+                            step >= i ? "bg-brand shadow-accent" : "bg-hover"
                         )} />
                     </div>
                 ))}
@@ -87,7 +87,7 @@ export default function OnboardingPage() {
                                 title="Sincronize sua conta"
                                 description="Conecte seu LinkedIn via Unipile para que possamos monitorar seu feed e sugerir comentários de alto impacto."
                             />
-                            <div className="w-full max-w-2xl bg-lf-s1 rounded-lg border border-lf-border p-3 mt-10 shadow-2xl shadow-black/50">
+                            <div className="w-full max-w-2xl bg-white rounded-lg border border-edge p-3 mt-10 shadow-2xl shadow-black/50">
                                 <AccountSettings />
                             </div>
                         </motion.div>
@@ -107,10 +107,10 @@ export default function OnboardingPage() {
                                 title="Conexões Estratégicas"
                                 description="Adicione os perfis que você deseja monitorar. Cada postagem deles será uma oportunidade de interação."
                             />
-                            <div className="w-full max-w-xl bg-lf-s1 rounded-lg border border-lf-border p-12 mt-10 text-center shadow-2xl shadow-black/50">
+                            <div className="w-full max-w-xl bg-white rounded-lg border border-edge p-12 mt-10 text-center shadow-2xl shadow-black/50">
                                 <div className="mb-8 space-y-2">
-                                    <p className="lf-subtitle lf-text">Alvos de Monitoramento</p>
-                                    <p className="lf-body-sm text-lf-text3">Você configurou <span className="text-lf-accent font-bold">{profiles.length}</span> perfis até agora.</p>
+                                    <p className="text-[14px] font-bold text-ink">Alvos de Monitoramento</p>
+                                    <p className="lf-body-sm text-ink-3">Você configurou <span className="text-brand font-bold">{profiles.length}</span> perfis até agora.</p>
                                 </div>
                                 <AddProfileModal inline open={true} onClose={() => { }} />
                             </div>
@@ -131,7 +131,7 @@ export default function OnboardingPage() {
                                 title="Treine sua Persona"
                                 description="Conte para a IA como você escreve. Isso garante que as sugestões sejam indistinguíveis de um comentário real seu."
                             />
-                            <div className="w-full max-w-6xl bg-lf-s1 rounded-lg border border-lf-border mt-10 overflow-hidden shadow-2xl shadow-black/50">
+                            <div className="w-full max-w-6xl bg-white rounded-lg border border-edge mt-10 overflow-hidden shadow-2xl shadow-black/50">
                                 <div className="max-h-[60vh] overflow-y-auto custom-scrollbar">
                                     <PersonaEditor onboarding />
                                 </div>
@@ -146,7 +146,7 @@ export default function OnboardingPage() {
                         <Button
                             variant="ghost"
                             onClick={prevStep}
-                            className="h-12 px-10 lf-body-sm lf-text4 hover:text-lf-text hover:bg-lf-s3 rounded-r-sm transition-all"
+                            className="h-12 px-10 text-[13px] text-ink-4 hover:text-ink hover:bg-hover rounded-r-sm transition-all"
                         >
                             <ArrowLeft size={16} className="mr-2" />
                             Voltar
@@ -154,7 +154,7 @@ export default function OnboardingPage() {
                     )}
                     <Button
                         onClick={nextStep}
-                        className="h-12 px-12 bg-lf-accent hover:bg-lf-accent2 text-white lf-subtitle font-bold rounded-lg shadow-lf-accent border-none transition-all group"
+                        className="h-12 px-12 bg-brand hover:bg-brand-dark text-white lf-subtitle font-bold rounded-lg shadow-accent border-none transition-all group"
                     >
                         {step === 3 ? 'Finalizar Setup' : 'Próximo Passo'}
                         <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -168,11 +168,11 @@ export default function OnboardingPage() {
 function StepHeader({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
     return (
         <div className="text-center max-w-xl space-y-4">
-            <div className="h-14 w-14 rounded-r-sm bg-lf-accent/10 border border-lf-accent/20 flex items-center justify-center text-lf-accent mx-auto mb-4">
+            <div className="h-14 w-14 rounded-r-sm bg-brand/10 border border-brand/20 flex items-center justify-center text-brand mx-auto mb-4">
                 {icon}
             </div>
-            <h1 className="lf-title lf-text text-4xl">{title}</h1>
-            <p className="lf-body text-lf-text3 leading-relaxed">{description}</p>
+            <h1 className="text-[15px] font-bold text-ink text-4xl">{title}</h1>
+            <p className="lf-body text-ink-3 leading-relaxed">{description}</p>
         </div>
     )
 }

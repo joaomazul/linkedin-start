@@ -62,15 +62,15 @@ export function StylePicker({ onSelect, onCancel }: StylePickerProps) {
                         <button
                             key={style.id}
                             onClick={() => onSelect(style.id)}
-                            className="flex items-center gap-2.5 rounded-lg border border-lf-border2
-                         bg-white px-3 py-2.5 text-left text-sm
-                         hover:border-lf-accent hover:bg-lf-accent/[0.03]
+                            className="flex items-center gap-3 rounded-xl border border-edge
+                         bg-white px-4 py-3 text-left text-sm
+                         hover:border-primary hover:bg-primary/[0.02]
                          transition-all group shadow-sm active:scale-[0.98]"
                         >
-                            <span className="text-lg leading-none flex-shrink-0 opacity-90 group-hover:opacity-100">
+                            <span className="text-xl leading-none flex-shrink-0 opacity-90 group-hover:opacity-100">
                                 {style.emoji}
                             </span>
-                            <span className="font-semibold text-lf-text group-hover:text-lf-accent transition-colors">
+                            <span className="font-bold text-ink group-hover:text-primary transition-colors">
                                 {style.label}
                             </span>
                         </button>

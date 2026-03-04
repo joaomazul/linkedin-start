@@ -47,25 +47,25 @@ export function GeneratedOptions({
             </div>
 
             {/* Opções */}
-            <div className="space-y-2">
+            <div className="space-y-3">
                 {options.map((option, idx) => (
                     <button
                         key={idx}
                         onClick={() => onSelect(option)}
-                        className="w-full text-left rounded-lg border border-border bg-card
-                       p-3 text-sm leading-relaxed
-                       hover:border-accent/50 hover:bg-accent/5
-                       transition-all group flex items-start gap-2"
+                        className="w-full text-left rounded-xl border border-edge bg-white
+                       p-4 text-sm leading-relaxed shadow-sm
+                       hover:border-primary/50 hover:bg-primary/[0.02]
+                       transition-all group flex items-start gap-3 active:scale-[0.99]"
                     >
-                        <span className="flex-shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center
-                             rounded-full border border-border text-xs text-muted-foreground
-                             group-hover:border-accent group-hover:text-accent transition-colors">
+                        <span className="flex-shrink-0 mt-0.5 flex h-6 w-6 items-center justify-center
+                             rounded-full border border-edge text-[10px] font-bold text-ink-4
+                             group-hover:border-primary group-hover:text-primary group-hover:bg-primary/5 transition-all">
                             {idx + 1}
                         </span>
-                        <span className="flex-1 text-foreground">{option}</span>
-                        <ChevronRight className="flex-shrink-0 h-4 w-4 text-muted-foreground
+                        <span className="flex-1 text-ink leading-relaxed">{option}</span>
+                        <ChevronRight className="flex-shrink-0 h-4 w-4 text-ink-4
                                       opacity-0 group-hover:opacity-100
-                                      group-hover:text-accent transition-all" />
+                                      group-hover:text-primary transition-all translate-x-1" />
                     </button>
                 ))}
             </div>

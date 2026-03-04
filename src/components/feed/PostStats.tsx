@@ -11,7 +11,7 @@ interface PostStatsProps {
 
 export function PostStats({ metrics }: PostStatsProps) {
     return (
-        <div className="flex items-center gap-5 mt-6 border-t border-lf-border/30 pt-4">
+        <div className="flex items-center gap-6 mt-6 border-t border-edge/50 pt-5">
             <StatItem
                 icon={<ThumbsUp size={12} />}
                 value={metrics.likes}
@@ -40,11 +40,11 @@ export function PostStats({ metrics }: PostStatsProps) {
 
 function StatItem({ icon, value, label }: { icon: React.ReactNode, value: number, label: string }) {
     return (
-        <div className="flex items-center gap-1.5 text-lf-text3 group/stat transition-colors hover:text-lf-text2" title={label}>
-            <span>
+        <div className="flex items-center gap-1.5 text-ink-4 group/stat transition-all hover:text-ink cursor-default" title={label}>
+            <span className="group-hover/stat:scale-110 transition-transform [&_svg]:size-[13px] [&_svg]:stroke-[1.8]">
                 {icon}
             </span>
-            <span className="lf-caption font-600">
+            <span className="text-[12px] font-semibold group-hover/stat:text-ink transition-colors">
                 {formatNumber(value)}
             </span>
         </div>

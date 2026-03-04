@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CadenceQueue } from '@/components/cadence/cadence-queue'
-import { ListChecks, CheckCircle, Clock, XCircle, ArrowRight } from 'lucide-react'
+import { ListChecks, CheckCircle, Clock, XCircle, ArrowRight, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { MetricCard } from '@/components/ui/metric-card'
+import { PageHeader } from '@/components/ui/page-header'
 import Link from 'next/link'
 
 interface CadencePageClientProps {
@@ -28,89 +30,66 @@ export default function CadencePageClient({ initialSuggestions, stats }: Cadence
     ]
 
     return (
-        <div className="flex flex-col gap-6 p-6 md:p-8 max-w-4xl mx-auto">
-            {/* Header */}
-            <div className="flex justify-between items-start">
-                <div>
-                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-2">
-                        <ListChecks className="h-7 w-7 text-primary" />
-                        Cadência Inteligente
-                    </h1>
-                    <p className="text-sm text-muted-foreground mt-1">Próximos passos sugeridos pela IA para seus contatos.</p>
-                </div>
-                <Link href="/settings" className="p-2 border rounded-md hover:bg-muted text-muted-foreground transition-colors" title="Configurações">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        <div className="flex flex-col gap-6 py-6">
+            <PageHeader title="⚙️ Cadência Inteligente" subtitle="Próximos passos sugeridos pela IA para seus contatos.">
+                <Link href="/settings" className="h-9 w-9 rounded-[10px] bg-page text-ink-3 hover:bg-ink hover:text-white flex items-center justify-center transition-all" title="Configurações">
+                    <Settings size={17} strokeWidth={1.8} />
                 </Link>
+            </PageHeader>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <MetricCard variant="default" label="Total Sugestões" value={total} icon={<ListChecks size={16} />} />
+                <MetricCard variant="dark" label="Pendentes" value={stats.pending} icon={<Clock size={16} />} />
+                <MetricCard variant="lime" label="Concluídas" value={stats.done} icon={<CheckCircle size={16} />} />
+                <MetricCard variant="default" label="Ignoradas" value={stats.dismissed} icon={<XCircle size={16} />} />
             </div>
 
-            {/* Stats Bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <StatsCard label="Total Sugestões" value={total} icon={<ListChecks size={16} className="text-lf-accent" />} />
-                <StatsCard label="Pendentes" value={stats.pending} icon={<Clock size={16} className="text-amber-500" />} />
-                <StatsCard label="Concluídas" value={stats.done} icon={<CheckCircle size={16} className="text-emerald-500" />} />
-                <StatsCard label="Ignoradas" value={stats.dismissed} icon={<XCircle size={16} className="text-slate-400" />} />
-            </div>
-
-            {/* Filter Tabs */}
-            <div className="flex gap-1 p-1 bg-muted/50 rounded-lg w-fit">
+            <div className="flex gap-[2px] p-[3px] bg-page rounded-full w-fit">
                 {filters.map(f => (
                     <button
                         key={f.key}
                         onClick={() => setFilter(f.key)}
                         className={cn(
-                            'px-3 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5',
+                            'px-4 py-[7px] rounded-full text-[12px] font-semibold transition-all flex items-center gap-1.5',
                             filter === f.key
-                                ? 'bg-white text-lf-accent shadow-sm'
-                                : 'text-muted-foreground hover:text-foreground'
+                                ? 'bg-white text-ink shadow-sm'
+                                : 'text-ink-3 hover:text-ink'
                         )}
                     >
                         {f.label}
-                        <span className="text-[10px] bg-muted px-1.5 rounded-full">{f.count}</span>
+                        <span className={cn(
+                            "text-[10px] px-1.5 rounded-full font-bold",
+                            filter === f.key ? "bg-lime text-ink" : "bg-page text-ink-4"
+                        )}>{f.count}</span>
                     </button>
                 ))}
             </div>
 
-            {/* Content */}
             {total === 0 ? (
-                <div className="flex flex-col items-center justify-center p-16 text-center border-2 border-dashed rounded-xl bg-muted/10">
-                    <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                        <ListChecks className="h-7 w-7 text-primary" />
+                <div className="flex flex-col items-center justify-center p-14 text-center gap-3 border-2 border-dashed border-edge rounded-[var(--r-xl)]">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-[var(--r-lg)] bg-page mb-1">
+                        <ListChecks className="h-6 w-6 text-ink-4" />
                     </div>
-                    <h3 className="text-xl font-semibold">Nenhuma sugestão de cadência</h3>
-                    <p className="text-muted-foreground max-w-sm mx-auto mt-2 text-sm">
+                    <h3 className="text-[16px] font-bold text-ink">Nenhuma sugestão de cadência</h3>
+                    <p className="text-[13px] text-ink-4 max-w-[320px] leading-[1.65]">
                         A cadência analisa seus contatos no CRM e sugere ações de follow-up automaticamente.
-                        Adicione perfis monitorados e crie campanhas para começar.
                     </p>
-                    <div className="flex gap-3 mt-6">
-                        <Link href="/crm" className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-all">
+                    <div className="flex gap-3 mt-2">
+                        <Link href="/crm" className="inline-flex items-center gap-2 px-5 py-2.5 bg-ink text-white rounded-full text-[13px] font-bold hover:bg-brand transition-all">
                             Ver CRM <ArrowRight size={14} />
                         </Link>
-                        <Link href="/signals" className="inline-flex items-center gap-2 px-4 py-2 border rounded-lg text-sm font-medium hover:bg-muted/50 transition-all">
+                        <Link href="/signals" className="inline-flex items-center gap-2 px-5 py-2.5 bg-page text-ink-3 rounded-full text-[13px] font-bold hover:bg-ink hover:text-white transition-all">
                             Ver Sinais ABM
                         </Link>
                     </div>
                 </div>
             ) : filtered.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground text-sm">
+                <div className="text-center py-12 text-ink-4 text-[13px]">
                     Nenhuma sugestão com o filtro selecionado.
                 </div>
             ) : (
                 <CadenceQueue initialSuggestions={filtered} />
             )}
-        </div>
-    )
-}
-
-function StatsCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
-    return (
-        <div className="bg-white border border-lf-border rounded-xl p-4 flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-lf-s1 flex items-center justify-center shrink-0">
-                {icon}
-            </div>
-            <div>
-                <p className="text-xs text-muted-foreground">{label}</p>
-                <p className="text-lg font-bold font-bricolage">{value}</p>
-            </div>
         </div>
     )
 }

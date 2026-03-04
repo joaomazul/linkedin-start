@@ -19,9 +19,9 @@ export const PostCard = React.memo(function PostCard({ post, index = 0 }: PostCa
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
-            className="group relative rounded-lg border border-lf-border bg-lf-s2 transition-all duration-[var(--t-normal)] hover:border-lf-border2 hover:shadow-lf-lg overflow-hidden mb-5"
+            className="group relative rounded-[var(--r-xl)] border border-edge bg-white shadow-sm transition-all duration-[var(--t-base)] hover:shadow-md overflow-hidden mb-6"
         >
-            <div className="p-6">
+            <div className="p-[22px_24px]">
                 <PostHeader
                     authorName={post.authorName}
                     authorRole={post.authorRole}
@@ -43,7 +43,7 @@ export const PostCard = React.memo(function PostCard({ post, index = 0 }: PostCa
             </div>
 
             {/* Separador suave Cockpit */}
-            <div className="h-[1px] w-full bg-lf-border opacity-60" />
+            <div className="h-[1px] w-full bg-edge opacity-60" />
 
             <CommentZone
                 post={{

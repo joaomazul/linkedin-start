@@ -132,7 +132,7 @@ export function CadenceQueue({ initialSuggestions }: { initialSuggestions: any[]
                                         <Textarea
                                             id={`content-${suggestion.id}`}
                                             defaultValue={suggestion.suggestedContent}
-                                            className="text-sm min-h-[100px] bg-background mt-4 focus:border-primary/50"
+                                            className="text-sm min-h-[100px] bg-background mt-4 focus:border-ink/50"
                                         />
 
                                         <div className="flex justify-end gap-2 mt-4">

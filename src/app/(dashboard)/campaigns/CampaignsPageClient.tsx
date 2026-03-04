@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 import { Plus, Target, Users, Zap, ExternalLink, MoreVertical } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
+import { MetricCard } from '@/components/ui/metric-card'
+import { PageHeader } from '@/components/ui/page-header'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 interface Campaign {
     id: string
@@ -46,44 +50,36 @@ export default function CampaignsPage() {
     ]
 
     return (
-        <div className="flex flex-col gap-6 p-6 md:p-8">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Campanhas</h1>
-                    <p className="text-sm text-muted-foreground mt-1">Monitore posts e automatize seu social selling</p>
-                </div>
-                <Link
-                    href="/campaigns/new"
-                    className="h-10 px-5 bg-lf-accent text-white rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-lf-accent/90 transition-all shadow-md active:scale-95 w-fit"
-                >
-                    <Plus size={18} />
-                    Nova Campanha
-                </Link>
-            </div>
+        <div className="flex flex-col gap-6 py-6">
+            <PageHeader title="Campanhas" subtitle="Monitore posts e automatize seu social selling">
+                <Button asChild variant="accent" className="gap-2">
+                    <Link href="/campaigns/new">
+                        <Plus size={14} />
+                        Nova Campanha
+                    </Link>
+                </Button>
+            </PageHeader>
 
-            {/* Stats Bar */}
             {campaigns.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <StatsCard label="Campanhas" value={campaigns.length} icon={<Target size={16} className="text-lf-accent" />} />
-                    <StatsCard label="Leads Capturados" value={totalLeads} icon={<Users size={16} className="text-blue-500" />} />
-                    <StatsCard label="Concluídos" value={totalCompleted} icon={<Zap size={16} className="text-emerald-500" />} />
-                    <StatsCard label="Conversão" value={`${conversionRate}%`} icon={<Target size={16} className="text-amber-500" />} />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <MetricCard variant="default" label="Campanhas" value={campaigns.length} icon={<Target size={16} />} />
+                    <MetricCard variant="dark" label="Leads Capturados" value={totalLeads} icon={<Users size={16} />} />
+                    <MetricCard variant="lime" label="Concluídos" value={totalCompleted} icon={<Zap size={16} />} />
+                    <MetricCard variant="default" label="Conversão" value={`${conversionRate}%`} icon={<Target size={16} />} />
                 </div>
             )}
 
-            {/* Filter Tabs */}
             {campaigns.length > 0 && (
-                <div className="flex gap-1 p-1 bg-muted/50 rounded-lg w-fit">
+                <div className="flex gap-[2px] p-[3px] bg-page rounded-full w-fit">
                     {filters.map(f => (
                         <button
                             key={f.key}
                             onClick={() => setFilter(f.key)}
                             className={cn(
-                                'px-4 py-1.5 rounded-md text-xs font-semibold transition-all',
+                                'px-4 py-[7px] rounded-full text-[12px] font-semibold transition-all',
                                 filter === f.key
-                                    ? 'bg-white text-lf-accent shadow-sm'
-                                    : 'text-muted-foreground hover:text-foreground'
+                                    ? 'bg-white text-ink shadow-sm'
+                                    : 'text-ink-3 hover:text-ink'
                             )}
                         >
                             {f.label}
@@ -92,35 +88,29 @@ export default function CampaignsPage() {
                 </div>
             )}
 
-            {/* Content */}
             {loading ? (
                 <div className="flex items-center justify-center py-20">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lf-accent"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
                 </div>
             ) : campaigns.length === 0 ? (
-                <div className="max-w-md mx-auto mt-12 text-center flex flex-col items-center gap-4">
-                    <div className="h-16 w-16 bg-lf-s1 rounded-full flex items-center justify-center text-lf-text4 border border-lf-border">
-                        <Target size={32} />
+                <div className="flex flex-col items-center justify-center p-14 text-center gap-3 border-2 border-dashed border-edge rounded-[var(--r-xl)]">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-[var(--r-lg)] bg-page mb-1">
+                        <Target className="h-6 w-6 text-ink-4" />
                     </div>
-                    <div>
-                        <h3 className="text-lg font-bold mb-1">Nenhuma campanha ativa</h3>
-                        <p className="text-sm text-muted-foreground text-center">
-                            Crie sua primeira campanha de Lead Magnet para começar a capturar leads automaticamente de seus posts.
-                        </p>
-                    </div>
-                    <Link
-                        href="/campaigns/new"
-                        className="mt-2 h-11 px-6 bg-lf-accent text-white rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-lf-accent/90 transition-all"
-                    >
-                        Começar agora
-                    </Link>
+                    <h3 className="text-[16px] font-bold text-ink">Nenhuma campanha ativa</h3>
+                    <p className="text-[13px] text-ink-4 max-w-[320px] leading-[1.65]">
+                        Crie sua primeira campanha de Lead Magnet para começar a capturar leads automaticamente de seus posts.
+                    </p>
+                    <Button asChild variant="accent" className="mt-2 gap-2">
+                        <Link href="/campaigns/new">Começar agora</Link>
+                    </Button>
                 </div>
             ) : filtered.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground text-sm">
+                <div className="text-center py-12 text-ink-4 text-[13px]">
                     Nenhuma campanha com o filtro selecionado.
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filtered.map(campaign => (
                         <CampaignCard key={campaign.id} campaign={campaign} />
                     ))}
@@ -130,75 +120,61 @@ export default function CampaignsPage() {
     )
 }
 
-function StatsCard({ label, value, icon }: { label: string; value: string | number; icon: React.ReactNode }) {
-    return (
-        <div className="bg-white border border-lf-border rounded-xl p-4 flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-lf-s1 flex items-center justify-center shrink-0">
-                {icon}
-            </div>
-            <div>
-                <p className="text-xs text-muted-foreground">{label}</p>
-                <p className="text-lg font-bold font-bricolage">{value}</p>
-            </div>
-        </div>
-    )
-}
 
 function CampaignCard({ campaign }: { campaign: Campaign }) {
-    const statusColors: Record<string, string> = {
-        active: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-        paused: 'bg-amber-100 text-amber-700 border-amber-200',
-        draft: 'bg-slate-100 text-slate-700 border-slate-200',
-        completed: 'bg-blue-100 text-blue-700 border-blue-200'
+    const statusMap: Record<string, { variant: 'success' | 'warn' | 'grey' | 'blue'; label: string }> = {
+        active: { variant: 'success', label: 'Ativa' },
+        paused: { variant: 'warn', label: 'Pausada' },
+        draft: { variant: 'grey', label: 'Rascunho' },
+        completed: { variant: 'blue', label: 'Finalizada' },
     }
 
+    const status = statusMap[campaign.status] || statusMap.draft
+
     return (
-        <div className="bg-white border border-lf-border rounded-xl p-5 hover:shadow-lg transition-all group flex flex-col gap-4">
+        <div className="bg-white border border-edge rounded-[var(--r-xl)] p-5 hover:shadow-md transition-all duration-[var(--t-base)] hover:-translate-y-[2px] group flex flex-col gap-4">
             <div className="flex items-start justify-between">
                 <div>
-                    <div className={cn(
-                        "inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border mb-2",
-                        statusColors[campaign.status] || statusColors.draft
-                    )}>
-                        {campaign.status === 'active' ? '● Ativa' : campaign.status}
-                    </div>
-                    <h3 className="lf-title text-base leading-tight group-hover:text-lf-accent transition-colors">
+                    <Badge variant={status.variant} dot className="mb-2 text-[10px] font-bold uppercase tracking-wider">
+                        {status.label}
+                    </Badge>
+                    <h3 className="text-[15px] font-bold text-ink leading-tight group-hover:text-brand transition-colors">
                         {campaign.name}
                     </h3>
                 </div>
-                <button className="h-8 w-8 rounded-lg flex items-center justify-center text-lf-text4 hover:bg-lf-s1 hover:text-lf-text2 transition-colors">
-                    <MoreVertical size={16} />
+                <button className="h-7 w-7 rounded-[var(--r-sm)] bg-page text-ink-4 hover:bg-ink hover:text-white flex items-center justify-center transition-all">
+                    <MoreVertical size={14} />
                 </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 bg-lf-s1/50 rounded-lg p-3">
+            <div className="grid grid-cols-3 gap-3 bg-page rounded-[var(--r-md)] p-3">
                 <div className="flex flex-col">
-                    <span className="lf-label text-[10px] text-lf-text4">Leads</span>
-                    <span className="font-bricolage text-lg font-bold text-lf-text2">{campaign.totalCaptured}</span>
+                    <span className="text-[10px] font-semibold text-ink-4 uppercase">Leads</span>
+                    <span className="text-lg font-extrabold tracking-tight text-ink">{campaign.totalCaptured}</span>
                 </div>
-                <div className="flex flex-col border-x border-lf-border/50 px-3">
-                    <span className="lf-label text-[10px] text-lf-text4">Aceitos</span>
-                    <span className="font-bricolage text-lg font-bold text-emerald-600">{campaign.totalApproved}</span>
+                <div className="flex flex-col border-x border-edge/50 px-3">
+                    <span className="text-[10px] font-semibold text-ink-4 uppercase">Aceitos</span>
+                    <span className="text-lg font-extrabold tracking-tight text-success-text">{campaign.totalApproved}</span>
                 </div>
                 <div className="flex flex-col items-end">
-                    <span className="lf-label text-[10px] text-lf-text4">Feitos</span>
-                    <span className="font-bricolage text-lg font-bold text-lf-accent">{campaign.totalCompleted}</span>
+                    <span className="text-[10px] font-semibold text-ink-4 uppercase">Feitos</span>
+                    <span className="text-lg font-extrabold tracking-tight text-brand">{campaign.totalCompleted}</span>
                 </div>
             </div>
 
             <div className="flex items-center gap-2 pt-1">
                 <Link
                     href={`/campaigns/${campaign.id}/leads`}
-                    className="flex-1 h-9 px-3 rounded-lg border border-lf-border flex items-center justify-center gap-2 lf-caption text-xs font-semibold hover:bg-lf-s1 hover:border-lf-border2 transition-all"
+                    className="flex-1 h-9 px-3 rounded-full bg-page flex items-center justify-center gap-2 text-[12px] font-bold text-ink-3 hover:bg-ink hover:text-white transition-all"
                 >
-                    <Users size={14} />
+                    <Users size={13} />
                     Fila de Leads
                 </Link>
                 <Link
                     href={`/campaigns/${campaign.id}/results`}
-                    className="flex-1 h-9 px-3 rounded-lg bg-lf-s1 flex items-center justify-center gap-2 lf-caption text-xs font-semibold text-lf-text2 border border-transparent hover:border-lf-accent/30 hover:text-lf-accent transition-all"
+                    className="flex-1 h-9 px-3 rounded-full border border-edge flex items-center justify-center gap-2 text-[12px] font-bold text-ink-3 hover:border-ink hover:text-ink transition-all"
                 >
-                    <Zap size={14} />
+                    <Zap size={13} />
                     Resultados
                 </Link>
             </div>
@@ -207,7 +183,7 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
                 href={campaign.postUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="lf-caption text-[11px] text-lf-text4 hover:text-lf-accent flex items-center justify-center gap-1 mt-1 transition-colors"
+                className="text-[11px] text-ink-4 hover:text-brand flex items-center justify-center gap-1 transition-colors"
             >
                 Ver post original <ExternalLink size={10} />
             </a>

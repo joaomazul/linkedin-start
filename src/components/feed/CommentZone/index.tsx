@@ -8,7 +8,7 @@ import { ApproveZone } from './ApproveZone'
 import { PostedBadge } from './PostedBadge'
 import { useGenerateComment } from '@/hooks/useGenerateComment'
 import { usePostComment } from '@/hooks/usePostComment'
-import { Sparkles, PenLine, Loader2 } from 'lucide-react'
+import { PenLine, Loader2 } from 'lucide-react'
 
 type Stage =
     | 'idle'             // botões "Gerar com IA" + "Manual"
@@ -93,7 +93,7 @@ export function CommentZone({ post }: CommentZoneProps) {
     }, [])
 
     return (
-        <div className="border-t border-border/50 mt-3 pt-3">
+        <div className="px-[22px] pb-[22px] pt-0">
             <AnimatePresence mode="wait">
 
                 {/* ── IDLE: botões iniciais ───────────────────────────────────────── */}
@@ -103,25 +103,25 @@ export function CommentZone({ post }: CommentZoneProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="flex gap-2"
+                        className="flex gap-3"
                     >
                         <button
                             onClick={() => setStage('selecting-style')}
-                            className="flex-1 flex items-center justify-center gap-2 rounded-lg
-                         bg-lf-accent text-white text-sm font-semibold py-2.5 px-4
-                         hover:bg-lf-accent2 shadow-lf-sm transition-colors"
+                            className="flex-1 flex items-center justify-center gap-3 rounded-[var(--r-lg)]
+                         bg-ink text-white text-[13px] font-bold py-3 px-6
+                         hover:bg-brand transition-all active:scale-[0.98]"
                         >
-                            <Sparkles className="h-4 w-4" />
-                            Gerar com Inteligência Artificial
+                            <span className="bg-lime text-ink rounded-full px-2 py-0.5 text-[11px] font-extrabold">✦</span>
+                            Gerar com IA
                         </button>
 
                         <button
                             onClick={() => { setEditedText(''); setStage('approving') }}
-                            className="flex items-center justify-center gap-2 rounded-lg
-                         border border-lf-border2 bg-white text-sm text-lf-text3 font-medium
-                         py-2.5 px-4 hover:bg-lf-s2 transition-colors"
+                            className="flex items-center justify-center gap-2 rounded-[var(--r-lg)]
+                         bg-page text-[13px] text-ink-3 font-bold
+                         py-3 px-6 hover:bg-ink hover:text-white transition-all active:scale-[0.98]"
                         >
-                            <PenLine className="h-4 w-4" />
+                            <PenLine className="h-3.5 w-3.5" />
                             Manual
                         </button>
                     </motion.div>

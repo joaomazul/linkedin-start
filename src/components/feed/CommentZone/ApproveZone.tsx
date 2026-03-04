@@ -49,10 +49,10 @@ export function ApproveZone({
         <div className="space-y-2">
             {/* Textarea */}
             <div className={cn(
-                'rounded-lg border bg-card p-3 transition-colors',
+                'rounded-xl border bg-white p-4 shadow-sm transition-all duration-[var(--t-base)]',
                 isOverLimit
-                    ? 'border-destructive ring-1 ring-destructive/30'
-                    : 'border-border focus-within:border-accent/50'
+                    ? 'border-destructive ring-4 ring-destructive/5'
+                    : 'border-edge focus-within:border-ink focus-within:ring-4 focus-within:ring-brand/5'
             )}>
                 <textarea
                     ref={textareaRef}
@@ -75,10 +75,10 @@ export function ApproveZone({
                     <button
                         onClick={onBack}
                         disabled={isPublishing}
-                        className="flex items-center gap-1 text-xs text-muted-foreground
-                       hover:text-foreground transition-colors disabled:opacity-50"
+                        className="flex items-center gap-2 text-xs font-bold text-ink-4
+                       hover:text-primary transition-all disabled:opacity-50"
                     >
-                        <ArrowLeft className="h-3 w-3" />
+                        <ArrowLeft className="h-4 w-4" />
                         Voltar
                     </button>
 
@@ -97,11 +97,11 @@ export function ApproveZone({
                     onClick={onPublish}
                     disabled={isOverLimit || !value.trim() || isPublishing}
                     className={cn(
-                        'flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium',
-                        'transition-all',
+                        'flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold shadow-md',
+                        'transition-all active:scale-[0.98]',
                         isOverLimit || !value.trim()
-                            ? 'opacity-40 cursor-not-allowed bg-muted text-muted-foreground'
-                            : 'bg-accent text-white hover:bg-accent/90'
+                            ? 'opacity-40 cursor-not-allowed bg-page text-ink-4 border border-edge'
+                            : 'bg-lime text-ink hover:bg-lime/90'
                     )}
                 >
                     {isPublishing ? (
@@ -112,11 +112,7 @@ export function ApproveZone({
                     ) : (
                         <>
                             <Send className="h-4 w-4" />
-                            Publicar
-                            <kbd className="hidden sm:inline-flex items-center gap-0.5
-                              rounded bg-white/20 px-1 py-0.5 text-xs">
-                                ⌘↵
-                            </kbd>
+                            Publicar no LinkedIn
                         </>
                     )}
                 </button>

@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSettingsStore } from '@/store/settings.store'
 import { Button } from '@/components/ui/button'
@@ -56,48 +55,48 @@ export function AccountSettings() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto w-full px-6 py-12 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="max-w-4xl mx-auto w-full px-6 py-8 space-y-8 page-enter">
 
             {/* Header */}
-            <div className="space-y-2">
-                <h2 className="lf-title lf-text text-3xl">
+            <div>
+                <h2 className="text-[28px] font-black tracking-[-1px] text-ink">
                     Conta LinkedIn
                 </h2>
-                <p className="lf-body text-lf-text3 max-w-lg">
+                <p className="text-[13px] font-medium text-ink-4 mt-[5px] max-w-lg">
                     Conexões Unipile e automação do feed LinkedFlow.
                 </p>
             </div>
 
             {/* 1. SELEÇÃO DE CONTA */}
-            <section className="bg-lf-s1 border border-lf-border rounded-lg p-8">
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="h-8 w-8 rounded-r-sm bg-lf-accent/20 flex items-center justify-center text-lf-accent">
-                        <Link2 size={16} />
+            <section className="bg-white border border-edge rounded-[var(--r-xl)] p-[22px_24px] shadow-sm">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="h-[30px] w-[30px] rounded-[var(--r-sm)] bg-brand/10 flex items-center justify-center text-brand">
+                        <Link2 size={20} />
                     </div>
-                    <h3 className="lf-subtitle lf-text">Contas Conectadas</h3>
+                    <h3 className="text-[14px] font-bold text-ink">Contas Conectadas</h3>
                 </div>
 
                 {isLoading ? (
                     <div className="flex items-center justify-center py-12">
-                        <Loader2 size={24} className="text-lf-accent animate-spin" />
+                        <Loader2 size={24} className="text-brand animate-spin" />
                     </div>
                 ) : (
                     <div className="space-y-5">
                         <div className={cn(
-                            "flex items-center justify-between p-5 rounded-lg border transition-all duration-[var(--t-normal)]",
+                            "flex items-center justify-between p-6 rounded-xl border transition-all duration-[var(--t-base)]",
                             statusData?.status === 'OK'
-                                ? "bg-lf-accent/5 border-lf-accent shadow-lf-accent"
+                                ? "bg-primary/5 border-primary shadow-lg shadow-primary/10"
                                 : "bg-red-500/5 border-red-500/20"
                         )}>
                             <div className="flex items-center gap-4">
-                                <div className="h-[42px] w-[42px] rounded-md bg-lf-bg border border-lf-border flex items-center justify-center lf-subtitle text-lf-accent uppercase font-bold">
+                                <div className="h-[48px] w-[48px] rounded-xl bg-page border border-edge flex items-center justify-center lf-title text-primary uppercase font-bold">
                                     IN
                                 </div>
                                 <div className="flex flex-col">
-                                    <p className="lf-subtitle lf-text">
+                                    <p className="text-[14px] font-bold text-ink">
                                         LinkedFlow Principal
                                     </p>
-                                    <p className="lf-caption text-lf-text4 font-mono mt-0.5">
+                                    <p className="lf-caption text-ink-4 font-mono mt-0.5">
                                         {linkedinAccountId || 'Unlinked'}
                                     </p>
                                 </div>
@@ -105,13 +104,13 @@ export function AccountSettings() {
 
                             <div className="flex items-center gap-2">
                                 {statusData?.status === 'OK' ? (
-                                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-lf-green/15 text-lf-green lf-label font-bold uppercase tracking-wider">
-                                        <div className="h-1.5 w-1.5 rounded-full bg-lf-green animate-pulse" />
-                                        Active
+                                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-success-text/15 text-success-text lf-label font-bold uppercase tracking-wider">
+                                        <div className="h-2 w-2 rounded-full bg-success-text animate-pulse" />
+                                        Connected
                                     </div>
                                 ) : (
-                                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/15 text-red-400 lf-label font-bold uppercase tracking-wider">
-                                        <div className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/15 text-red-500 lf-label font-bold uppercase tracking-wider">
+                                        <div className="h-2 w-2 rounded-full bg-red-500" />
                                         Error
                                     </div>
                                 )}
@@ -123,13 +122,13 @@ export function AccountSettings() {
                                 variant="ghost"
                                 onClick={handleVerifyStatus}
                                 disabled={isLoading}
-                                className="lf-caption bg-lf-s2 border border-lf-border hover:bg-lf-s3 text-lf-text2 h-10 px-4 rounded-r-sm"
+                                className="lf-caption bg-page border border-edge hover:bg-hover text-ink-2 h-10 px-4 rounded-r-sm"
                             >
                                 <RefreshCw size={14} className={cn("mr-2", isLoading && "animate-spin")} /> Check Connection
                             </Button>
 
                             {(!statusData || statusData.status !== 'OK') && (
-                                <Button asChild className="lf-caption bg-lf-accent hover:bg-lf-accent2 text-white h-10 px-4 rounded-r-sm border-none shadow-lf-accent">
+                                <Button asChild className="lf-caption bg-brand hover:bg-brand-dark text-white h-10 px-4 rounded-r-sm border-none shadow-accent">
                                     <a href="https://app.unipile.com" target="_blank" rel="noreferrer">
                                         Reconectar Unipile <ExternalLink size={14} className="ml-2" />
                                     </a>
@@ -141,28 +140,28 @@ export function AccountSettings() {
             </section>
 
             {/* 2. CONFIGURAÇÕES DE REFRESH */}
-            <section className="bg-lf-s1 border border-lf-border rounded-lg p-8">
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="h-8 w-8 rounded-r-sm bg-lf-accent/20 flex items-center justify-center text-lf-accent">
-                        <RefreshCw size={16} />
+            <section className="bg-white border border-edge rounded-[var(--r-xl)] p-[22px_24px] shadow-sm">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="h-[30px] w-[30px] rounded-[var(--r-sm)] bg-brand/10 flex items-center justify-center text-brand">
+                        <RefreshCw size={20} />
                     </div>
-                    <h3 className="lf-subtitle lf-text">Automação de Atualização</h3>
+                    <h3 className="text-[14px] font-bold text-ink">Automação de Atualização</h3>
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 rounded-lg bg-lf-s2 border border-lf-border">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 rounded-lg bg-page border border-edge">
                     <div className="space-y-1">
-                        <Label className="lf-subtitle lf-text">Refresh do Feed Automático</Label>
-                        <p className="lf-caption text-lf-text3">Frequência ideal para capturar posts em tempo real.</p>
+                        <Label className="text-[14px] font-bold text-ink">Refresh do Feed Automático</Label>
+                        <p className="lf-caption text-ink-3">Frequência ideal para capturar posts em tempo real.</p>
                     </div>
                     <div className="w-full md:w-[200px]">
                         <Select
                             value={String(autoRefreshInterval)}
                             onValueChange={(val) => updateSettings({ autoRefreshInterval: Number(val) })}
                         >
-                            <SelectTrigger className="bg-lf-bg border-lf-border rounded-r-sm h-11 lf-body-sm text-lf-text2">
+                            <SelectTrigger className="bg-page border-edge rounded-r-sm h-11 lf-body-sm text-ink-2">
                                 <SelectValue placeholder="Selecione" />
                             </SelectTrigger>
-                            <SelectContent className="bg-lf-bg border-lf-border">
+                            <SelectContent className="bg-page border-edge">
                                 <SelectItem value="0">Desativado</SelectItem>
                                 <SelectItem value="5">A cada 5 min</SelectItem>
                                 <SelectItem value="10">A cada 10 min</SelectItem>
@@ -176,36 +175,37 @@ export function AccountSettings() {
             </section>
 
             {/* 3. WEBHOOK INFO */}
-            <section className="bg-lf-s1 border border-lf-border rounded-lg p-8">
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="h-8 w-8 rounded-r-sm bg-lf-accent/20 flex items-center justify-center text-lf-accent">
-                        <Settings2 size={16} />
+            <section className="bg-white border border-edge rounded-[var(--r-xl)] p-[22px_24px] shadow-sm">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="h-[30px] w-[30px] rounded-[var(--r-sm)] bg-brand/10 flex items-center justify-center text-brand">
+                        <Settings2 size={20} />
                     </div>
-                    <h3 className="lf-subtitle lf-text">Webhooks em Tempo Real</h3>
+                    <h3 className="text-[14px] font-bold text-ink">Webhooks em Tempo Real</h3>
                 </div>
 
-                <div className="bg-lf-s2 rounded-lg border border-lf-border p-6">
-                    <p className="lf-body-sm text-lf-text2 mb-6">
+                <div className="bg-page rounded-lg border border-edge p-6">
+                    <p className="lf-body-sm text-ink-2 mb-6">
                         Configure esta URL no Unipile para receber notificações instantâneas e comentar primeiro em todos os posts relevantes.
                     </p>
 
-                    <div className="flex items-center gap-2">
-                        <div className="flex-1 h-12 bg-lf-bg border border-lf-border rounded-r-sm px-4 flex items-center font-mono lf-caption text-lf-accent overflow-hidden select-all bg-opacity-50">
+                    <div className="flex items-center gap-3">
+                        <div className="flex-1 h-14 bg-page border border-edge rounded-xl px-4 flex items-center font-mono text-sm text-primary overflow-hidden select-all bg-opacity-50">
                             {webhookUrl}
                         </div>
                         <Button
                             onClick={handleCopyWebhook}
-                            className="h-12 w-12 bg-lf-accent hover:bg-lf-accent2 text-white rounded-r-sm shadow-lf-accent border-none p-0 flex items-center justify-center"
+                            variant="accent"
+                            size="icon-lg"
                         >
-                            <Copy size={16} />
+                            <Copy size={18} />
                         </Button>
                     </div>
 
-                    <div className="mt-8 flex items-start gap-4 p-5 rounded-lg bg-lf-accent/5 border border-lf-accent/20">
-                        <Lock className="text-lf-accent mt-1" size={16} />
+                    <div className="mt-8 flex items-start gap-4 p-5 rounded-lg bg-brand/5 border border-brand/20">
+                        <Lock className="text-brand mt-1" size={16} />
                         <div>
-                            <p className="lf-body-sm lf-text font-bold mb-1">Segurança e Eficiência</p>
-                            <p className="lf-caption text-lf-text3 leading-relaxed">
+                            <p className="text-[13px] text-ink font-bold mb-1">Segurança e Eficiência</p>
+                            <p className="lf-caption text-ink-3 leading-relaxed">
                                 Webhooks eliminam a necessidade de polling constante, economizando recursos e garantindo a maior velocidade de publicação.
                             </p>
                         </div>

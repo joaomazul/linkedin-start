@@ -7,12 +7,12 @@ interface FeedStateProps {
 
 export function EmptyFeedState({ title, message }: FeedStateProps) {
     return (
-        <div className="flex flex-col items-center justify-center p-16 text-center rounded-lg border border-dashed border-lf-border bg-lf-s1/40 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-500">
-            <div className="h-14 w-14 rounded-r-sm bg-lf-s2 border border-lf-border flex items-center justify-center text-lf-text4 mb-5 shadow-inner">
-                <SearchX size={24} />
+        <div className="flex flex-col items-center justify-center p-14 text-center gap-3 border-2 border-dashed border-edge rounded-[var(--r-xl)]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-[var(--r-lg)] bg-page mb-1">
+                <SearchX size={24} className="text-ink-4" />
             </div>
-            <h3 className="lf-subtitle lf-text text-lg">{title}</h3>
-            <p className="lf-body-sm text-lf-text3 mt-2 max-w-[320px] leading-relaxed">
+            <h3 className="text-[16px] font-bold text-ink">{title}</h3>
+            <p className="text-[13px] text-ink-4 max-w-[320px] leading-[1.65]">
                 {message}
             </p>
         </div>
@@ -21,12 +21,12 @@ export function EmptyFeedState({ title, message }: FeedStateProps) {
 
 export function ErrorState({ title = "Ops! Algo deu errado", message }: FeedStateProps) {
     return (
-        <div className="flex flex-col items-center justify-center p-16 text-center rounded-lg border border-red-500/10 bg-red-500/5 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-500">
-            <div className="h-14 w-14 rounded-r-sm bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-5">
-                <AlertCircle size={24} />
+        <div className="flex flex-col items-center justify-center p-14 text-center gap-3 border-2 border-dashed border-danger-border rounded-[var(--r-xl)] bg-danger-bg">
+            <div className="flex h-14 w-14 items-center justify-center rounded-[var(--r-lg)] bg-white mb-1">
+                <AlertCircle size={24} className="text-danger-text" />
             </div>
-            <h3 className="lf-subtitle text-red-200 text-lg">{title}</h3>
-            <p className="lf-body-sm text-red-400/80 mt-2 max-w-[320px] leading-relaxed">
+            <h3 className="text-[16px] font-bold text-danger-text">{title}</h3>
+            <p className="text-[13px] text-danger-text/70 max-w-[320px] leading-[1.65]">
                 {message || "Ocorreu um erro técnico ao processar sua solicitação. Verifique sua conexão ou tente novamente."}
             </p>
         </div>

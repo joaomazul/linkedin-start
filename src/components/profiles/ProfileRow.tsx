@@ -38,7 +38,7 @@ export const ProfileRow = React.memo(function ProfileRow({ profileId }: ProfileR
         <div
             className={cn(
                 "group relative h-[44px] flex items-center px-3 gap-[8px] transition-all duration-[var(--t-fast)] cursor-pointer",
-                "hover:bg-lf-s3",
+                "hover:bg-hover",
                 !profile.active && "opacity-60 grayscale-[0.5]"
             )}
             onClick={handleToggle}
@@ -68,10 +68,10 @@ export const ProfileRow = React.memo(function ProfileRow({ profileId }: ProfileR
 
             {/* Conteúdo */}
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-                <h4 className="truncate lf-subtitle lf-text leading-tight">
+                <h4 className="truncate text-[14px] font-bold text-ink leading-tight">
                     {profile.name}
                 </h4>
-                <p className="truncate lf-caption lf-text3">
+                <p className="truncate text-[11px] text-ink-3">
                     {profile.role || 'Perfis LinkedIn'}
                 </p>
             </div>
@@ -84,7 +84,7 @@ export const ProfileRow = React.memo(function ProfileRow({ profileId }: ProfileR
                 <Switch
                     checked={profile.active}
                     onCheckedChange={handleToggle}
-                    className="data-[state=checked]:bg-lf-accent data-[state=unchecked]:bg-lf-s4 data-[state=unchecked]:border data-[state=unchecked]:border-lf-border w-[28px] h-[16px] scale-100"
+                    className="data-[state=checked]:bg-brand data-[state=unchecked]:bg-hover data-[state=unchecked]:border data-[state=unchecked]:border-edge w-[28px] h-[16px] scale-100"
                     thumbClassName="w-[12px] h-[12px] data-[state=checked]:translate-x-[13px] data-[state=unchecked]:translate-x-[1px]"
                     aria-label={`Ativar monitoramento de ${profile.name}`}
                 />

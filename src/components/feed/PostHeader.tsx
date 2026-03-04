@@ -26,26 +26,25 @@ export function PostHeader({
             <div className="flex items-center gap-3">
                 {/* Avatar */}
                 <div
-                    className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-md lf-subtitle font-bold"
+                    className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-[13px] font-bold"
                     style={{
-                        backgroundColor: `${authorColor}26`,
+                        backgroundColor: `${authorColor}15`,
                         color: authorColor,
-                        border: `1px solid ${authorColor}40`
                     }}
                 >
                     {authorInitials}
                 </div>
 
                 <div className="flex flex-col min-w-0">
-                    <h3 className="lf-subtitle lf-text leading-tight truncate">
+                    <h3 className="text-[14px] font-bold text-ink leading-tight truncate">
                         {authorName}
                     </h3>
-                    <div className="flex items-center gap-1.5 mt-0.5">
-                        <span className="lf-caption text-lf-text3 truncate max-w-[200px]">
+                    <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[11px] text-ink-3 truncate max-w-[200px]">
                             {authorRole}
                         </span>
-                        <span className="h-1 w-1 rounded-full bg-lf-text4 opacity-40" />
-                        <span className="lf-caption text-lf-text4">
+                        <span className="h-1 w-1 rounded-full bg-edge" />
+                        <span className="text-[11px] text-ink-4">
                             {formatRelativeTime(postedAt)}
                         </span>
                     </div>
@@ -58,15 +57,15 @@ export function PostHeader({
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-lf-border bg-lf-s2 text-lf-text3 hover:text-lf-accent hover:border-lf-accent/40 transition-colors"
+                        className="flex items-center gap-2 bg-page rounded-full border-none px-3 py-1.5 text-[11px] font-semibold text-ink-3 hover:bg-ink hover:text-white transition-all"
                         title="Ver no LinkedIn"
                     >
-                        <span className="lf-caption font-bold">Abrir Post</span>
-                        <ExternalLink size={14} />
+                        Abrir Post
+                        <ExternalLink size={12} />
                     </a>
                 )}
-                <button className="p-2 rounded-md text-lf-text3 hover:text-lf-text2 hover:bg-lf-s3 transition-colors">
-                    <MoreHorizontal size={16} />
+                <button className="h-7 w-7 rounded-[var(--r-sm)] bg-page text-ink-4 hover:bg-ink hover:text-white flex items-center justify-center transition-all">
+                    <MoreHorizontal size={14} />
                 </button>
             </div>
         </div>

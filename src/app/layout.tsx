@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { Urbanist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,16 +7,10 @@ import { Toaster } from "sonner";
 import { ClerkProvider } from '@clerk/nextjs'
 // import { dark } from '@clerk/themes'
 
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const urbanist = Urbanist({
+  variable: "--font-urbanist",
   subsets: ["latin"],
-  weight: ["700", "800"],
-});
-
-const instrument = Instrument_Sans({
-  variable: "--font-instrument",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -39,8 +33,9 @@ export default function RootLayout({
     <ClerkProvider
       appearance={{
         variables: {
-          colorPrimary: '#5b6ef5',
+          colorPrimary: '#3760D6',
           borderRadius: '0.75rem',
+          fontFamily: urbanist.style.fontFamily,
         },
       }}
       signInFallbackRedirectUrl={process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}
@@ -48,7 +43,7 @@ export default function RootLayout({
     >
       <html lang="pt-BR">
         <body
-          className={`${bricolage.variable} ${instrument.variable} font-instrument bg-lf-bg text-lf-text antialiased`}
+          className={`${urbanist.variable} font-sans bg-page text-ink antialiased`}
         >
           <TooltipProvider>
             <Providers>

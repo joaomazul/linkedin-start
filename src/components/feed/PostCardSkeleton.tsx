@@ -5,25 +5,25 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export function PostCardSkeleton() {
     return (
-        <div className="rounded-[20px] border border-lf-border bg-lf-s2 p-6 space-y-5 mb-5 overflow-hidden">
+        <div className="rounded-[var(--r-xl)] border border-edge bg-white p-[22px_24px] space-y-5 mb-6 overflow-hidden shadow-sm">
             <div className="flex items-center gap-3">
-                <Skeleton className="h-[36px] w-[36px] rounded-md bg-lf-s3" />
+                <Skeleton className="h-[38px] w-[38px] rounded-full bg-hover" />
                 <div className="space-y-2">
-                    <Skeleton className="h-4 w-[140px] bg-lf-s3" />
-                    <Skeleton className="h-3 w-[100px] bg-lf-s3" />
+                    <Skeleton className="h-4 w-[140px] bg-hover" />
+                    <Skeleton className="h-3 w-[100px] bg-hover" />
                 </div>
             </div>
 
             <div className="space-y-3">
-                <Skeleton className="h-4 w-full bg-lf-s3" />
-                <Skeleton className="h-4 w-full bg-lf-s3" />
-                <Skeleton className="h-4 w-2/3 bg-lf-s3" />
+                <Skeleton className="h-4 w-full bg-hover" />
+                <Skeleton className="h-4 w-full bg-hover" />
+                <Skeleton className="h-4 w-2/3 bg-hover" />
             </div>
 
-            <div className="flex gap-5 pt-3 border-t border-lf-border/30">
-                <Skeleton className="h-3 w-12 bg-lf-s3" />
-                <Skeleton className="h-3 w-12 bg-lf-s3" />
-                <Skeleton className="h-3 w-12 bg-lf-s3" />
+            <div className="flex gap-5 pt-3 border-t border-edge/30">
+                <Skeleton className="h-3 w-12 bg-hover" />
+                <Skeleton className="h-3 w-12 bg-hover" />
+                <Skeleton className="h-3 w-12 bg-hover" />
             </div>
         </div>
     )

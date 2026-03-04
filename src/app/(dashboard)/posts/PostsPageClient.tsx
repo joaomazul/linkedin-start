@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react'
 
-import { Plus, LayoutList, CheckCircle, FileText, MoreHorizontal, Pencil, Rocket, Trash } from 'lucide-react'
+import { Plus, LayoutList, CheckCircle, FileText, Pencil, Rocket } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/ui/page-header'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Skeleton } from '@/components/ui/skeleton'
 import { toast } from 'sonner'
@@ -38,18 +38,14 @@ export default function PostsPage() {
     }, [activeTab])
 
     return (
-        <div className="p-8 max-w-7xl mx-auto space-y-8">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Post Intelligence</h1>
-                    <p className="text-muted-foreground mt-1">Crie posts virais otimizados para o seu perfil do LinkedIn.</p>
-                </div>
-                <Button asChild className="gap-2">
+        <div className="flex flex-col gap-6 py-6">
+            <PageHeader title="Post Intelligence" subtitle="Crie posts virais otimizados para o seu perfil do LinkedIn.">
+                <Button asChild variant="accent" className="gap-2">
                     <Link href="/posts/new">
                         <Plus className="w-4 h-4" /> Novo Post
                     </Link>
                 </Button>
-            </div>
+            </PageHeader>
 
             <Tabs defaultValue="draft" onValueChange={setActiveTab}>
                 <div className="flex items-center justify-between mb-4">
@@ -77,9 +73,9 @@ export default function PostsPage() {
 function PostsGrid({ posts, loading }: { posts: any[], loading: boolean }) {
     if (loading) {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className="h-64 w-full rounded-xl" />
+                    <Skeleton key={i} className="h-64 w-full rounded-[var(--r-xl)]" />
                 ))}
             </div>
         )
@@ -87,23 +83,23 @@ function PostsGrid({ posts, loading }: { posts: any[], loading: boolean }) {
 
     if (posts.length === 0) {
         return (
-            <Card className="flex flex-col items-center justify-center p-12 text-center border-dashed">
-                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
-                    <LayoutList className="w-8 h-8 text-muted-foreground" />
+            <div className="flex flex-col items-center justify-center p-14 text-center gap-3 border-2 border-dashed border-edge rounded-[var(--r-xl)]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-[var(--r-lg)] bg-page mb-1">
+                    <LayoutList className="h-6 w-6 text-ink-4" />
                 </div>
-                <h3 className="text-xl font-semibold">Nenhum post encontrado</h3>
-                <p className="text-muted-foreground max-w-sm mt-2">Você ainda não tem posts nesta categoria. Comece criando um novo post!</p>
-                <Button asChild variant="outline" className="mt-6">
+                <h3 className="text-[16px] font-bold text-ink">Nenhum post encontrado</h3>
+                <p className="text-[13px] text-ink-4 max-w-[320px] leading-[1.65]">Você ainda não tem posts nesta categoria. Comece criando um novo post!</p>
+                <Button asChild variant="outline" className="mt-2">
                     <Link href="/posts/new">Criar meu primeiro post</Link>
                 </Button>
-            </Card>
+            </div>
         )
     }
 
     const sortedPosts = [...posts].sort((a, b) => (b.scoreOverall || 0) - (a.scoreOverall || 0))
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {sortedPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
             ))}
@@ -112,46 +108,46 @@ function PostsGrid({ posts, loading }: { posts: any[], loading: boolean }) {
 }
 
 function PostCard({ post }: { post: any }) {
-    const scoreColor = post.scoreOverall >= 80 ? 'text-green-500' : post.scoreOverall >= 60 ? 'text-yellow-500' : 'text-red-500'
+    const scoreColor = post.scoreOverall >= 80 ? 'text-success-text' : post.scoreOverall >= 60 ? 'text-warn-text' : 'text-danger-text'
 
     return (
-        <Card className="flex flex-col h-full hover:shadow-lg transition-shadow overflow-hidden border-border/50">
-            <div className="p-6 flex-1 flex flex-col space-y-4">
+        <div className="bg-white border border-edge rounded-[var(--r-xl)] flex flex-col h-full hover:shadow-md transition-all duration-[var(--t-base)] hover:-translate-y-[2px] overflow-hidden">
+            <div className="p-5 flex-1 flex flex-col space-y-4">
                 <div className="flex justify-between items-start">
                     <Badge variant="outline" className="capitalize">{post.format || 'Post'}</Badge>
                     {post.scoreOverall && (
-                        <div className={`text-sm font-bold ${scoreColor}`}>
+                        <div className={`text-[13px] font-bold ${scoreColor}`}>
                             Score: {post.scoreOverall}
                         </div>
                     )}
                 </div>
 
-                <p className="text-sm line-clamp-4 text-muted-foreground flex-1">
+                <p className="text-[13px] line-clamp-4 text-ink-3 flex-1">
                     {post.body}
                 </p>
 
-                <div className="text-[10px] text-muted-foreground flex items-center gap-2 flex-wrap">
+                <div className="text-[10px] text-ink-4 flex items-center gap-2 flex-wrap">
                     <span>{format(new Date(post.createdAt), "dd MMM", { locale: ptBR })}</span>
                     <span>•</span>
                     <span>{post.body?.length || 0} chars</span>
                     {post.status === 'published' && (
-                        <Badge variant="secondary" className="h-4 text-[9px] bg-emerald-100 text-emerald-700 border-emerald-200">Publicado</Badge>
+                        <Badge variant="success" dot className="h-4 text-[9px]">Publicado</Badge>
                     )}
                 </div>
             </div>
 
-            <div className="p-4 border-t bg-muted/30 flex justify-between items-center gap-2">
-                <Button asChild variant="ghost" size="sm" className="flex-1 gap-2">
+            <div className="px-5 py-3 border-t border-edge bg-page flex justify-between items-center gap-2">
+                <Button asChild variant="ghost" size="xs" className="flex-1 gap-1.5">
                     <Link href={`/posts/${post.id}`}>
                         <Pencil className="w-3 h-3" /> Editar
                     </Link>
                 </Button>
                 {post.status === 'draft' && (
-                    <Button variant="ghost" size="sm" className="flex-1 gap-2 text-primary hover:text-primary">
+                    <Button variant="ghost" size="xs" className="flex-1 gap-1.5 text-brand hover:text-brand">
                         <Rocket className="w-3 h-3" /> Publicar
                     </Button>
                 )}
             </div>
-        </Card>
+        </div>
     )
 }

@@ -1,9 +1,6 @@
 "use client";
 
-"use client";
-
 import * as React from "react"
-
 
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
@@ -11,19 +8,25 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+  "inline-flex items-center justify-center rounded-full border border-transparent px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow] overflow-hidden",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        secondary:
-          "bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        destructive:
-          "bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-        ghost: "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 [a&]:hover:underline",
+        default: "bg-primary text-primary-foreground",
+        lime: "bg-success-bg text-success-text",
+        blue: "bg-brand-light text-brand",
+        dark: "bg-ink text-white",
+        grey: "bg-page text-ink-3",
+        success: "bg-success-bg text-success-text",
+        warn: "bg-warn-bg text-warn-text",
+        danger: "bg-danger-bg text-danger-text",
+        pro: "bg-ink text-lime",
+        live: "bg-[#e6fdf0] text-[#22a24d]",
+        secondary: "bg-hover text-ink-2",
+        destructive: "bg-destructive text-white",
+        outline: "border-edge text-ink-3",
+        ghost: "hover:bg-hover hover:text-ink",
+        link: "text-primary underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {
@@ -36,9 +39,11 @@ function Badge({
   className,
   variant = "default",
   asChild = false,
+  dot = false,
+  children,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+  VariantProps<typeof badgeVariants> & { asChild?: boolean; dot?: boolean }) {
   const Comp = asChild ? Slot.Root : "span"
 
   return (
@@ -47,7 +52,19 @@ function Badge({
       data-variant={variant}
       className={cn(badgeVariants({ variant }), className)}
       {...props}
-    />
+    >
+      {dot && (
+        <span className={cn(
+          "h-1.5 w-1.5 rounded-full shrink-0",
+          variant === "live" && "bg-[#22a24d] animate-[badge-dot-pulse_2s_ease-in-out_infinite]",
+          variant === "success" && "bg-success-text",
+          variant === "danger" && "bg-danger-text",
+          variant === "warn" && "bg-warn-text",
+          !["live", "success", "danger", "warn"].includes(variant || "") && "bg-current"
+        )} />
+      )}
+      {children}
+    </Comp>
   )
 }
 

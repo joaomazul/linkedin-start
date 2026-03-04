@@ -31,36 +31,36 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
             <div
                 className={cn(
                     "group flex h-[40px] items-center px-3 gap-2 cursor-pointer transition-colors",
-                    "hover:bg-lf-s2"
+                    "hover:bg-page"
                 )}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div className="text-lf-text3">
+                <div className="text-ink-3">
                     {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                 </div>
 
                 <div
                     className="flex h-6 w-6 items-center justify-center rounded-md"
-                    style={{ backgroundColor: `${group.color}20`, color: group.color || 'var(--lf-accent)' }}
+                    style={{ backgroundColor: `${group.color}20`, color: group.color || 'var(--blue)' }}
                 >
                     {isOpen ? <FolderOpen size={14} /> : <Folder size={14} />}
                 </div>
 
                 <Link
                     href={`/settings/groups/${group.id}`}
-                    className="flex-1 truncate lf-subtitle lf-text hover:text-lf-accent transition-colors"
+                    className="flex-1 truncate text-[14px] font-bold text-ink hover:text-brand transition-colors"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {group.name}
                 </Link>
 
-                <span className="lf-caption text-lf-text4 px-1.5 py-0.5 rounded-full bg-lf-s2">
+                <span className="lf-caption text-ink-4 px-1.5 py-0.5 rounded-full bg-page">
                     {profiles.length}
                 </span>
 
                 <div className="flex items-center gap-1.5 ml-1">
                     <button
-                        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-lf-accent/10 rounded text-lf-accent transition-all"
+                        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-brand/10 rounded text-brand transition-all"
                         onClick={(e) => {
                             e.stopPropagation()
                             const event = new CustomEvent('open-add-profile', {
@@ -89,14 +89,14 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                                     toast.error('Erro ao sincronizar status do grupo')
                                 }
                             }}
-                            className="bg-lf-s3 data-[state=checked]:bg-lf-accent scale-75"
+                            className="bg-hover data-[state=checked]:bg-brand scale-75"
                         />
                     </div>
                 </div>
 
                 <Link
                     href={`/settings/groups/${group.id}`}
-                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-lf-s3 rounded text-lf-text3"
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-hover rounded text-ink-3"
                     onClick={(e) => e.stopPropagation()}
                     title="Gerenciar Leads"
                 >
@@ -106,10 +106,10 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
 
             {/* Profiles inside group */}
             {isOpen && (
-                <div className="flex flex-col pl-4 border-l border-lf-border/50 ml-6 mt-1 mb-2">
+                <div className="flex flex-col pl-4 border-l border-edge/50 ml-6 mt-1 mb-2">
                     {profiles.length === 0 ? (
                         <div className="py-2 px-3">
-                            <p className="lf-caption text-lf-text4 italic">Vazio</p>
+                            <p className="lf-caption text-ink-4 italic">Vazio</p>
                         </div>
                     ) : (
                         profiles.map((p) => (

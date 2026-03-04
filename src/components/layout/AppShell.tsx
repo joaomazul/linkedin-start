@@ -91,7 +91,7 @@ export function AppShell({ children, title, showRightPanel = false }: AppShellPr
     }, [setLinkedinAccount, setSettings, updatePersona, updateCommentStyle, setProfiles])
 
     return (
-        <div className="flex h-screen overflow-hidden bg-lf-bg">
+        <div className="flex h-screen overflow-hidden bg-page">
             {/* Mobile Sidebar Overlay */}
             <AnimatePresence>
                 {isSidebarOpen && (
@@ -107,7 +107,7 @@ export function AppShell({ children, title, showRightPanel = false }: AppShellPr
 
             {/* Sidebar Container */}
             <div className={cn(
-                "fixed inset-y-0 left-0 z-[70] transition-transform duration-300 transform lg:relative lg:translate-x-0 w-[264px] shrink-0 h-full",
+                "fixed inset-y-0 left-0 z-[70] transition-transform duration-300 transform lg:relative lg:translate-x-0 w-[72px] shrink-0 h-full",
                 isSidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 <Sidebar />
@@ -118,9 +118,9 @@ export function AppShell({ children, title, showRightPanel = false }: AppShellPr
                     title={title}
                     onMenuClick={() => setIsSidebarOpen(true)}
                 />
-                <main className="flex-1 overflow-y-auto custom-scrollbar">
+                <main className="flex-1 overflow-y-auto custom-scrollbar bg-page">
                     <AccountStatusBanner />
-                    <div className="relative pb-20 lg:pb-0 px-4 md:px-0">
+                    <div className="relative pb-10 px-8 max-w-[var(--content-max)] mx-auto w-full page-enter">
                         {children}
                     </div>
                 </main>
