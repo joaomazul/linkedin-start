@@ -11,27 +11,27 @@ interface PostStatsProps {
 
 export function PostStats({ metrics }: PostStatsProps) {
     return (
-        <div className="flex items-center gap-6 mt-6 border-t border-edge/50 pt-5">
+        <div className="flex items-center gap-5 mt-6 border-t border-edge/50 pt-5">
             <StatItem
-                icon={<ThumbsUp size={12} />}
+                icon={<ThumbsUp size={15} />}
                 value={metrics.likes}
-                label="Likes"
+                label="likes"
             />
             <StatItem
-                icon={<MessageCircle size={12} />}
+                icon={<MessageCircle size={15} />}
                 value={metrics.comments}
-                label="Comments"
+                label="comments"
             />
             <StatItem
-                icon={<Repeat2 size={12} />}
+                icon={<Repeat2 size={15} />}
                 value={metrics.reposts}
-                label="Reposts"
+                label="reposts"
             />
             {metrics.views !== undefined && (
                 <StatItem
-                    icon={<Eye size={12} />}
+                    icon={<Eye size={15} />}
                     value={metrics.views}
-                    label="Views"
+                    label="views"
                 />
             )}
         </div>
@@ -40,12 +40,15 @@ export function PostStats({ metrics }: PostStatsProps) {
 
 function StatItem({ icon, value, label }: { icon: React.ReactNode, value: number, label: string }) {
     return (
-        <div className="flex items-center gap-1.5 text-ink-4 group/stat transition-all hover:text-ink cursor-default" title={label}>
-            <span className="group-hover/stat:scale-110 transition-transform [&_svg]:size-[13px] [&_svg]:stroke-[1.8]">
+        <div className="flex items-center gap-2 text-ink-4 group/stat transition-all hover:text-ink cursor-default">
+            <span className="group-hover/stat:scale-110 transition-transform [&_svg]:stroke-[1.8]">
                 {icon}
             </span>
-            <span className="text-[12px] font-semibold group-hover/stat:text-ink transition-colors">
+            <span className="text-[13px] font-bold text-ink group-hover/stat:text-ink transition-colors">
                 {formatNumber(value)}
+            </span>
+            <span className="text-[11px] text-ink-4">
+                {label}
             </span>
         </div>
     )

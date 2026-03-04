@@ -3,7 +3,6 @@
 import React from 'react'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
-import { RightPanel } from './RightPanel'
 import { LeftPanel } from './LeftPanel'
 import { usePathname } from 'next/navigation'
 import { AccountStatusBanner } from '@/components/unipile/AccountStatusBanner'
@@ -16,10 +15,9 @@ import { useProfilesStore } from '@/store/profiles.store'
 interface AppShellProps {
     children: React.ReactNode
     title: string
-    showRightPanel?: boolean
 }
 
-export function AppShell({ children, title, showRightPanel = false }: AppShellProps) {
+export function AppShell({ children, title }: AppShellProps) {
     const pathname = usePathname()
     const isFeed = pathname === '/feed'
     const [isSidebarOpen, setIsSidebarOpen] = React.useState(false)
@@ -114,13 +112,7 @@ export function AppShell({ children, title, showRightPanel = false }: AppShellPr
                 <Sidebar />
             </div>
 
-            {/* Left Panel - Profile management (Feed only) */}
-            {isFeed && (
-                <div className="hidden lg:block h-full shrink-0">
-                    <LeftPanel />
-                </div>
-            )}
-
+            {/* Main Content Area — now wider without left panel */}
             <div className="flex flex-1 flex-col overflow-hidden relative">
                 <Topbar
                     title={title}
@@ -128,16 +120,18 @@ export function AppShell({ children, title, showRightPanel = false }: AppShellPr
                 />
                 <main className="flex-1 overflow-y-auto custom-scrollbar bg-page">
                     <AccountStatusBanner />
-                    <div className="relative pb-10 px-8 max-w-[var(--content-max)] mx-auto w-full page-enter">
+                    <div className="relative pb-10 px-5 max-w-[var(--content-max)] mx-auto w-full page-enter">
                         {children}
                     </div>
                 </main>
             </div>
 
-            {/* Right Panel - Hidden on Mobile */}
-            <div className="hidden xl:block h-full">
-                {(showRightPanel || isFeed) && <RightPanel />}
-            </div>
+            {/* Right Panel — Organization (Feed only) */}
+            {isFeed && (
+                <div className="hidden lg:block h-full shrink-0">
+                    <LeftPanel />
+                </div>
+            )}
         </div>
     )
 }

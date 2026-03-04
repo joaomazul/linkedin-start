@@ -6,7 +6,7 @@ import { FeedContainer } from '@/components/feed/FeedContainer'
 
 export default function FeedPage() {
     return (
-        <AppShell title="Feed" showRightPanel={true}>
+        <AppShell title="Feed">
             <FeedContainer />
         </AppShell>
     )

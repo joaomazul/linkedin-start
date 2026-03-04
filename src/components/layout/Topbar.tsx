@@ -1,5 +1,9 @@
+"use client";
+
 import React from 'react'
 import { RefreshCw, Menu, Zap } from 'lucide-react'
+import { useFeedStore } from '@/store/feed.store'
+import { formatRelativeTime } from '@/lib/utils/format'
 
 interface TopbarProps {
     title: string
@@ -9,6 +13,8 @@ interface TopbarProps {
 }
 
 export function Topbar({ title, children, onMenuClick }: TopbarProps) {
+    const lastRefreshedAt = useFeedStore((s) => s.lastRefreshedAt)
+
     return (
         <header className="h-[var(--topbar-height)] bg-white border-b border-edge flex items-center px-4 md:px-5 gap-3 shrink-0 grow-0 sticky top-0 z-50 shadow-xs">
             {/* Mobile menu */}
@@ -38,6 +44,16 @@ export function Topbar({ title, children, onMenuClick }: TopbarProps) {
 
             {/* Right actions */}
             <div className="ml-auto flex items-center gap-3">
+                {/* Last synced timestamp */}
+                <div className="hidden sm:flex items-center gap-1.5">
+                    <span className="text-[11px] text-ink-4">
+                        {lastRefreshedAt
+                            ? `Atualizado ${formatRelativeTime(lastRefreshedAt)}`
+                            : 'Nunca sincronizado'
+                        }
+                    </span>
+                </div>
+
                 {/* Credit pill */}
                 <div className="hidden sm:flex items-center gap-1.5 bg-page rounded-full px-3 py-1.5">
                     <Zap size={12} className="text-ink" />
@@ -46,11 +62,9 @@ export function Topbar({ title, children, onMenuClick }: TopbarProps) {
                     </span>
                 </div>
 
-                {/* Refresh button with auto-refresh indicator */}
+                {/* Refresh button */}
                 <button className="relative h-8 w-8 rounded-[10px] bg-page text-ink-3 flex items-center justify-center hover:bg-ink hover:text-white transition-all duration-[var(--t-base)] group">
                     <RefreshCw size={14} className="group-hover:rotate-180 transition-transform duration-500" />
-                    {/* Green dot: auto-refresh is active */}
-                    <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-success-text animate-pulse" />
                 </button>
             </div>
         </header>

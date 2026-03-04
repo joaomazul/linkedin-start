@@ -8,7 +8,7 @@ import { PersonaEditor } from '@/components/settings/PersonaEditor'
 
 export default function PersonaPage() {
     return (
-        <AppShell title="Meu Perfil IA" showRightPanel={false}>
+        <AppShell title="Meu Perfil IA">
             <PersonaEditor />
         </AppShell>
     )

@@ -30,8 +30,9 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
             {/* Group Header */}
             <div
                 className={cn(
-                    "group flex h-[40px] items-center px-3 gap-2 cursor-pointer transition-colors",
-                    "hover:bg-page"
+                    "group flex h-[44px] items-center px-3 gap-2 cursor-pointer transition-colors",
+                    "hover:bg-page",
+                    isOpen && "bg-page/50"
                 )}
                 onClick={() => setIsOpen(!isOpen)}
             >
@@ -40,25 +41,28 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                 </div>
 
                 <div
-                    className="flex h-6 w-6 items-center justify-center rounded-md"
+                    className="flex h-7 w-7 items-center justify-center rounded-[var(--r-sm)]"
                     style={{ backgroundColor: `${group.color}20`, color: group.color || 'var(--blue)' }}
                 >
-                    {isOpen ? <FolderOpen size={14} /> : <Folder size={14} />}
+                    {isOpen ? <FolderOpen size={15} /> : <Folder size={15} />}
                 </div>
 
                 <Link
                     href={`/settings/groups/${group.id}`}
-                    className="flex-1 truncate text-[14px] font-bold text-ink hover:text-brand transition-colors"
+                    className="flex-1 truncate text-[13px] font-bold text-ink hover:text-brand transition-colors leading-tight"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {group.name}
                 </Link>
 
-                <span className="t-caption text-ink-4 px-1.5 py-0.5 rounded-full bg-page">
+                <span
+                    className="text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[22px] text-center"
+                    style={{ backgroundColor: `${group.color}15`, color: group.color || 'var(--ink-3)' }}
+                >
                     {profiles.length}
                 </span>
 
-                <div className="flex items-center gap-1.5 ml-1">
+                <div className="flex items-center gap-1 ml-0.5">
                     <button
                         className="opacity-0 group-hover:opacity-100 p-1 hover:bg-brand/10 rounded text-brand transition-all"
                         onClick={(e) => {
@@ -70,10 +74,10 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                         }}
                         title="Adicionar perfil ao grupo"
                     >
-                        <Plus size={14} />
+                        <Plus size={13} />
                     </button>
 
-                    <div onClick={(e) => e.stopPropagation()} className="px-1 flex items-center">
+                    <div onClick={(e) => e.stopPropagation()} className="flex items-center">
                         <Switch
                             checked={profiles.length > 0 && profiles.every(p => p.active)}
                             onCheckedChange={async (checked) => {
@@ -92,21 +96,24 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                             className="bg-hover data-[state=checked]:bg-brand scale-75"
                         />
                     </div>
-                </div>
 
-                <Link
-                    href={`/settings/groups/${group.id}`}
-                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-hover rounded text-ink-3"
-                    onClick={(e) => e.stopPropagation()}
-                    title="Gerenciar Leads"
-                >
-                    <MoreVertical size={14} />
-                </Link>
+                    <Link
+                        href={`/settings/groups/${group.id}`}
+                        className="opacity-0 group-hover:opacity-100 p-1 hover:bg-hover rounded text-ink-3"
+                        onClick={(e) => e.stopPropagation()}
+                        title="Gerenciar Leads"
+                    >
+                        <MoreVertical size={13} />
+                    </Link>
+                </div>
             </div>
 
             {/* Profiles inside group */}
             {isOpen && (
-                <div className="flex flex-col pl-4 border-l border-edge/50 ml-6 mt-1 mb-2">
+                <div
+                    className="flex flex-col pl-4 ml-6 mt-0.5 mb-2 border-l-2 rounded-bl"
+                    style={{ borderColor: `${group.color}30` }}
+                >
                     {profiles.length === 0 ? (
                         <div className="py-2 px-3">
                             <p className="t-caption text-ink-4 italic">Vazio</p>

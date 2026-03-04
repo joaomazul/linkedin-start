@@ -26,7 +26,7 @@ export function PostHeader({
             <div className="flex items-center gap-3">
                 {/* Avatar */}
                 <div
-                    className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-full text-[13px] font-bold"
+                    className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full text-[14px] font-bold"
                     style={{
                         backgroundColor: `${authorColor}15`,
                         color: authorColor,
@@ -36,7 +36,7 @@ export function PostHeader({
                 </div>
 
                 <div className="flex flex-col min-w-0">
-                    <h3 className="text-[14px] font-bold text-ink leading-tight truncate">
+                    <h3 className="text-[15px] font-bold text-ink leading-tight truncate">
                         {authorName}
                     </h3>
                     <div className="flex items-center gap-2 mt-0.5">

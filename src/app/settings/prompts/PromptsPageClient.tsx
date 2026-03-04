@@ -5,7 +5,7 @@ import { PromptsEditor } from '@/components/settings/PromptsEditor'
 
 export default function PromptsPage() {
     return (
-        <AppShell title="Configuração de Prompts" showRightPanel={false}>
+        <AppShell title="Configuração de Prompts">
             <PromptsEditor />
         </AppShell>
     )
