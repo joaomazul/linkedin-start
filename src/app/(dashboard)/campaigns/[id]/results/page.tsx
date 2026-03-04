@@ -73,7 +73,7 @@ export default function CampaignResultsPage() {
     if (!campaign) return (
         <div className="p-20 text-center flex flex-col items-center gap-4">
             <AlertCircle className="text-red-400" size={48} />
-            <h3 className="lf-title text-xl">Campanha não encontrada</h3>
+            <h3 className="t-title text-xl">Campanha não encontrada</h3>
             <button onClick={() => router.push('/campaigns')} className="text-brand underline">Voltar</button>
         </div>
     )
@@ -115,8 +115,8 @@ export default function CampaignResultsPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Status Card */}
                         <div className="lg:col-span-1 space-y-6">
-                            <div className="bg-white border border-edge rounded-2xl p-6 shadow-sm">
-                                <h4 className="lf-label text-xs mb-4">Status Atual</h4>
+                            <div className="bg-white border border-edge rounded-[var(--r-xl)] p-6 shadow-sm">
+                                <h4 className="t-label text-xs mb-4">Status Atual</h4>
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className={cn(
                                         "h-3 w-3 rounded-full animate-pulse",
@@ -141,8 +141,8 @@ export default function CampaignResultsPage() {
 
                         {/* Activity Log */}
                         <div className="lg:col-span-2">
-                            <div className="bg-white border border-edge rounded-2xl p-6 shadow-sm h-full flex flex-col">
-                                <h4 className="lf-label text-xs mb-6 flex items-center gap-2">
+                            <div className="bg-white border border-edge rounded-[var(--r-xl)] p-6 shadow-sm h-full flex flex-col">
+                                <h4 className="t-label text-xs mb-6 flex items-center gap-2">
                                     <Activity size={14} /> Log de Atividade
                                 </h4>
 
@@ -178,9 +178,9 @@ export default function CampaignResultsPage() {
 
 function StatCard({ icon, label, value, color }: { icon: any, label: string, value: any, color: string }) {
     return (
-        <div className="bg-white border border-edge rounded-2xl p-6 shadow-sm flex flex-col gap-1 transition-transform hover:-translate-y-1">
+        <div className="bg-white border border-edge rounded-[var(--r-xl)] p-6 shadow-sm flex flex-col gap-1 transition-transform hover:-translate-y-1">
             <div className={cn("mb-2", color)}>{icon}</div>
-            <span className="lf-label text-[10px] text-ink-4 uppercase tracking-wider">{label}</span>
+            <span className="t-label text-[10px] text-ink-4 uppercase tracking-wider">{label}</span>
             <span className={cn("text-2xl font-extrabold tracking-tight", color)}>{value}</span>
         </div>
     )

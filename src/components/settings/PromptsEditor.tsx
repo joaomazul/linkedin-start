@@ -96,7 +96,7 @@ function SortableStyleCard({
             toast.success('✓ Salvo', {
                 duration: 1500,
                 position: 'bottom-center',
-                className: 'lf-caption font-bold bg-page border-edge h-8'
+                className: 't-caption font-bold bg-page border-edge h-8'
             })
         }, 800)
     }
@@ -128,7 +128,7 @@ function SortableStyleCard({
                     type="text"
                     value={style.icon}
                     onChange={(e) => onUpdate({ icon: e.target.value.slice(0, 2) })}
-                    className="w-12 h-12 flex items-center justify-center bg-page border border-edge rounded-xl lf-title text-center focus:border-ink focus:ring-4 focus:ring-brand/5 outline-none transition-all"
+                    className="w-12 h-12 flex items-center justify-center bg-page border border-edge rounded-xl t-title text-center focus:border-ink focus:ring-4 focus:ring-brand/5 outline-none transition-all"
                 />
 
                 <div className="flex-1">
@@ -146,7 +146,7 @@ function SortableStyleCard({
                                     key="active"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    className="lf-label font-bold text-success-text flex items-center gap-1 uppercase tracking-wider"
+                                    className="t-label font-bold text-success-text flex items-center gap-1 uppercase tracking-wider"
                                 >
                                     <Check size={10} /> Active
                                 </motion.span>
@@ -155,7 +155,7 @@ function SortableStyleCard({
                                     key="inactive"
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    className="lf-label font-bold text-ink-4 uppercase tracking-wider"
+                                    className="t-label font-bold text-ink-4 uppercase tracking-wider"
                                 >
                                     Inactive
                                 </motion.span>
@@ -177,14 +177,14 @@ function SortableStyleCard({
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-white border-edge rounded-r-sm overflow-hidden min-w-[180px]">
-                            <DropdownMenuItem onClick={onReset} className="lf-body-sm gap-2.5 cursor-pointer hover:bg-page h-10 flex items-center px-4">
+                            <DropdownMenuItem onClick={onReset} className="t-body-sm gap-2.5 cursor-pointer hover:bg-page h-10 flex items-center px-4">
                                 <RotateCcw size={14} className="text-brand" /> Restaurar Padrão
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={onDuplicate} className="lf-body-sm gap-2.5 cursor-pointer hover:bg-page h-10 flex items-center px-4">
+                            <DropdownMenuItem onClick={onDuplicate} className="t-body-sm gap-2.5 cursor-pointer hover:bg-page h-10 flex items-center px-4">
                                 <Copy size={14} className="text-brand" /> Duplicar Estilo
                             </DropdownMenuItem>
                             <div className="h-px bg-edge my-1" />
-                            <DropdownMenuItem onClick={onDelete} className="lf-body-sm gap-2.5 cursor-pointer text-red-400 hover:bg-red-500/10 focus:text-red-400 h-10 flex items-center px-4">
+                            <DropdownMenuItem onClick={onDelete} className="t-body-sm gap-2.5 cursor-pointer text-red-400 hover:bg-red-500/10 focus:text-red-400 h-10 flex items-center px-4">
                                 <Trash2 size={14} /> Excluir Estilo
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -195,21 +195,21 @@ function SortableStyleCard({
             {/* Box do Prompt */}
             <div className="space-y-2">
                 <div className="flex items-center justify-between px-1">
-                    <label className="lf-label font-bold text-ink-4 uppercase tracking-widest px-1 border-l border-brand/40">
+                    <label className="t-label font-bold text-ink-4 uppercase tracking-widest px-1 border-l border-brand/40">
                         Technical Prompt Integration
                     </label>
                     {isSaving && (
-                        <span className="lf-label text-brand animate-pulse font-bold uppercase tracking-widest">Sinc</span>
+                        <span className="t-label text-brand animate-pulse font-bold uppercase tracking-widest">Sinc</span>
                     )}
                 </div>
                 <div className="relative group">
                     <Textarea
                         value={prompt}
                         onChange={(e) => handlePromptChange(e.target.value)}
-                        className="bg-page border border-edge rounded-xl p-5 lf-body-sm text-primary font-mono leading-relaxed min-h-[160px] focus:border-ink/50 focus:ring-4 focus:ring-brand/5 resize-none transition-all custom-scrollbar"
+                        className="bg-page border border-edge rounded-xl p-5 t-body-sm text-primary font-mono leading-relaxed min-h-[160px] focus:border-ink/50 focus:ring-4 focus:ring-brand/5 resize-none transition-all custom-scrollbar"
                         placeholder="Ex: Escreva uma resposta técnica e analítica..."
                     />
-                    <div className="absolute bottom-4 right-4 lf-label font-bold text-ink-4 bg-white/80 px-2 py-1 rounded-lg backdrop-blur-sm border border-edge/50">
+                    <div className="absolute bottom-4 right-4 t-label font-bold text-ink-4 bg-white/80 px-2 py-1 rounded-lg backdrop-blur-sm border border-edge/50">
                         {tokens} tk
                     </div>
                 </div>
@@ -218,20 +218,20 @@ function SortableStyleCard({
             {/* Footer Info */}
             <div className="mt-5 pt-4 border-t border-edge/40 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex-1 min-w-[200px]">
-                    <label className="lf-label text-ink-4 uppercase font-bold block mb-1">Contexto Curto</label>
+                    <label className="t-label text-ink-4 uppercase font-bold block mb-1">Contexto Curto</label>
                     <input
                         type="text"
                         value={style.description}
                         onChange={(e) => onUpdate({ description: e.target.value })}
                         placeholder="Ex: Ideal para celebrar vitórias"
-                        className="bg-transparent border-none lf-body-sm text-ink-2 placeholder:text-ink-4 w-full outline-none focus:text-ink"
+                        className="bg-transparent border-none t-body-sm text-ink-2 placeholder:text-ink-4 w-full outline-none focus:text-ink"
                     />
                 </div>
                 <div className="flex items-center gap-2.5 px-3.5 py-1.5 bg-page border border-edge rounded-lg">
-                    <span className="lf-label text-ink-4 font-bold">PREVIEW:</span>
+                    <span className="t-label text-ink-4 font-bold">PREVIEW:</span>
                     <div className="flex items-center gap-2">
                         <span className="text-base">{style.icon}</span>
-                        <span className="lf-body-sm font-bold text-ink">{style.label}</span>
+                        <span className="t-body-sm font-bold text-ink">{style.label}</span>
                     </div>
                 </div>
             </div>
@@ -313,11 +313,11 @@ export function PromptsEditor() {
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-lg"
                             >
-                                <span className="lf-label font-bold text-red-500 uppercase tracking-widest">Tem certeza?</span>
+                                <span className="t-label font-bold text-red-500 uppercase tracking-widest">Tem certeza?</span>
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 lf-label font-bold text-red-500 hover:bg-red-500 hover:text-white rounded-md px-3"
+                                    className="h-8 t-label font-bold text-red-500 hover:bg-red-500 hover:text-white rounded-md px-3"
                                     onClick={() => {
                                         resetAllStyles()
                                         setConfirmReset(false)
@@ -329,7 +329,7 @@ export function PromptsEditor() {
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="h-8 lf-label font-bold text-ink-4 hover:bg-hover rounded-md px-3"
+                                    className="h-8 t-label font-bold text-ink-4 hover:bg-hover rounded-md px-3"
                                     onClick={() => setConfirmReset(false)}
                                 >
                                     Cancelar
@@ -339,7 +339,7 @@ export function PromptsEditor() {
                             <Button
                                 variant="ghost"
                                 onClick={() => setConfirmReset(true)}
-                                className="lf-caption text-ink-4 hover:text-red-400 hover:bg-red-400/5 h-10 px-4 rounded-r-sm"
+                                className="t-caption text-ink-4 hover:text-red-400 hover:bg-red-400/5 h-10 px-4 rounded-r-sm"
                             >
                                 Restaurar Tudo
                             </Button>
@@ -360,7 +360,7 @@ export function PromptsEditor() {
 
             <div className="bg-brand/5 border border-brand/15 rounded-lg p-5 mb-10 flex gap-4 items-start animate-in fade-in slide-in-from-top-2 duration-500">
                 <HelpCircle className="text-brand h-5 w-5 shrink-0 mt-0.5" />
-                <div className="lf-body-sm text-ink-2 leading-relaxed">
+                <div className="t-body-sm text-ink-2 leading-relaxed">
                     <strong className="text-ink font-bold uppercase tracking-widest text-[11px] mr-2">Tip:</strong>
                     Use <code className="bg-brand/10 px-1.5 py-0.5 rounded text-brand font-mono text-[11px]">{"{postText}"}</code> ou <code className="bg-brand/10 px-1.5 py-0.5 rounded text-brand font-mono text-[11px]">{"{authorName}"}</code> para injeção dinâmica de contexto nos prompts.
                 </div>
@@ -404,8 +404,8 @@ export function PromptsEditor() {
             {styles.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-24 border border-dashed border-edge rounded-lg opacity-40">
                     <AlertCircle size={40} className="text-ink-4 mb-4" />
-                    <p className="lf-subtitle text-ink-4">Nenhum estilo configurado</p>
-                    <Button variant="link" onClick={handleAddNew} className="text-brand lf-body-sm font-bold mt-2">Adicionar o primeiro</Button>
+                    <p className="t-subtitle text-ink-4">Nenhum estilo configurado</p>
+                    <Button variant="link" onClick={handleAddNew} className="text-brand t-body-sm font-bold mt-2">Adicionar o primeiro</Button>
                 </div>
             )}
         </div>

@@ -54,7 +54,7 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                     {group.name}
                 </Link>
 
-                <span className="lf-caption text-ink-4 px-1.5 py-0.5 rounded-full bg-page">
+                <span className="t-caption text-ink-4 px-1.5 py-0.5 rounded-full bg-page">
                     {profiles.length}
                 </span>
 
@@ -109,7 +109,7 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                 <div className="flex flex-col pl-4 border-l border-edge/50 ml-6 mt-1 mb-2">
                     {profiles.length === 0 ? (
                         <div className="py-2 px-3">
-                            <p className="lf-caption text-ink-4 italic">Vazio</p>
+                            <p className="t-caption text-ink-4 italic">Vazio</p>
                         </div>
                     ) : (
                         profiles.map((p) => (

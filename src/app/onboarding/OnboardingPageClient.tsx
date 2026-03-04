@@ -110,7 +110,7 @@ export default function OnboardingPage() {
                             <div className="w-full max-w-xl bg-white rounded-lg border border-edge p-12 mt-10 text-center shadow-2xl shadow-black/50">
                                 <div className="mb-8 space-y-2">
                                     <p className="text-[14px] font-bold text-ink">Alvos de Monitoramento</p>
-                                    <p className="lf-body-sm text-ink-3">Você configurou <span className="text-brand font-bold">{profiles.length}</span> perfis até agora.</p>
+                                    <p className="t-body-sm text-ink-3">Você configurou <span className="text-brand font-bold">{profiles.length}</span> perfis até agora.</p>
                                 </div>
                                 <AddProfileModal inline open={true} onClose={() => { }} />
                             </div>
@@ -154,7 +154,7 @@ export default function OnboardingPage() {
                     )}
                     <Button
                         onClick={nextStep}
-                        className="h-12 px-12 bg-brand hover:bg-brand-dark text-white lf-subtitle font-bold rounded-lg shadow-accent border-none transition-all group"
+                        className="h-12 px-12 bg-brand hover:bg-brand-dark text-white t-subtitle font-bold rounded-lg shadow-accent border-none transition-all group"
                     >
                         {step === 3 ? 'Finalizar Setup' : 'Próximo Passo'}
                         <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -172,7 +172,7 @@ function StepHeader({ icon, title, description }: { icon: React.ReactNode, title
                 {icon}
             </div>
             <h1 className="text-[15px] font-bold text-ink text-4xl">{title}</h1>
-            <p className="lf-body text-ink-3 leading-relaxed">{description}</p>
+            <p className="t-body text-ink-3 leading-relaxed">{description}</p>
         </div>
     )
 }

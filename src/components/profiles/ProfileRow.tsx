@@ -55,7 +55,7 @@ export const ProfileRow = React.memo(function ProfileRow({ profileId }: ProfileR
             {/* Avatar */}
             <div className="relative shrink-0">
                 <div
-                    className="flex h-[32px] w-[32px] items-center justify-center rounded-full lf-subtitle font-bold"
+                    className="flex h-[32px] w-[32px] items-center justify-center rounded-full t-subtitle font-bold"
                     style={{
                         backgroundColor: `${profile.color}26`, // 15% opacity roughly
                         color: profile.color

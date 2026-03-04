@@ -23,8 +23,8 @@ export default function GroupDetailClient() {
         return (
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
                 <Users size={48} className="text-ink-4 mb-4" />
-                <h1 className="lf-heading text-ink">Grupo não encontrado</h1>
-                <p className="lf-body text-ink-3 mt-2">O grupo que você está procurando não existe ou foi removido.</p>
+                <h1 className="t-heading text-ink">Grupo não encontrado</h1>
+                <p className="t-body text-ink-3 mt-2">O grupo que você está procurando não existe ou foi removido.</p>
                 <Button variant="outline" className="mt-6" onClick={() => router.back()}>
                     Voltar
                 </Button>
@@ -65,9 +65,9 @@ export default function GroupDetailClient() {
                                 className="h-3 w-3 rounded-full"
                                 style={{ backgroundColor: group.color }}
                             />
-                            <h1 className="lf-heading text-ink">{group.name}</h1>
+                            <h1 className="t-heading text-ink">{group.name}</h1>
                         </div>
-                        <p className="lf-caption text-ink-4 mt-0.5">{profiles.length} perfis vinculados</p>
+                        <p className="t-caption text-ink-4 mt-0.5">{profiles.length} perfis vinculados</p>
                     </div>
                 </div>
 
@@ -93,8 +93,8 @@ export default function GroupDetailClient() {
                             <div className="h-16 w-16 rounded-full bg-white flex items-center justify-center text-ink-4 mb-4 shadow-sm">
                                 <Users size={32} />
                             </div>
-                            <h3 className="lf-heading text-ink">Nenhum perfil neste grupo</h3>
-                            <p className="lf-body text-ink-4 mt-2 max-w-sm">
+                            <h3 className="t-heading text-ink">Nenhum perfil neste grupo</h3>
+                            <p className="t-body text-ink-4 mt-2 max-w-sm">
                                 Adicione perfis individuais ou importe em lote para começar a monitorar este grupo.
                             </p>
                             <Button
@@ -114,7 +114,7 @@ export default function GroupDetailClient() {
                             {profiles.map((profile) => (
                                 <div
                                     key={profile.id}
-                                    className="group bg-white border border-edge rounded-2xl p-4 flex items-center gap-4 hover:border-brand/30 hover:shadow-md transition-all duration-300"
+                                    className="group bg-white border border-edge rounded-[var(--r-xl)] p-4 flex items-center gap-4 hover:border-brand/30 hover:shadow-md transition-all duration-300"
                                 >
                                     <div className="h-12 w-12 rounded-xl overflow-hidden shrink-0 border border-edge">
                                         {profile.avatarUrl ? (
@@ -131,12 +131,12 @@ export default function GroupDetailClient() {
 
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2">
-                                            <h4 className="lf-subtitle text-ink truncate font-bold">{profile.name}</h4>
+                                            <h4 className="t-subtitle text-ink truncate font-bold">{profile.name}</h4>
                                             {!profile.active && (
                                                 <span className="px-1.5 py-0.5 rounded text-[10px] bg-hover text-ink-4 font-bold border border-edge">INATIVO</span>
                                             )}
                                         </div>
-                                        <p className="lf-caption text-ink-3 truncate mt-0.5">{profile.role || 'Perfil LinkedIn'}</p>
+                                        <p className="t-caption text-ink-3 truncate mt-0.5">{profile.role || 'Perfil LinkedIn'}</p>
                                     </div>
 
                                     <div className="flex items-center gap-1">

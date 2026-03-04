@@ -112,7 +112,7 @@ export default function NewCampaignPage() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full max-w-2xl bg-white rounded-2xl border border-edge shadow-sm overflow-hidden mb-12">
+                <div className="w-full max-w-2xl bg-white rounded-[var(--r-xl)] border border-edge shadow-sm overflow-hidden mb-12">
                     {/* Stepper Header */}
                     <div className="flex border-b border-edge">
                         {stepLabels.map((label, i) => {
@@ -149,7 +149,7 @@ export default function NewCampaignPage() {
                         {step === 1 && (
                             <div className="space-y-6">
                                 <div>
-                                    <label className="lf-caption block mb-2 font-semibold">URL do Post no LinkedIn</label>
+                                    <label className="t-caption block mb-2 font-semibold">URL do Post no LinkedIn</label>
                                     <div className="relative">
                                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-4">
                                             <Link2 size={18} />
@@ -198,7 +198,7 @@ export default function NewCampaignPage() {
 
                                 {formData.captureMode === 'keyword' && (
                                     <div className="animate-in fade-in slide-in-from-top-4 duration-300">
-                                        <label className="lf-caption block mb-2 font-semibold text-xs">Palavras-Chave (separadas por vírgula)</label>
+                                        <label className="t-caption block mb-2 font-semibold text-xs">Palavras-Chave (separadas por vírgula)</label>
                                         <input
                                             type="text"
                                             placeholder="quero, interesse, manda, me envia"
@@ -210,7 +210,7 @@ export default function NewCampaignPage() {
                                 )}
 
                                 <div>
-                                    <label className="lf-caption block mb-2 font-semibold text-xs">Janela de Monitoramento (dias)</label>
+                                    <label className="t-caption block mb-2 font-semibold text-xs">Janela de Monitoramento (dias)</label>
                                     <div className="flex items-center gap-4">
                                         <Calendar className="text-ink-4" size={20} />
                                         <input
@@ -250,7 +250,7 @@ export default function NewCampaignPage() {
                         {step === 3 && (
                             <div className="space-y-6">
                                 <div className="space-y-3">
-                                    <label className="lf-caption block font-semibold text-xs">Ações Sequenciais</label>
+                                    <label className="t-caption block font-semibold text-xs">Ações Sequenciais</label>
 
                                     <div onClick={() => setFormData(prev => ({ ...prev, actionLike: !prev.actionLike }))} className="p-3 bg-white/30 border border-edge rounded-lg flex items-center gap-3 cursor-pointer hover:bg-white/50 transition-colors">
                                         <div className={cn("h-5 w-5 rounded border flex items-center justify-center transition-colors", formData.actionLike ? "bg-brand border-brand text-white" : "border-edge bg-white")}>
@@ -280,7 +280,7 @@ export default function NewCampaignPage() {
                                 {formData.actionDm && (
                                     <div className="animate-in fade-in slide-in-from-top-4 duration-300 space-y-4">
                                         <div>
-                                            <label className="lf-caption block mb-2 font-semibold text-xs">Link do Lead Magnet (ex: PDF, Link, Site)</label>
+                                            <label className="t-caption block mb-2 font-semibold text-xs">Link do Lead Magnet (ex: PDF, Link, Site)</label>
                                             <input
                                                 type="text"
                                                 className="w-full h-10 px-4 bg-white border border-edge rounded-lg outline-none focus:border-brand text-sm"
@@ -290,7 +290,7 @@ export default function NewCampaignPage() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="lf-caption block mb-2 font-semibold text-xs">Texto do Link</label>
+                                            <label className="t-caption block mb-2 font-semibold text-xs">Texto do Link</label>
                                             <input
                                                 type="text"
                                                 className="w-full h-10 px-4 bg-white border border-edge rounded-lg outline-none focus:border-brand text-sm"
@@ -311,7 +311,7 @@ export default function NewCampaignPage() {
                             <button
                                 onClick={() => setStep(prev => (prev - 1) as Step)}
                                 disabled={loading}
-                                className="h-11 px-5 border border-edge rounded-xl lf-caption font-semibold flex items-center gap-2 hover:bg-white transition-all disabled:opacity-50"
+                                className="h-11 px-5 border border-edge rounded-xl t-caption font-semibold flex items-center gap-2 hover:bg-white transition-all disabled:opacity-50"
                             >
                                 <ChevronLeft size={18} />
                                 Voltar
@@ -321,7 +321,7 @@ export default function NewCampaignPage() {
                         <button
                             onClick={handleNext}
                             disabled={loading || (step === 1 && !formData.postUrl)}
-                            className="h-11 px-8 bg-brand text-white rounded-xl lf-caption font-semibold flex items-center gap-2 hover:bg-brand/90 transition-all shadow-md active:scale-95 disabled:opacity-50"
+                            className="h-11 px-8 bg-brand text-white rounded-xl t-caption font-semibold flex items-center gap-2 hover:bg-brand/90 transition-all shadow-md active:scale-95 disabled:opacity-50"
                         >
                             {loading ? <Loader2 className="animate-spin" size={18} /> : (step === 3 ? 'Finalizar e Ativar' : 'Próximo')}
                             {!loading && step < 3 && <ChevronRight size={18} />}
@@ -331,7 +331,7 @@ export default function NewCampaignPage() {
 
                 {/* Summary Section (Resolving Step 1) */}
                 {step === 1 && resolvedPost && (
-                    <div className="w-full max-w-2xl bg-white rounded-2xl border border-edge p-6 animate-in fade-in slide-in-from-bottom-4">
+                    <div className="w-full max-w-2xl bg-white rounded-[var(--r-xl)] border border-edge p-6 animate-in fade-in slide-in-from-bottom-4">
                         <h4 className="text-xs font-bold uppercase text-ink-4 mb-4">Post Identificado</h4>
                         <div className="flex gap-4">
                             <div className="h-10 w-10 bg-brand rounded-full flex items-center justify-center text-white font-bold shrink-0">

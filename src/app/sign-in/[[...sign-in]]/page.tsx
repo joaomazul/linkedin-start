@@ -12,7 +12,7 @@ export default function SignInPage() {
             <div className="relative z-10 w-full flex flex-col items-center">
                 <div className="mb-10 text-center space-y-3">
                     <h1 className="text-[15px] font-bold text-ink text-5xl tracking-tighter">LinkedFlow</h1>
-                    <p className="lf-body text-ink-3">The Intelligence Layer for LinkedIn Power Users.</p>
+                    <p className="t-body text-ink-3">The Intelligence Layer for LinkedIn Power Users.</p>
                 </div>
 
                 <div className="bg-white p-2 rounded-lg border border-edge shadow-2xl shadow-black">
@@ -20,13 +20,13 @@ export default function SignInPage() {
                         elements: {
                             card: "bg-transparent shadow-none border-none",
                             headerTitle: "text-[15px] font-bold text-ink text-2xl",
-                            headerSubtitle: "lf-body text-ink-3",
-                            formButtonPrimary: "bg-brand hover:bg-brand-dark text-white lf-subtitle font-bold rounded-lg border-none",
-                            socialButtonsBlockButton: "bg-page border-edge hover:bg-hover text-ink lf-body-sm rounded-lg",
-                            socialButtonsBlockButtonText: "lf-body-sm font-bold",
-                            formFieldLabel: "lf-label text-ink-4 font-bold uppercase",
-                            formFieldInput: "bg-page border-edge text-ink lf-body-sm rounded-lg h-11",
-                            footerActionLink: "text-brand hover:text-brand2 lf-body-sm font-bold"
+                            headerSubtitle: "t-body text-ink-3",
+                            formButtonPrimary: "bg-brand hover:bg-brand-dark text-white t-subtitle font-bold rounded-lg border-none",
+                            socialButtonsBlockButton: "bg-page border-edge hover:bg-hover text-ink t-body-sm rounded-lg",
+                            socialButtonsBlockButtonText: "t-body-sm font-bold",
+                            formFieldLabel: "t-label text-ink-4 font-bold uppercase",
+                            formFieldInput: "bg-page border-edge text-ink t-body-sm rounded-lg h-11",
+                            footerActionLink: "text-brand hover:text-brand-dark t-body-sm font-bold"
                         }
                     }} />
                 </div>

@@ -202,8 +202,8 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
             {/* Header */}
             <div className="px-6 py-5 border-b border-edge flex items-center justify-between">
                 <div>
-                    <h2 className="lf-heading text-ink leading-tight">Configurar Gerenciamento</h2>
-                    <p className="lf-caption text-ink-3 mt-0.5">Organize perfis e grupos para o feed.</p>
+                    <h2 className="t-heading text-ink leading-tight">Configurar Gerenciamento</h2>
+                    <p className="t-caption text-ink-3 mt-0.5">Organize perfis e grupos para o feed.</p>
                 </div>
                 {!inline && (
                     <button onClick={handleClose} className="p-2 hover:bg-page rounded-full text-ink-4">
@@ -227,7 +227,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                         {activeTab === 'single' && (
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <label className="lf-label text-ink-4">URL LinkedIn</label>
+                                    <label className="t-label text-ink-4">URL LinkedIn</label>
                                     <div className="flex gap-2">
                                         <input
                                             ref={inputRef}
@@ -240,7 +240,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                                         <button
                                             onClick={handleSearch}
                                             disabled={stage === 'loading' || !url.trim()}
-                                            className="bg-brand hover:bg-brand-dark text-white px-6 py-2.5 rounded-xl font-bold lf-subtitle flex items-center gap-2 disabled:opacity-50 transition-all"
+                                            className="bg-brand hover:bg-brand-dark text-white px-6 py-2.5 rounded-xl font-bold t-subtitle flex items-center gap-2 disabled:opacity-50 transition-all"
                                         >
                                             {stage === 'loading' ? <Loader2 size={16} className="animate-spin" /> : <Search size={16} />}
                                             Buscar
@@ -250,7 +250,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
 
                                 {groups.length > 0 && (
                                     <div className="space-y-2">
-                                        <label className="lf-label text-ink-4">Grupo (Opcional)</label>
+                                        <label className="t-label text-ink-4">Grupo (Opcional)</label>
                                         <select
                                             value={selectedGroupId}
                                             onChange={e => setSelectedGroupId(e.target.value)}
@@ -267,7 +267,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                         {activeTab === 'batch' && (
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <label className="lf-label text-ink-4">Lista de URLs (Uma por linha)</label>
+                                    <label className="t-label text-ink-4">Lista de URLs (Uma por linha)</label>
                                     <textarea
                                         ref={textAreaRef}
                                         value={batchUrls}
@@ -275,11 +275,11 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                                         placeholder="Ex:&#10;https://www.linkedin.com/in/perfil1&#10;https://www.linkedin.com/in/perfil2"
                                         className="w-full h-32 bg-page border border-edge rounded-xl px-4 py-3 text-sm focus:border-brand outline-none transition-all resize-none"
                                     />
-                                    <p className="lf-caption text-ink-4 italic">Dica: Você pode colar colunas de um CSV ou Excel aqui.</p>
+                                    <p className="t-caption text-ink-4 italic">Dica: Você pode colar colunas de um CSV ou Excel aqui.</p>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="lf-label text-ink-4">Grupo de Destino</label>
+                                    <label className="t-label text-ink-4">Grupo de Destino</label>
                                     <select
                                         value={selectedGroupId}
                                         onChange={e => setSelectedGroupId(e.target.value)}
@@ -293,7 +293,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                                 <button
                                     onClick={handleSaveBatch}
                                     disabled={stage === 'saving' || !batchUrls.trim()}
-                                    className="w-full bg-brand hover:bg-brand-dark text-white h-[44px] rounded-xl font-bold lf-subtitle flex items-center justify-center gap-2 transition-all mt-4"
+                                    className="w-full bg-brand hover:bg-brand-dark text-white h-[44px] rounded-xl font-bold t-subtitle flex items-center justify-center gap-2 transition-all mt-4"
                                 >
                                     {stage === 'saving' ? <Loader2 size={18} className="animate-spin" /> : <UserPlus size={18} />}
                                     Importar tudo agora
@@ -304,7 +304,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                         {activeTab === 'group' && (
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <label className="lf-label text-ink-4">Nome do Grupo</label>
+                                    <label className="t-label text-ink-4">Nome do Grupo</label>
                                     <input
                                         value={groupName}
                                         onChange={e => { setGroupName(e.target.value); setError(null) }}
@@ -316,7 +316,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                                 <button
                                     onClick={handleSaveGroup}
                                     disabled={stage === 'saving' || !groupName.trim()}
-                                    className="w-full bg-brand hover:bg-brand-dark text-white h-[44px] rounded-xl font-bold lf-subtitle flex items-center justify-center gap-2 transition-all"
+                                    className="w-full bg-brand hover:bg-brand-dark text-white h-[44px] rounded-xl font-bold t-subtitle flex items-center justify-center gap-2 transition-all"
                                 >
                                     {stage === 'saving' ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
                                     Criar Grupo
@@ -325,7 +325,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                         )}
 
                         {error && (
-                            <div className="flex items-center gap-2 p-3 bg-danger-text/5 border border-danger-text/20 rounded-xl text-danger-text lf-caption">
+                            <div className="flex items-center gap-2 p-3 bg-danger-text/5 border border-danger-text/20 rounded-xl text-danger-text t-caption">
                                 <AlertCircle size={14} />
                                 {error}
                             </div>
@@ -336,8 +336,8 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                 {/* Preview Stage */}
                 {(stage === 'preview' || stage === 'saving') && profile && (
                     <div className="space-y-6 animate-in slide-in-from-bottom-2 duration-300">
-                        <div className="flex gap-4 p-5 rounded-2xl bg-page border border-edge">
-                            <div className="h-20 w-20 rounded-2xl overflow-hidden border-2 border-edge shrink-0">
+                        <div className="flex gap-4 p-5 rounded-[var(--r-xl)] bg-page border border-edge">
+                            <div className="h-20 w-20 rounded-[var(--r-xl)] overflow-hidden border-2 border-edge shrink-0">
                                 {profile.avatarUrl ? (
                                     <Image src={profile.avatarUrl} alt={profile.name} width={80} height={80} className="object-cover h-full w-full" unoptimized />
                                 ) : (
@@ -345,15 +345,15 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                                 )}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h3 className="lf-heading text-ink truncate">{profile.name}</h3>
-                                <p className="lf-body text-ink-3 line-clamp-2 mt-1">{profile.headline}</p>
+                                <h3 className="t-heading text-ink truncate">{profile.name}</h3>
+                                <p className="t-body text-ink-3 line-clamp-2 mt-1">{profile.headline}</p>
                                 <div className="flex items-center gap-3 mt-3">
-                                    <span className="flex items-center gap-1.5 lf-caption text-ink-3">
+                                    <span className="flex items-center gap-1.5 t-caption text-ink-3">
                                         <Users size={12} className="text-brand" />
                                         {profile.followerCount.toLocaleString()} seguidores
                                     </span>
                                     {profile.location && (
-                                        <span className="flex items-center gap-1.5 lf-caption text-ink-3">
+                                        <span className="flex items-center gap-1.5 t-caption text-ink-3">
                                             <MapPin size={12} className="text-brand" />
                                             {profile.location}
                                         </span>
@@ -366,7 +366,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                             <button
                                 onClick={handleConfirm}
                                 disabled={stage === 'saving'}
-                                className="w-full h-[48px] bg-brand hover:bg-brand-dark text-white rounded-xl font-bold lf-title flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/20"
+                                className="w-full h-[48px] bg-brand hover:bg-brand-dark text-white rounded-xl font-bold t-title flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/20"
                             >
                                 {stage === 'saving' ? <Loader2 size={20} className="animate-spin" /> : <CheckCircle2 size={20} />}
                                 Confirmar e Adicionar
@@ -374,7 +374,7 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                             <button
                                 onClick={() => setStage('input')}
                                 disabled={stage === 'saving'}
-                                className="w-full py-2 lf-caption text-ink-4 hover:text-ink transition-colors"
+                                className="w-full py-2 t-caption text-ink-4 hover:text-ink transition-colors"
                             >
                                 Voltar e corrigir
                             </button>
@@ -388,8 +388,8 @@ export function AddProfileModal({ open, onClose, inline, defaultGroupId }: AddPr
                         <div className="h-20 w-20 rounded-full bg-success-text/10 flex items-center justify-center text-success-text mb-4">
                             <CheckCircle2 size={40} />
                         </div>
-                        <h3 className="lf-heading text-ink">Pronto!</h3>
-                        <p className="lf-body text-ink-3 mt-1">Procedimento realizado com sucesso.</p>
+                        <h3 className="t-heading text-ink">Pronto!</h3>
+                        <p className="t-body text-ink-3 mt-1">Procedimento realizado com sucesso.</p>
                     </div>
                 )}
             </div>
@@ -424,7 +424,7 @@ function TabButton({ active, onClick, label, icon }: { active: boolean; onClick:
         <button
             onClick={onClick}
             className={cn(
-                "flex items-center gap-2 px-1 pb-3 lf-subtitle transition-all relative",
+                "flex items-center gap-2 px-1 pb-3 t-subtitle transition-all relative",
                 active ? "text-brand" : "text-ink-4 hover:text-ink-3"
             )}
         >

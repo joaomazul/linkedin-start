@@ -89,14 +89,14 @@ export function AccountSettings() {
                                 : "bg-red-500/5 border-red-500/20"
                         )}>
                             <div className="flex items-center gap-4">
-                                <div className="h-[48px] w-[48px] rounded-xl bg-page border border-edge flex items-center justify-center lf-title text-primary uppercase font-bold">
+                                <div className="h-[48px] w-[48px] rounded-xl bg-page border border-edge flex items-center justify-center t-title text-primary uppercase font-bold">
                                     IN
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-[14px] font-bold text-ink">
                                         LinkedFlow Principal
                                     </p>
-                                    <p className="lf-caption text-ink-4 font-mono mt-0.5">
+                                    <p className="t-caption text-ink-4 font-mono mt-0.5">
                                         {linkedinAccountId || 'Unlinked'}
                                     </p>
                                 </div>
@@ -104,12 +104,12 @@ export function AccountSettings() {
 
                             <div className="flex items-center gap-2">
                                 {statusData?.status === 'OK' ? (
-                                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-success-text/15 text-success-text lf-label font-bold uppercase tracking-wider">
+                                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-success-text/15 text-success-text t-label font-bold uppercase tracking-wider">
                                         <div className="h-2 w-2 rounded-full bg-success-text animate-pulse" />
                                         Connected
                                     </div>
                                 ) : (
-                                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/15 text-red-500 lf-label font-bold uppercase tracking-wider">
+                                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/15 text-red-500 t-label font-bold uppercase tracking-wider">
                                         <div className="h-2 w-2 rounded-full bg-red-500" />
                                         Error
                                     </div>
@@ -122,13 +122,13 @@ export function AccountSettings() {
                                 variant="ghost"
                                 onClick={handleVerifyStatus}
                                 disabled={isLoading}
-                                className="lf-caption bg-page border border-edge hover:bg-hover text-ink-2 h-10 px-4 rounded-r-sm"
+                                className="t-caption bg-page border border-edge hover:bg-hover text-ink-2 h-10 px-4 rounded-r-sm"
                             >
                                 <RefreshCw size={14} className={cn("mr-2", isLoading && "animate-spin")} /> Check Connection
                             </Button>
 
                             {(!statusData || statusData.status !== 'OK') && (
-                                <Button asChild className="lf-caption bg-brand hover:bg-brand-dark text-white h-10 px-4 rounded-r-sm border-none shadow-accent">
+                                <Button asChild className="t-caption bg-brand hover:bg-brand-dark text-white h-10 px-4 rounded-r-sm border-none shadow-accent">
                                     <a href="https://app.unipile.com" target="_blank" rel="noreferrer">
                                         Reconectar Unipile <ExternalLink size={14} className="ml-2" />
                                     </a>
@@ -151,14 +151,14 @@ export function AccountSettings() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 rounded-lg bg-page border border-edge">
                     <div className="space-y-1">
                         <Label className="text-[14px] font-bold text-ink">Refresh do Feed Automático</Label>
-                        <p className="lf-caption text-ink-3">Frequência ideal para capturar posts em tempo real.</p>
+                        <p className="t-caption text-ink-3">Frequência ideal para capturar posts em tempo real.</p>
                     </div>
                     <div className="w-full md:w-[200px]">
                         <Select
                             value={String(autoRefreshInterval)}
                             onValueChange={(val) => updateSettings({ autoRefreshInterval: Number(val) })}
                         >
-                            <SelectTrigger className="bg-page border-edge rounded-r-sm h-11 lf-body-sm text-ink-2">
+                            <SelectTrigger className="bg-page border-edge rounded-r-sm h-11 t-body-sm text-ink-2">
                                 <SelectValue placeholder="Selecione" />
                             </SelectTrigger>
                             <SelectContent className="bg-page border-edge">
@@ -184,7 +184,7 @@ export function AccountSettings() {
                 </div>
 
                 <div className="bg-page rounded-lg border border-edge p-6">
-                    <p className="lf-body-sm text-ink-2 mb-6">
+                    <p className="t-body-sm text-ink-2 mb-6">
                         Configure esta URL no Unipile para receber notificações instantâneas e comentar primeiro em todos os posts relevantes.
                     </p>
 
@@ -205,7 +205,7 @@ export function AccountSettings() {
                         <Lock className="text-brand mt-1" size={16} />
                         <div>
                             <p className="text-[13px] text-ink font-bold mb-1">Segurança e Eficiência</p>
-                            <p className="lf-caption text-ink-3 leading-relaxed">
+                            <p className="t-caption text-ink-3 leading-relaxed">
                                 Webhooks eliminam a necessidade de polling constante, economizando recursos e garantindo a maior velocidade de publicação.
                             </p>
                         </div>

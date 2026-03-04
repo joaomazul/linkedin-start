@@ -23,7 +23,7 @@ export default function GlobalError({
                 </div>
                 <div>
                     <h2 className="text-[15px] font-bold text-ink text-2xl">Algo deu errado!</h2>
-                    <p className="lf-body text-ink-3 mt-2">
+                    <p className="t-body text-ink-3 mt-2">
                         Ocorreu um erro inesperado ao processar sua solicitação no sistema.
                     </p>
                 </div>

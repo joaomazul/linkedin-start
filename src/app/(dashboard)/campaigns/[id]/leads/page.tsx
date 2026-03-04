@@ -126,7 +126,7 @@ export default function LeadsQueuePage() {
                 {loading ? (
                     <div className="py-20 flex flex-col items-center gap-4">
                         <Loader2 className="animate-spin text-brand" size={32} />
-                        <span className="lf-caption text-ink-3">Carregando leads...</span>
+                        <span className="t-caption text-ink-3">Carregando leads...</span>
                     </div>
                 ) : leads.length === 0 ? (
                     <div className="max-w-md text-center py-20 flex flex-col items-center gap-6">
@@ -134,14 +134,14 @@ export default function LeadsQueuePage() {
                             <Check size={32} />
                         </div>
                         <div>
-                            <h3 className="lf-title text-xl mb-2">Tudo limpo!</h3>
-                            <p className="lf-caption text-ink-3">
+                            <h3 className="t-title text-xl mb-2">Tudo limpo!</h3>
+                            <p className="t-caption text-ink-3">
                                 Não há leads pendentes para aprovação nesta campanha no momento.
                             </p>
                         </div>
                         <button
                             onClick={() => router.push('/campaigns')}
-                            className="px-6 h-10 bg-brand text-white rounded-lg lf-caption font-semibold shadow-md active:scale-95"
+                            className="px-6 h-10 bg-brand text-white rounded-lg t-caption font-semibold shadow-md active:scale-95"
                         >
                             Voltar para Campanhas
                         </button>
@@ -149,7 +149,7 @@ export default function LeadsQueuePage() {
                 ) : (
                     <div className="w-full max-w-4xl space-y-6">
                         {leads.map(lead => (
-                            <div key={lead.id} className="bg-white border border-edge rounded-2xl p-6 shadow-sm hover:border-edge transition-all">
+                            <div key={lead.id} className="bg-white border border-edge rounded-[var(--r-xl)] p-6 shadow-sm hover:border-edge transition-all">
                                 {/* Lead Info */}
                                 <div className="flex items-start justify-between mb-5">
                                     <div className="flex gap-3">
@@ -161,12 +161,12 @@ export default function LeadsQueuePage() {
                                                 {lead.profileName}
                                                 {lead.isConnection && <span className="text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider border border-blue-100 italic">Conexão 1º</span>}
                                             </h4>
-                                            <p className="lf-caption text-xs text-ink-4 mt-0.5">Comentou em {new Date(lead.commentedAt).toLocaleString()}</p>
+                                            <p className="t-caption text-xs text-ink-4 mt-0.5">Comentou em {new Date(lead.commentedAt).toLocaleString()}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-end">
                                         <div className={cn(
-                                            "lf-caption text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider",
+                                            "t-caption text-[10px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider",
                                             lead.intentScore > 70 ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-slate-50 text-slate-500 border-slate-100"
                                         )}>
                                             Score: {lead.intentScore}
