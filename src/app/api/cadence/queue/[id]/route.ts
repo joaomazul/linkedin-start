@@ -4,7 +4,8 @@ import { cadenceSuggestions } from '@/db/schema/cadence'
 import { crmInteractions, crmPeople } from '@/db/schema/crm'
 import { eq, and, sql } from 'drizzle-orm'
 import { getAuthenticatedUserId } from '@/lib/auth/user'
-import { createApiResponse } from '@/lib/api-response'
+import { createApiResponse } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 import { executeLinkedInAction } from '@/lib/campaigns/execute-action'
 import { appSettings } from '@/db/schema'
 
@@ -17,6 +18,8 @@ export async function POST(
 ) {
     try {
         const { id } = await params
+        const validation = validateUUID(id)
+        if (!validation.valid) return validation.error
         const userId = await getAuthenticatedUserId()
         const { action, content, personId } = await req.json()
 
@@ -86,6 +89,8 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params
+        const validation = validateUUID(id)
+        if (!validation.valid) return validation.error
         const userId = await getAuthenticatedUserId()
 
         await db.update(cadenceSuggestions)

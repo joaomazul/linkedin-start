@@ -2,16 +2,29 @@ import { logger } from '@/lib/logger'
 import { NextRequest } from 'next/server'
 import type { UnipileWebhookPayload } from '@/types/unipile.types'
 import { success, apiError } from '@/lib/utils/api-response'
+import { verifyUnipileSignature } from '@/lib/unipile/verify-signature'
+import { env } from '@/env'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
-    // TODO Fase 4: validar assinatura do webhook (header X-Unipile-Signature)
+    const rawBody = await req.text()
+
+    // Validar assinatura do webhook quando secret está configurado
+    if (env.UNIPILE_WEBHOOK_SECRET) {
+        const signature = req.headers.get('x-unipile-signature')
+        if (!verifyUnipileSignature(rawBody, signature, env.UNIPILE_WEBHOOK_SECRET)) {
+            logger.warn({ signature }, '[webhook/unipile] Assinatura inválida')
+            return apiError('Assinatura inválida', 401)
+        }
+    } else {
+        logger.warn('[webhook/unipile] UNIPILE_WEBHOOK_SECRET não configurado — assinatura não verificada')
+    }
 
     let payload: UnipileWebhookPayload
     try {
-        payload = await req.json()
+        payload = JSON.parse(rawBody)
     } catch {
         return apiError('Payload inválido', 400)
     }

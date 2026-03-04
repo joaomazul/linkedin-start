@@ -1,6 +1,9 @@
 import { refreshAllBrandVoices } from '@/lib/workers/brand-voice-refresher'
 import { success, apiError } from '@/lib/utils/api-response'
+import { createLogger } from '@/lib/logger'
 import { env } from '@/env'
+
+const log = createLogger('cron/refresh-brand-voice')
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -18,7 +21,7 @@ export async function GET(req: Request) {
 
         return success({ executed: true })
     } catch (error) {
-        console.error(error)
+        log.error({ err: error }, '[CRON] Erro ao executar refresh de brand voice')
         return apiError('Erro ao executar cron de refresh', 500)
     }
 }

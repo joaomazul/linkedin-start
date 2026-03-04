@@ -31,6 +31,7 @@ interface Lead {
 
 export default function LeadsQueuePage() {
     const params = useParams()
+    const id = params.id as string
     const router = useRouter()
     const [leads, setLeads] = useState<Lead[]>([])
     const [loading, setLoading] = useState(true)
@@ -40,11 +41,11 @@ export default function LeadsQueuePage() {
 
     useEffect(() => {
         fetchLeads()
-    }, [params.id])
+    }, [id])
 
     const fetchLeads = async () => {
         try {
-            const res = await fetch(`/api/campaigns/${params.id}/leads?status=pending`)
+            const res = await fetch(`/api/campaigns/${id}/leads?status=pending`)
             const data = await res.json()
             setLeads(data.data || [])
         } catch (err) {

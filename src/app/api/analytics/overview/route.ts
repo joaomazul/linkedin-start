@@ -48,10 +48,10 @@ export async function GET(request: Request) {
                 .limit(3)
         ])
 
-        metrics.trend = trend
+        const metricsWithTrend = { ...metrics, trend }
 
         return success({
-            metrics,
+            metrics: metricsWithTrend,
             recentInsights,
             topPosts
         })

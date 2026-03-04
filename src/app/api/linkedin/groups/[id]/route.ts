@@ -3,6 +3,7 @@ import { db } from '@/db'
 import { profileGroups } from '@/db/schema/groups'
 import { eq, and } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 import { createLogger } from '@/lib/logger'
 import { z } from 'zod'
 
@@ -22,6 +23,8 @@ export async function PATCH(
     try {
         const userId = await getAuthenticatedUserId()
         const { id } = await params
+        const validation = validateUUID(id)
+        if (!validation.valid) return validation.error
         const body = await req.json()
         const parsed = UpdateGroupSchema.safeParse(body)
 
@@ -55,6 +58,8 @@ export async function DELETE(
     try {
         const userId = await getAuthenticatedUserId()
         const { id } = await params
+        const validation = validateUUID(id)
+        if (!validation.valid) return validation.error
 
         const [deleted] = await db
             .delete(profileGroups)

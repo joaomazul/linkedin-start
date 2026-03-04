@@ -3,7 +3,7 @@ import { cadenceSuggestions, cadenceSettings } from '@/db/schema/cadence'
 import { crmPeople, crmInteractions } from '@/db/schema/crm'
 import { abmSignals } from '@/db/schema/signals'
 import { monitoredProfiles } from '@/db/schema/profiles'
-import { eq, and, sql, desc, lte, or } from 'drizzle-orm'
+import { eq, and, sql, desc, lte, or, inArray } from 'drizzle-orm'
 import { createLogger } from '@/lib/logger'
 import { openrouterChat, OPENROUTER_MODEL } from '@/lib/openrouter/client'
 
@@ -44,44 +44,72 @@ export async function processCadenceForUser(userId: string) {
             ))
             .limit(20)
 
-        for (const person of targets) {
-            // Verificar se já existe sugestão pendente
-            const [existing] = await db
-                .select()
+        // --- Batch-fetch to avoid N+1 queries ---
+
+        const personIds = targets.map(p => p.id)
+        const linkedinProfileIds = targets.map(p => p.linkedinProfileId).filter(Boolean) as string[]
+
+        // 2a. Batch: all pending suggestions for these personIds
+        const pendingPersonIds = new Set<string>()
+        if (personIds.length > 0) {
+            const pendingSuggestions = await db
+                .select({ personId: cadenceSuggestions.personId })
                 .from(cadenceSuggestions)
                 .where(and(
-                    eq(cadenceSuggestions.personId, person.id),
+                    inArray(cadenceSuggestions.personId, personIds),
                     eq(cadenceSuggestions.status, 'pending')
                 ))
+            for (const row of pendingSuggestions) {
+                pendingPersonIds.add(row.personId)
+            }
+        }
 
-            if (existing) continue
-
-            // 3. Buscar sinais pendentes para esta pessoa
-            // abmSignals.profileId é UUID de monitoredProfiles.id
-            // person.linkedinProfileId é varchar do LinkedIn — resolver o UUID primeiro
-            let signal: typeof abmSignals.$inferSelect | undefined
-
-            const [monitoredProfile] = await db
-                .select({ id: monitoredProfiles.id })
+        // 2b. Batch: all monitored profiles for these linkedinProfileIds
+        const profileMap = new Map<string, string>() // linkedinProfileId → monitoredProfile.id
+        if (linkedinProfileIds.length > 0) {
+            const profiles = await db
+                .select({ id: monitoredProfiles.id, linkedinProfileId: monitoredProfiles.linkedinProfileId })
                 .from(monitoredProfiles)
                 .where(and(
                     eq(monitoredProfiles.userId, userId),
-                    eq(monitoredProfiles.linkedinProfileId, person.linkedinProfileId)
+                    inArray(monitoredProfiles.linkedinProfileId, linkedinProfileIds)
                 ))
-                .limit(1)
-
-            if (monitoredProfile) {
-                const [foundSignal] = await db
-                    .select()
-                    .from(abmSignals)
-                    .where(and(
-                        eq(abmSignals.profileId, monitoredProfile.id),
-                        eq(abmSignals.processedInCadence, false)
-                    ))
-                    .orderBy(desc(abmSignals.relevanceScore))
-                    .limit(1)
-                signal = foundSignal
+            for (const p of profiles) {
+                if (p.linkedinProfileId) {
+                    profileMap.set(p.linkedinProfileId, p.id)
+                }
             }
+        }
+
+        // 2c. Batch: top unprocessed ABM signal per monitoredProfile
+        const signalMap = new Map<string, typeof abmSignals.$inferSelect>()
+        const monitoredIds = [...profileMap.values()]
+        if (monitoredIds.length > 0) {
+            const signals = await db
+                .select()
+                .from(abmSignals)
+                .where(and(
+                    inArray(abmSignals.profileId, monitoredIds),
+                    eq(abmSignals.processedInCadence, false)
+                ))
+                .orderBy(desc(abmSignals.relevanceScore))
+            // Keep only the first (highest score) signal per profileId
+            for (const s of signals) {
+                if (!signalMap.has(s.profileId)) {
+                    signalMap.set(s.profileId, s)
+                }
+            }
+        }
+
+        // --- Process each target using pre-fetched data ---
+
+        for (const person of targets) {
+            // Skip if already has a pending suggestion
+            if (pendingPersonIds.has(person.id)) continue
+
+            // Resolve signal via profileMap → signalMap
+            const monitoredId = person.linkedinProfileId ? profileMap.get(person.linkedinProfileId) : undefined
+            const signal = monitoredId ? signalMap.get(monitoredId) : undefined
 
             // 4. Gerar a sugestão via IA
             const suggestion = await generateAISuggestion(person, signal)

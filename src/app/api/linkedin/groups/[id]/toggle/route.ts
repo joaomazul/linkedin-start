@@ -2,6 +2,7 @@ import { getAuthenticatedUserId } from '@/lib/auth/user'
 import { db } from '@/db'
 import { monitoredProfiles } from '@/db/schema/profiles'
 import { success, apiError } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 import { eq, and } from 'drizzle-orm'
 import { logger } from '@/lib/logger'
 
@@ -15,6 +16,8 @@ export async function POST(
     try {
         const userId = await getAuthenticatedUserId()
         const { id: groupId } = await params
+        const validation = validateUUID(groupId)
+        if (!validation.valid) return validation.error
         const { active } = await req.json()
 
         if (typeof active !== 'boolean') {

@@ -4,7 +4,7 @@ import { abmTargets } from '@/db/schema/signals'
 import { monitoredProfiles } from '@/db/schema/profiles'
 import { eq, desc, and } from 'drizzle-orm'
 import { getAuthenticatedUserId } from '@/lib/auth/user'
-import { createApiResponse } from '@/lib/api-response'
+import { createApiResponse } from '@/lib/utils/api-response'
 import { z } from 'zod'
 
 export const dynamic = 'force-dynamic'

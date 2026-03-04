@@ -3,6 +3,7 @@ import { db } from '@/db'
 import { campaignEvents, campaigns } from '@/db/schema/campaigns'
 import { eq, and, desc } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -14,6 +15,8 @@ export async function GET(
     try {
         const userId = await getAuthenticatedUserId()
         const { id: campaignId } = await params
+        const validation = validateUUID(campaignId)
+        if (!validation.valid) return validation.error
 
         // Verifica que a campanha pertence ao usuário
         const [campaign] = await db

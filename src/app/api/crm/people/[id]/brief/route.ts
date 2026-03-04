@@ -3,7 +3,8 @@ import { db } from '@/db'
 import { crmPeople, crmInteractions } from '@/db/schema/crm'
 import { eq, and, desc } from 'drizzle-orm'
 import { getAuthenticatedUserId } from '@/lib/auth/user'
-import { createApiResponse } from '@/lib/api-response'
+import { createApiResponse } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 import { openrouterChat, OPENROUTER_MODEL } from '@/lib/openrouter/client'
 
 export const dynamic = 'force-dynamic'
@@ -15,6 +16,8 @@ export async function POST(
 ) {
     try {
         const { id } = await params
+        const validation = validateUUID(id)
+        if (!validation.valid) return validation.error
         const userId = await getAuthenticatedUserId()
         if (!userId) return createApiResponse.unauthorized()
 

@@ -3,7 +3,7 @@ import { db } from '@/db'
 import { cadenceSettings } from '@/db/schema/cadence'
 import { eq } from 'drizzle-orm'
 import { getAuthenticatedUserId } from '@/lib/auth/user'
-import { createApiResponse } from '@/lib/api-response'
+import { createApiResponse } from '@/lib/utils/api-response'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'

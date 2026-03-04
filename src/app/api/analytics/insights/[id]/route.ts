@@ -1,5 +1,6 @@
 import { getAuthenticatedUserId } from '@/lib/auth/user'
 import { success, apiError } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 import { logger } from '@/lib/logger'
 import { db } from '@/db'
 import { engagementInsights } from '@/db/schema'
@@ -15,6 +16,8 @@ export async function PATCH(
     try {
         const userId = await getAuthenticatedUserId()
         const { id } = await params
+        const validation = validateUUID(id)
+        if (!validation.valid) return validation.error
 
         await db.update(engagementInsights)
             .set({ isRead: true })

@@ -3,6 +3,7 @@ import { db } from '@/db'
 import { campaignLeads } from '@/db/schema/campaigns'
 import { eq, and } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -14,6 +15,8 @@ export async function POST(
     try {
         const userId = await getAuthenticatedUserId()
         const { id: leadId } = await params
+        const validation = validateUUID(leadId)
+        if (!validation.valid) return validation.error
         const { reason } = await req.json().catch(() => ({}))
 
         const [lead] = await db

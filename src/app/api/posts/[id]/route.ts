@@ -4,6 +4,7 @@ import { generatedPosts } from '@/db/schema/posts'
 import { appSettings } from '@/db/schema/settings'
 import { eq, and } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
+import { validateUUID } from '@/lib/utils/validate-params'
 import { publishLinkedInPost } from '@/lib/unipile/posts'
 
 export const dynamic = 'force-dynamic'
@@ -16,6 +17,8 @@ export async function POST(
     try {
         const userId = await getAuthenticatedUserId()
         const { id: postId } = await params
+        const validation = validateUUID(postId)
+        if (!validation.valid) return validation.error
 
         // 1. Busca o post
         const [post] = await db.select()
@@ -58,6 +61,8 @@ export async function PATCH(
     try {
         const userId = await getAuthenticatedUserId()
         const { id: postId } = await params
+        const validation = validateUUID(postId)
+        if (!validation.valid) return validation.error
         const body = await req.json()
 
         // Filtramos o que pode ser atualizado via PATCH

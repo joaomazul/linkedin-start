@@ -3,7 +3,7 @@ import { db } from '@/db'
 import { crmPeople } from '@/db/schema/crm'
 import { eq, desc, sql, and, ilike, or } from 'drizzle-orm'
 import { getAuthenticatedUserId } from '@/lib/auth/user'
-import { createApiResponse } from '@/lib/api-response'
+import { createApiResponse } from '@/lib/utils/api-response'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -16,8 +16,8 @@ export async function GET(req: NextRequest) {
         const { searchParams } = new URL(req.url)
         const status = searchParams.get('status')
         const search = searchParams.get('search')
-        const limit = parseInt(searchParams.get('limit') || '50')
-        const offset = parseInt(searchParams.get('offset') || '0')
+        const limit = Math.min(Math.max(parseInt(searchParams.get('limit') || '50') || 50, 1), 100)
+        const offset = Math.max(parseInt(searchParams.get('offset') || '0') || 0, 0)
 
         let query = db.select().from(crmPeople).where(eq(crmPeople.userId, userId))
 

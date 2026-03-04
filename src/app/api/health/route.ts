@@ -19,7 +19,7 @@ export async function GET() {
             timezone: row.tz ?? 'unknown',
             spNow: String(row.sp_now ?? ''),
             database: { status: 'connected', latencyMs: Date.now() - start },
-            unipile: { accountId: env.UNIPILE_LINKEDIN_ACCOUNT_ID },
+            unipile: { connected: !!env.UNIPILE_LINKEDIN_ACCOUNT_ID },
             timestamp: new Date().toISOString(),
         })
     } catch (err) {

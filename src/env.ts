@@ -18,6 +18,7 @@ const schema = z.object({
     RATE_LIMIT_AI_REQUESTS_PER_MINUTE: z.coerce.number().default(20),
     RATE_LIMIT_WINDOW_MS: z.coerce.number().default(60000),
     CRON_SECRET: z.string().min(1),
+    UNIPILE_WEBHOOK_SECRET: z.string().optional(),
     TZ: z.string().default('America/Sao_Paulo'),
     NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
 })

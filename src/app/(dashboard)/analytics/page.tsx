@@ -14,14 +14,12 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select'
-// import { useToast } from '@/components/ui/use-toast'
+import { toast } from 'sonner'
 
 export default function AnalyticsPage() {
     const [period, setPeriod] = useState('30d')
     const [data, setData] = useState<any>(null)
     const [isLoading, setIsLoading] = useState(true)
-    // const { toast } = useToast()
-
     useEffect(() => {
         fetchData()
     }, [period])
@@ -36,13 +34,7 @@ export default function AnalyticsPage() {
             }
         } catch (error) {
             console.error('Erro ao carregar dados:', error)
-            /*
-            toast({
-                title: 'Erro ao carregar dados',
-                description: 'Não foi possível carregar os dados de analytics.',
-                variant: 'destructive',
-            })
-            */
+            toast.error('Erro ao carregar dados de analytics')
         } finally {
             setIsLoading(false)
         }

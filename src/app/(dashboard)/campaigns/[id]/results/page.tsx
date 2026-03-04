@@ -37,6 +37,7 @@ interface CampaignEvent {
 
 export default function CampaignResultsPage() {
     const params = useParams()
+    const id = params.id as string
     const router = useRouter()
     const [campaign, setCampaign] = useState<Campaign | null>(null)
     const [events, setEvents] = useState<CampaignEvent[]>([])
@@ -47,11 +48,11 @@ export default function CampaignResultsPage() {
             try {
                 const [cRes, eRes] = await Promise.all([
                     fetch('/api/campaigns'),
-                    fetch(`/api/campaigns/${params.id}/events`),
+                    fetch(`/api/campaigns/${id}/events`),
                 ])
                 const cData = await cRes.json()
                 const eData = await eRes.json()
-                const found = cData.data?.find((c: any) => c.id === params.id)
+                const found = cData.data?.find((c: any) => c.id === id)
                 setCampaign(found)
                 setEvents(eData.data || [])
             } catch (err) {
@@ -61,7 +62,7 @@ export default function CampaignResultsPage() {
             }
         }
         load()
-    }, [params.id])
+    }, [id])
 
     if (loading) return (
         <div className="flex items-center justify-center h-full">

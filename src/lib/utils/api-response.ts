@@ -37,3 +37,13 @@ export function apiError(
 
 // Use este tipo no frontend para tipar as respostas
 export type ApiResponse<T> = ApiSuccess<T> | ApiError
+
+// Atalhos convenientes para respostas padronizadas
+export const createApiResponse = {
+    success,
+    error: apiError,
+    unauthorized: () => apiError('Não autorizado', 401, 'UNAUTHORIZED'),
+    forbidden: () => apiError('Acesso negado', 403, 'FORBIDDEN'),
+    notFound: (msg = 'Não encontrado') => apiError(msg, 404, 'NOT_FOUND'),
+    badRequest: (msg = 'Requisição inválida') => apiError(msg, 400, 'BAD_REQUEST'),
+}

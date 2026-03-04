@@ -15,6 +15,7 @@ import Link from 'next/link'
 
 export default function PostEditorPage() {
     const params = useParams()
+    const id = params.id as string
     const router = useRouter()
     const [post, setPost] = useState<any>(null)
     const [loading, setLoading] = useState(true)
@@ -25,7 +26,7 @@ export default function PostEditorPage() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const res = await fetch(`/api/posts/${params.id}`)
+                const res = await fetch(`/api/posts/${id}`)
                 const data = await res.json()
                 if (data.ok) {
                     setPost(data.data)
@@ -38,12 +39,12 @@ export default function PostEditorPage() {
             }
         }
         fetchPost()
-    }, [params.id])
+    }, [id])
 
     const handleSave = async () => {
         setSaving(true)
         try {
-            const res = await fetch(`/api/posts/${params.id}`, {
+            const res = await fetch(`/api/posts/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ body: editorContent })
@@ -63,7 +64,7 @@ export default function PostEditorPage() {
     const handlePublish = async () => {
         setPublishing(true)
         try {
-            const res = await fetch(`/api/posts/${params.id}`, {
+            const res = await fetch(`/api/posts/${id}`, {
                 method: 'POST'
             })
             const data = await res.json()

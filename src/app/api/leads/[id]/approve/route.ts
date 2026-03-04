@@ -1,7 +1,7 @@
 import { getAuthenticatedUserId } from '@/lib/auth/user'
 import { db } from '@/db'
 import { campaignLeads, campaigns, campaignActions } from '@/db/schema/campaigns'
-import { eq, and } from 'drizzle-orm'
+import { eq, and, sql } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
 import { scheduleLeadsActions } from '@/lib/campaigns/schedule-actions'
 
@@ -37,7 +37,7 @@ export async function POST(
         // 2. Agendar ações
         const scheduled = scheduleLeadsActions(campaign as any)
 
-        // 3. Salvar ações no banco
+        // 3. Salvar ações e atualizar status em transação atômica
         const actionInserts = scheduled.map(action => ({
             campaignId: campaign.id,
             leadId: lead.id,
@@ -49,21 +49,22 @@ export async function POST(
             scheduledFor: action.scheduledFor
         }))
 
-        if (actionInserts.length > 0) {
-            await db.insert(campaignActions).values(actionInserts)
-        }
+        await db.transaction(async (tx) => {
+            if (actionInserts.length > 0) {
+                await tx.insert(campaignActions).values(actionInserts)
+            }
 
-        // 4. Atualizar status do lead e métricas da campanha
-        await db.update(campaignLeads)
-            .set({ status: 'approved', approvedAt: new Date(), updatedAt: new Date() })
-            .where(eq(campaignLeads.id, lead.id))
+            await tx.update(campaignLeads)
+                .set({ status: 'approved', approvedAt: new Date(), updatedAt: new Date() })
+                .where(eq(campaignLeads.id, lead.id))
 
-        await db.update(campaigns)
-            .set({
-                totalApproved: sql`${campaigns.totalApproved} + 1`,
-                updatedAt: new Date()
-            })
-            .where(eq(campaigns.id, campaign.id))
+            await tx.update(campaigns)
+                .set({
+                    totalApproved: sql`${campaigns.totalApproved} + 1`,
+                    updatedAt: new Date()
+                })
+                .where(eq(campaigns.id, campaign.id))
+        })
 
         return success({ status: 'approved', actionsScheduled: actionInserts.length })
 
@@ -71,5 +72,3 @@ export async function POST(
         return apiError(err.message || 'Erro ao aprovar lead', 500)
     }
 }
-
-import { sql } from 'drizzle-orm'

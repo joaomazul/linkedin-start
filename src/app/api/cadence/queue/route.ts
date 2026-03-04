@@ -4,7 +4,7 @@ import { cadenceSuggestions } from '@/db/schema/cadence'
 import { crmPeople } from '@/db/schema/crm'
 import { eq, desc, and } from 'drizzle-orm'
 import { getAuthenticatedUserId } from '@/lib/auth/user'
-import { createApiResponse } from '@/lib/api-response'
+import { createApiResponse } from '@/lib/utils/api-response'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'

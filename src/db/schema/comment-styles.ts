@@ -44,7 +44,6 @@ export const commentStyles = pgTable('comment_styles', {
     userIdIdx: index('cs_user_id_idx').on(table.userId),
     orderIdx: index('cs_order_idx').on(table.userId, table.active, table.displayOrder),
     styleKeyIdx: uniqueIndex('cs_style_key_idx').on(table.userId, table.styleKey),
-    userStyleUnique: uniqueIndex('cs_user_style_unique').on(table.userId, table.styleKey),
 }))
 
 export type CommentStyle = typeof commentStyles.$inferSelect
