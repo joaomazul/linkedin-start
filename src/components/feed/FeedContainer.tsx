@@ -20,6 +20,7 @@ export function FeedContainer() {
     const activeProfileIds = profiles.filter(p => p.active).map(p => p.id)
     const linkedinAccountId = useSettingsStore(s => s.linkedinAccountId)
     const [searchQuery, setSearchQuery] = useState('')
+    const [visibleCount, setVisibleCount] = useState(20)
 
     const {
         data: feedResponse,
@@ -103,6 +104,9 @@ export function FeedContainer() {
         }
         return filtered
     }, [posts, searchQuery, activeProfileIds])
+
+    // Reset pagination when search changes
+    useEffect(() => { setVisibleCount(20) }, [searchQuery])
 
     const handleRefresh = async () => {
         const toastId = toast.loading('Sincronizando feed...')
@@ -244,11 +248,21 @@ export function FeedContainer() {
                             />
                         </motion.div>
                     ) : (
-                        filteredPosts.map((post, i) => (
-                            <PostCard key={post.id} post={post} index={i} />
+                        filteredPosts.slice(0, visibleCount).map((post, i) => (
+                            <PostCard key={post.id} post={post} index={i < 20 ? i : 0} />
                         ))
                     )}
                 </AnimatePresence>
+
+                {filteredPosts.length > visibleCount && (
+                    <Button
+                        variant="outline"
+                        onClick={() => setVisibleCount(v => v + 20)}
+                        className="mx-auto mt-2"
+                    >
+                        Carregar mais ({filteredPosts.length - visibleCount} restantes)
+                    </Button>
+                )}
             </div>
         </div>
     )

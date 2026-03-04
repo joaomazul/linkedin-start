@@ -10,6 +10,9 @@ import { logger } from '@/lib/logger'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+// Time budget: stop processing before Netlify kills the function
+const MAX_SYNC_MS = Number(process.env.SYNC_TIME_BUDGET_MS ?? 9000)
+
 export async function GET(req: Request) {
     try {
         const userId = await getAuthenticatedUserId()
@@ -42,10 +45,10 @@ export async function GET(req: Request) {
         const failedProfiles: string[] = []
 
         if (isManualSync) {
+            const syncStart = Date.now()
             logger.info({ userId, profiles: activeProfiles.length }, 'Sincronização manual solicitada')
 
-            // Smart cooldown: 5min para manual (vs 30min que era antes)
-            // Perfis nunca sincronizados são sempre incluídos
+            // Smart cooldown: 5min — perfis nunca sincronizados são sempre incluídos
             const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000)
             const profilesToSync = activeProfiles.filter(p =>
                 !p.lastFetchedAt || new Date(p.lastFetchedAt) < fiveMinAgo
@@ -56,11 +59,19 @@ export async function GET(req: Request) {
                 logger.info({ skippedCount, syncing: profilesToSync.length }, 'Perfis sincronizados < 5min atrás — pulando')
             }
 
-            // Lotes de 5 com 1s delay — otimizado para Netlify timeout (~10-26s)
             const BATCH_SIZE = 5
-            const INTER_BATCH_DELAY_MS = 1000
+            const INTER_BATCH_DELAY_MS = 800
+            let timedOut = false
 
             for (let i = 0; i < profilesToSync.length; i += BATCH_SIZE) {
+                // Check time budget before starting a new batch
+                if (Date.now() - syncStart > MAX_SYNC_MS) {
+                    timedOut = true
+                    const remaining = profilesToSync.length - i
+                    logger.warn({ elapsed: Date.now() - syncStart, synced: syncedCount, remaining }, 'Time budget exceeded — stopping sync early')
+                    break
+                }
+
                 const batch = profilesToSync.slice(i, i + BATCH_SIZE)
 
                 const results = await Promise.allSettled(
@@ -87,7 +98,7 @@ export async function GET(req: Request) {
                 }
             }
 
-            logger.info({ syncedCount, failedCount }, 'Sincronização manual concluída')
+            logger.info({ syncedCount, failedCount, timedOut, elapsed: Date.now() - syncStart }, 'Sincronização manual concluída')
         } else {
             logger.info({ userId }, 'Buscando posts cacheados do banco.')
         }
@@ -106,7 +117,7 @@ export async function GET(req: Request) {
                 eq(monitoredProfiles.active, true)
             ))
             .orderBy(desc(posts.postedAt))
-            .limit(500)
+            .limit(200)
 
         const items = allPosts.map(row => ({
             ...row.post,

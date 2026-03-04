@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react'
-import Image from 'next/image'
 import { cn } from '@/lib/utils/cn'
+import { ImageOff } from 'lucide-react'
 
 interface PostBodyProps {
     text: string
@@ -10,6 +10,30 @@ interface PostBodyProps {
     videoUrl?: string
     articleUrl?: string
     articleTitle?: string
+}
+
+function PostImage({ url }: { url: string }) {
+    const [error, setError] = useState(false)
+
+    if (error) {
+        return (
+            <div className="w-full h-[200px] bg-page flex flex-col items-center justify-center gap-2 text-ink-4">
+                <ImageOff size={24} strokeWidth={1.5} />
+                <span className="text-[11px] font-medium">Imagem indisponível</span>
+            </div>
+        )
+    }
+
+    return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+            src={url}
+            alt="Post content"
+            loading="lazy"
+            onError={() => setError(true)}
+            className="w-full h-auto object-cover max-h-[400px] hover:scale-[1.01] transition-transform duration-[var(--t-slow)] cursor-pointer"
+        />
+    )
 }
 
 export function PostBody({ text, imageUrls, articleUrl, articleTitle }: PostBodyProps) {
@@ -42,15 +66,7 @@ export function PostBody({ text, imageUrls, articleUrl, articleTitle }: PostBody
                     imageUrls.length === 1 ? "grid-cols-1" : "grid-cols-2"
                 )}>
                     {imageUrls.map((url, i) => (
-                        <Image
-                            key={i}
-                            src={url}
-                            alt="Post content"
-                            width={800}
-                            height={400}
-                            unoptimized
-                            className="w-full h-auto object-cover max-h-[400px] hover:scale-[1.01] transition-transform duration-[var(--t-slow)] cursor-pointer"
-                        />
+                        <PostImage key={i} url={url} />
                     ))}
                 </div>
             )}
