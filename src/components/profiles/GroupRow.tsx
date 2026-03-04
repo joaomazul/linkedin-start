@@ -14,14 +14,20 @@ import Link from 'next/link'
 
 interface GroupRowProps {
     groupId: string
+    searchQuery?: string
 }
 
-export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps) {
+export const GroupRow = React.memo(function GroupRow({ groupId, searchQuery }: GroupRowProps) {
     const group = useProfilesStore((s) => s.groups.find((g) => g.id === groupId))
-    const profiles = useProfilesStore(
+    const allProfiles = useProfilesStore(
         useShallow((s) => s.profiles.filter((p) => p.groupId === groupId))
     )
     const [isOpen, setIsOpen] = useState(true)
+
+    // Filter profiles by search query if provided
+    const profiles = searchQuery
+        ? allProfiles.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        : allProfiles
 
     if (!group) return null
 
@@ -59,7 +65,7 @@ export const GroupRow = React.memo(function GroupRow({ groupId }: GroupRowProps)
                     className="text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[22px] text-center"
                     style={{ backgroundColor: `${group.color}15`, color: group.color || 'var(--ink-3)' }}
                 >
-                    {profiles.length}
+                    {searchQuery ? `${profiles.length}/${allProfiles.length}` : allProfiles.length}
                 </span>
 
                 <div className="flex items-center gap-1 ml-0.5">

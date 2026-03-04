@@ -116,7 +116,7 @@ export function LeftPanel() {
                     <>
                         {/* Groups */}
                         {filteredGroups.map((group) => (
-                            <GroupRow key={group.id} groupId={group.id} />
+                            <GroupRow key={group.id} groupId={group.id} searchQuery={searchQuery} />
                         ))}
 
                         {/* Ungrouped profiles */}

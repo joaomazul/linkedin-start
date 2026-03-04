@@ -27,6 +27,7 @@ export const PostCard = React.memo(function PostCard({ post, index = 0 }: PostCa
                     authorRole={post.authorRole}
                     authorInitials={post.authorInitials}
                     authorColor={post.authorColor}
+                    authorId={post.authorId}
                     postedAt={post.postedAt}
                     url={post.url}
                 />
