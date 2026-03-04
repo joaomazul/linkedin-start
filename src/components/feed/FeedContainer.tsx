@@ -117,7 +117,7 @@ export function FeedContainer() {
             // Update feed store timestamp
             useFeedStore.setState({ lastRefreshedAt: new Date().toISOString() })
 
-            const { syncedCount = 0, failedCount = 0, failedProfiles = [] } = json.data || {}
+            const { syncedCount = 0, failedCount = 0, skippedCount = 0, failedProfiles = [] } = json.data || {}
 
             if (failedCount > 0 && syncedCount > 0) {
                 toast.warning(`Sincronizado parcialmente: ${syncedCount} ok, ${failedCount} falharam`, {
@@ -131,8 +131,11 @@ export function FeedContainer() {
                     description: 'Verifique a conexão com o LinkedIn em Configurações',
                     duration: 6000,
                 })
+            } else if (syncedCount === 0 && skippedCount > 0) {
+                toast.success(`Feed já está atualizado (${skippedCount} perfis sincronizados recentemente)`, { id: toastId })
             } else {
-                toast.success(`Feed sincronizado (${syncedCount} perfis)`, { id: toastId })
+                const extra = skippedCount > 0 ? ` · ${skippedCount} já atualizados` : ''
+                toast.success(`Feed sincronizado (${syncedCount} perfis)${extra}`, { id: toastId })
             }
         } catch (err) {
             toast.error('Erro na conexão com o servidor', {

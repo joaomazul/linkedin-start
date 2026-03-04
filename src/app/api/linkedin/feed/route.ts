@@ -3,7 +3,7 @@ import { fetchUserPosts, resolveProfileByIdentifier, UnipilePost } from '@/lib/u
 import { db } from '@/db'
 import { posts } from '@/db/schema/posts'
 import { monitoredProfiles } from '@/db/schema/profiles'
-import { eq, and, desc, asc } from 'drizzle-orm'
+import { eq, and, desc, asc, sql } from 'drizzle-orm'
 import { success, apiError } from '@/lib/utils/api-response'
 import { logger } from '@/lib/logger'
 
@@ -38,6 +38,7 @@ export async function GET(req: Request) {
 
         let syncedCount = 0
         let failedCount = 0
+        let skippedCount = 0
         const failedProfiles: string[] = []
 
         if (isManualSync) {
@@ -49,7 +50,7 @@ export async function GET(req: Request) {
             const profilesToSync = activeProfiles.filter(p =>
                 !p.lastFetchedAt || new Date(p.lastFetchedAt) < fiveMinAgo
             )
-            const skippedCount = activeProfiles.length - profilesToSync.length
+            skippedCount = activeProfiles.length - profilesToSync.length
 
             if (skippedCount > 0) {
                 logger.info({ skippedCount, syncing: profilesToSync.length }, 'Perfis sincronizados < 5min atrás — pulando')
@@ -117,6 +118,7 @@ export async function GET(req: Request) {
             items,
             syncedCount,
             failedCount,
+            skippedCount,
             failedProfiles,
         })
 
@@ -200,7 +202,7 @@ export async function fetchAndCacheProfilePosts(
         return
     }
 
-    // Upsert dos posts no banco
+    // Upsert dos posts no banco — atualiza métricas se já existir
     await db
         .insert(posts)
         .values(
@@ -225,7 +227,19 @@ export async function fetchAndCacheProfilePosts(
                 isHidden: false,
             }))
         )
-        .onConflictDoNothing({ target: [posts.userId, posts.linkedinPostId] })
+        .onConflictDoUpdate({
+            target: [posts.userId, posts.linkedinPostId],
+            set: {
+                likesCount: sql`EXCLUDED.likes_count`,
+                commentsCount: sql`EXCLUDED.comments_count`,
+                repostsCount: sql`EXCLUDED.reposts_count`,
+                text: sql`EXCLUDED.text`,
+                authorName: sql`EXCLUDED.author_name`,
+                authorHeadline: sql`EXCLUDED.author_headline`,
+                authorAvatarUrl: sql`EXCLUDED.author_avatar_url`,
+                updatedAt: new Date(),
+            },
+        })
 
     // Atualiza lastFetchedAt do perfil
     await db
