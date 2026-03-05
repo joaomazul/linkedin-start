@@ -30,7 +30,7 @@ export function FeedContainer() {
         isFetching
     } = useFeed()
 
-    // Sync lastRefreshedAt to feed store so Topbar can display it
+    // Sync feed store for Topbar timestamp and LeftPanel posts count
     useEffect(() => {
         if (feedResponse && !isLoading) {
             useFeedStore.setState({ lastRefreshedAt: new Date().toISOString() })
@@ -104,6 +104,13 @@ export function FeedContainer() {
         }
         return filtered
     }, [posts, searchQuery, activeProfileIds])
+
+    // Sync posts to feed store so LeftPanel footer shows correct count
+    useEffect(() => {
+        if (posts.length > 0) {
+            useFeedStore.getState().setPosts(posts)
+        }
+    }, [posts])
 
     // Reset pagination when search changes
     useEffect(() => { setVisibleCount(20) }, [searchQuery])

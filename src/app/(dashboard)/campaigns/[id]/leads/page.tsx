@@ -93,6 +93,7 @@ export default function LeadsQueuePage() {
         try {
             const res = await fetch(`/api/leads/${id}/edit`, {
                 method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(editData)
             })
             if (res.ok) {

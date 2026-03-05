@@ -69,7 +69,7 @@ export async function POST(req: Request) {
                     .insert(monitoredProfiles)
                     .values({
                         userId,
-                        groupId,
+                        groupId: targetGroupId,
                         linkedinUrl: url.trim(),
                         name: name,
                         initials: initials,

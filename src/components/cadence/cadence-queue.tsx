@@ -36,6 +36,7 @@ export function CadenceQueue({ initialSuggestions }: { initialSuggestions: any[]
         try {
             const res = await fetch(`/api/cadence/queue/${suggestion.id}`, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     action,
                     personId,
